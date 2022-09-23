@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useState, useEffect } from "react";
 
 // const styles = require("./layout.module.scss");
 
@@ -10,7 +11,16 @@ type LayoutProps = {
 };
 
 const Layout: React.FC<LayoutProps> = ({ children, pageMeta }) => {
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
 
   // Default meta tags if not otherwise set via the pageMeta prop
   const meta = {
