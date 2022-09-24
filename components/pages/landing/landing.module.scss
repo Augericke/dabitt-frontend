@@ -37,10 +37,9 @@
       padding: 10px;
       width: 150px;
       opacity: 0.75;
-      transition: padding 200ms, opacity 200ms, width 200ms;
+      transition: padding 200ms, opacity 100ms, width 200ms;
 
       &:hover {
-        // transform: translateY(-3px);
         padding: 12px;
         width: 125px;
         opacity: 1;

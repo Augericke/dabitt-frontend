@@ -1,15 +1,15 @@
 :root {
   // default
-  --background-color: #b1b1b1;
-  --foreground-color: #e4e4e4;
+  --background-color: #e4e4e4;
+  --foreground-color: #b1b1b1;
   --icon-color: #ffffff;
   --text-color: #2b2b2b;
   --button-border-radius: 20px;
 }
 
 [data-theme="light"] {
-  --background-color: #b1b1b1;
-  --foreground-color: #e4e4e4;
+  --background-color: #e4e4e4;
+  --foreground-color: #b1b1b1;
   --icon-color: #ffffff;
   --text-color: #2b2b2b;
 }
@@ -35,7 +35,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: "Poppins", sans-serif;
-  transition: color 400ms, background-color 400ms;
+  // transition: color 400ms, background-color 400ms;
 }
 
 a {
