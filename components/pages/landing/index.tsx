@@ -1,18 +1,47 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import React from "react";
-import { useUser } from "@auth0/nextjs-auth0";
+import React, { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const styles = require("./landing.module.scss");
 
 type LandingViewProps = {};
 
 const LandingView = (props: LandingViewProps) => {
-  const { user, error, isLoading } = useUser();
+  const {
+    user,
+    isAuthenticated,
+    isLoading,
+    loginWithRedirect,
+    logout,
+    getAccessTokenSilently,
+  } = useAuth0();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+  const [users, setUsers] = useState(null);
 
-  console.log(user);
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "API/dabitt",
+          scope: "",
+        });
+        const response = await fetch("http://localhost:3001/api/user", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUsers(await response.json());
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [getAccessTokenSilently]);
+
+  console.log(users);
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
 
   return (
     <section className={styles.sectionContainer}>
@@ -20,15 +49,27 @@ const LandingView = (props: LandingViewProps) => {
         <hgroup>
           {/* TODO: add on load animation */}
           <h1 className={styles.logo}>dabitt</h1>
-          <p className={styles.tagline}>the daily habit app</p>
+          <p className={styles.tagline}>the opinionated daily habit app</p>
         </hgroup>
         <div>
-          <a href="/api/auth/login" className={styles.userButton}>
-            login
-          </a>
-          <a href="/api/auth/logout" className={styles.userButton}>
-            log out
-          </a>
+          <button
+            className={styles.userButton}
+            onClick={() => loginWithRedirect()}
+          >
+            Log In
+          </button>
+          <button
+            className={styles.userButton}
+            onClick={() => logout({ returnTo: window.location.origin })}
+          >
+            Log Out
+          </button>
+          {isAuthenticated && (
+            <div>
+              <h2>{user!.name}</h2>
+              <p>{user!.email}</p>
+            </div>
+          )}
         </div>
       </div>
     </section>
