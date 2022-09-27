@@ -13,7 +13,7 @@ const Auth: NextPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        if (!isLoading) {
+        if (!isLoading && user) {
           // TODO: standardize api call in a custom hook
           const token = await getAccessTokenSilently({
             audience: "API/dabitt",
@@ -21,7 +21,7 @@ const Auth: NextPage = () => {
           });
 
           const dataConfig = {
-            id: user!.sub?.substring(6),
+            id: user.sub!.replace("|", "-"),
             username: user!.nickname,
           };
 
@@ -39,8 +39,8 @@ const Auth: NextPage = () => {
 
           Router.push(response.data.completedSetup ? "/dashboard" : "/setup");
         }
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        console.error(error);
       }
     })();
   }, [getAccessTokenSilently, isLoading, user]);

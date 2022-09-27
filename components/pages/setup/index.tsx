@@ -10,30 +10,36 @@ const styles = require("./setup.module.scss");
 type SetupViewProps = {};
 
 const SetupView = (props: SetupViewProps) => {
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user, isLoading, getAccessTokenSilently } = useAuth0();
   const { theme, setTheme } = useTheme();
   const themes = ["Light", "Dark", "Lobby"];
 
   const handleSubmit = async () => {
-    const token = await getAccessTokenSilently({
-      audience: "API/dabitt",
-      scope: "",
-    });
+    try {
+      if (!isLoading && user) {
+        const token = await getAccessTokenSilently({
+          audience: "API/dabitt",
+          scope: "",
+        });
 
-    const dataConfig = {
-      id: user!.sub!.substring(6),
-      completedSetup: true,
-      preferedTheme: theme,
-    };
+        const dataConfig = {
+          id: user.sub!.replace("|", "-"),
+          completedSetup: true,
+          preferedTheme: theme,
+        };
 
-    const headerConfig = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+        const headerConfig = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
 
-    await api.put(`/user`, dataConfig, headerConfig);
-    Router.push("/dashboard");
+        await api.put(`/user`, dataConfig, headerConfig);
+        Router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
