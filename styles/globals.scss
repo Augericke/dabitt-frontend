@@ -42,6 +42,22 @@ body {
   transition: color 400ms, background-color 400ms;
 }
 
+//TODO: look into why body styling not applying to button / input
+button {
+  border: none;
+  font-family: "Poppins", sans-serif;
+}
+
+input {
+  border: none;
+  font-family: "Poppins", sans-serif;
+}
+
+textarea {
+  border: none;
+  font-family: "Poppins", sans-serif;
+}
+
 a {
   color: inherit;
   text-decoration: none;

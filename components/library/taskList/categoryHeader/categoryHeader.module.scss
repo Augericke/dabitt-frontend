@@ -1,0 +1,20 @@
+.categoryName {
+  display: flex;
+  align-items: flex-end;
+  font-weight: 800;
+  line-height: 40px;
+  margin-bottom: 15px;
+
+  .categoryCount {
+    display: inline-block;
+    background-color: var(--foreground-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin-left: 10px;
+    font-weight: 300;
+    font-size: 18px;
+    text-align: center;
+  }
+}

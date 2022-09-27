@@ -9,7 +9,7 @@ const styles = require("./setup.module.scss");
 
 type SetupViewProps = {};
 
-const SetupView = (props: SetupViewProps) => {
+const SetupView: React.FC<SetupViewProps> = (props: SetupViewProps) => {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
   const { theme, setTheme } = useTheme();
   const themes = ["Light", "Dark", "Lobby"];

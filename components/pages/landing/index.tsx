@@ -1,47 +1,13 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const styles = require("./landing.module.scss");
 
 type LandingViewProps = {};
 
-const LandingView = (props: LandingViewProps) => {
-  const {
-    user,
-    isAuthenticated,
-    isLoading,
-    loginWithRedirect,
-    logout,
-    getAccessTokenSilently,
-  } = useAuth0();
-
-  const [users, setUsers] = useState(null);
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const token = await getAccessTokenSilently({
-          audience: "API/dabitt",
-          scope: "",
-        });
-        const response = await fetch("http://localhost:3001/api/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUsers(await response.json());
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, [getAccessTokenSilently]);
-
-  console.log(users);
-
-  if (isLoading) {
-    return <div>Loading ...</div>;
-  }
+const LandingView: React.FC<LandingViewProps> = (props: LandingViewProps) => {
+  const { loginWithRedirect, logout } = useAuth0();
 
   return (
     <section className={styles.sectionContainer}>
@@ -64,12 +30,6 @@ const LandingView = (props: LandingViewProps) => {
           >
             Log Out
           </button>
-          {isAuthenticated && (
-            <div>
-              <h2>{user!.name}</h2>
-              <p>{user!.email}</p>
-            </div>
-          )}
         </div>
       </div>
     </section>
