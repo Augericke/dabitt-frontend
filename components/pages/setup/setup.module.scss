@@ -1,26 +1,41 @@
 @use "../../../styles/themes/light";
 @use "../../../styles/themes/dark";
 @use "../../../styles/themes/lobby";
+@use "sass:math";
 
 .sectionContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
-  height: 100vh;
-  width: 100vw;
+  justify-content: center;
+  gap: 50px;
+  min-height: 90vh;
+  margin: auto;
+
+  @media only screen and (max-width: 768px) {
+    margin: 20px;
+    gap: 40px;
+  }
 
   .title {
     font-weight: 400;
     font-size: 36px;
     line-height: 0;
     text-align: center;
+
+    @media only screen and (max-width: 1200px) {
+      font-size: 32px;
+    }
   }
 
   .subtext {
     font-weight: 200;
     font-size: 14px;
     text-align: center;
+
+    @media only screen and (max-width: 1200px) {
+      font-size: 12px;
+    }
   }
 }
 
@@ -29,6 +44,13 @@
   justify-content: space-evenly;
   width: 80vw;
 
+  @media only screen and (max-width: 768px) {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 25px;
+  }
+
   .themeSelector {
     cursor: pointer;
     border: none;
@@ -36,9 +58,19 @@
     padding: 0;
     font-weight: 100;
 
+    --cube-transform: translateY(-15px);
+
+    @media only screen and (max-width: 768px) {
+      display: flex;
+      align-items: center;
+      width: 200px;
+      gap: 25px;
+
+      --cube-transform: translateX(-15px);
+    }
+
     &:hover .themeCube {
       border-radius: 100px;
-      transform: translateY(-25px);
     }
 
     .themeTitle {
@@ -46,6 +78,10 @@
       font-weight: 100;
       text-transform: lowercase;
       text-align: center;
+
+      @media only screen and (max-width: 1200px) {
+        font-size: 21px;
+      }
 
       &Selected {
         @extend .themeTitle;
@@ -61,29 +97,45 @@
   background-color: var(--icon-color);
   border-radius: var(--button-border-radius);
   border: none;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 10px;
   padding: 10px;
   width: 150px;
   font-size: 18px;
   transition: padding 200ms, opacity 100ms, width 200ms;
   cursor: pointer;
-}
 
-.cubeRow {
-  display: inline-block;
-  height: 40px;
-  width: 120px;
+  @media only screen and (max-width: 1200px) {
+    font-size: 16px;
+    width: 125px;
+  }
 }
 
 .themeCube {
+  $large-cube: 120px;
+  $medium-cube: 99px;
+
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 120;
+  width: $large-cube;
   border-width: 1px;
   border-style: solid;
   transition: all 600ms ease-out;
+
+  @media only screen and (max-width: 1200px) {
+    width: $medium-cube;
+  }
+
+  .cubeRow {
+    display: inline-block;
+    height: $large-cube/3;
+    width: $large-cube;
+
+    @media only screen and (max-width: 1200px) {
+      height: $medium-cube/3;
+      width: $medium-cube;
+    }
+  }
 
   &Light {
     @extend .themeCube;
@@ -92,7 +144,7 @@
     &Selected {
       @extend .themeCubeLight;
       border-radius: 100px;
-      transform: translateY(-25px);
+      transform: var(--cube-transform);
     }
 
     .themeBackground {
@@ -116,7 +168,7 @@
     &Selected {
       @extend .themeCubeDark;
       border-radius: 100px;
-      transform: translateY(-25px);
+      transform: var(--cube-transform);
     }
 
     .themeBackground {
@@ -140,7 +192,7 @@
     &Selected {
       @extend .themeCubeLobby;
       border-radius: 100px;
-      transform: translateY(-25px);
+      transform: var(--cube-transform);
     }
 
     .themeBackground {

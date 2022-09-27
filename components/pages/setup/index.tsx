@@ -56,10 +56,14 @@ const SetupView = (props: SetupViewProps) => {
                 : styles.themeCubeLight;
               break;
             case "Dark":
-              themeCube = styles.themeCubeDark;
+              themeCube = isSelected
+                ? styles.themeCubeDarkSelected
+                : styles.themeCubeDark;
               break;
             case "Lobby":
-              themeCube = styles.themeCubeLobby;
+              themeCube = isSelected
+                ? styles.themeCubeLobbySelected
+                : styles.themeCubeLobby;
               break;
             default:
               themeCube = styles.themeCubeLight;
