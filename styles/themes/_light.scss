@@ -1,0 +1,17 @@
+$background-color: #e4e4e4;
+$foreground-color: #b1b1b1;
+$icon-color: #ffffff;
+$text-color: #2b2b2b;
+
+:export {
+  background-color: $background-color;
+}
+:export {
+  foreground-color: $foreground-color;
+}
+:export {
+  icon-color: $icon-color;
+}
+:export {
+  text-color: $text-color;
+}

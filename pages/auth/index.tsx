@@ -1,13 +1,15 @@
 import type { NextPage } from "next";
 import Router from "next/router";
-import { useAuth0 } from "@auth0/auth0-react";
-import { api } from "../../utils/environmentManager";
 import { useEffect } from "react";
+import { useAuth0, User } from "@auth0/auth0-react";
+import { api } from "../../utils/environmentManager";
+import { UserModel } from "../../types/user";
 
 const Auth: NextPage = () => {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
 
-  // If auth0 user not present create in postgresDb and redirect to dashboard
+  // If auth0 user not present create in postgresDb and redirect to setup
+  // otherwise redirect to dashboard
   useEffect(() => {
     (async () => {
       try {
@@ -19,7 +21,7 @@ const Auth: NextPage = () => {
           });
 
           const dataConfig = {
-            id: user!.sub,
+            id: user!.sub?.substring(6),
             username: user!.nickname,
           };
 
@@ -29,8 +31,13 @@ const Auth: NextPage = () => {
             },
           };
 
-          await api.post("user", dataConfig, headerConfig);
-          Router.push("/dashboard");
+          const response = await api.post<UserModel>(
+            "/user",
+            dataConfig,
+            headerConfig,
+          );
+
+          Router.push(response.data.completedSetup ? "/dashboard" : "/setup");
         }
       } catch (e) {
         console.error(e);

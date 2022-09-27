@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestHeaders } from "axios";
 
 function isDev(): boolean {
   return process.env.NODE_ENV === "development";
@@ -10,7 +10,7 @@ function isProd(): boolean {
 
 const api = axios.create({
   baseURL: `${
-    isDev() ? "http://localhost:3001/api/" : "http://localhost:3001/api/"
+    isDev() ? "http://localhost:3001/api" : "http://localhost:3001/api"
   }`,
 });
 

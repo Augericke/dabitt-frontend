@@ -1,31 +1,35 @@
+@use "./themes/light";
+@use "./themes/dark";
+@use "./themes/lobby";
+
 :root {
   // default
-  --background-color: #e4e4e4;
-  --foreground-color: #b1b1b1;
-  --icon-color: #ffffff;
-  --text-color: #2b2b2b;
+  --background-color: #{light.$background-color};
+  --foreground-color: #{light.$foreground-color};
+  --icon-color: #{light.$icon-color};
+  --text-color: #{light.$text-color};
   --button-border-radius: 20px;
 }
 
 [data-theme="light"] {
-  --background-color: #e4e4e4;
-  --foreground-color: #b1b1b1;
-  --icon-color: #ffffff;
-  --text-color: #2b2b2b;
+  --background-color: #{light.$background-color};
+  --foreground-color: #{light.$foreground-color};
+  --icon-color: #{light.$icon-color};
+  --text-color: #{light.$text-color};
 }
 
 [data-theme="dark"] {
-  --background-color: #131322;
-  --foreground-color: #212236;
-  --icon-color: #6f68f6;
-  --text-color: #eeebf2;
+  --background-color: #{dark.$background-color};
+  --foreground-color: #{dark.$foreground-color};
+  --icon-color: #{dark.$icon-color};
+  --text-color: #{dark.$text-color};
 }
 
 [data-theme="lobby"] {
-  --background-color: #9f6c66;
-  --foreground-color: #cabbb5;
-  --icon-color: #655554;
-  --text-color: #eeebf2;
+  --background-color: #{lobby.$background-color};
+  --foreground-color: #{lobby.$foreground-color};
+  --icon-color: #{lobby.$icon-color};
+  --text-color: #{lobby.$text-color};
 }
 
 html,
