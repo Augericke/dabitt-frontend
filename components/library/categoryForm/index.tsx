@@ -74,8 +74,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
           newCategoryName ? styles.categoryInputPopulated : styles.categoryInput
         }
         placeholder="add category"
+        value={newCategoryName}
         onChange={handleCategoryName}
-        maxLength={140}
+        maxLength={25}
       />
     </form>
   );

@@ -53,7 +53,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         });
 
         const dataConfig = {
-          description: taskDescription.trim(),
+          description: taskDescription,
         };
 
         const headerConfig = {

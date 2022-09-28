@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import CategoryHeader from "./categoryHeader";
 import TaskItem from "./taskItem";
 import TaskForm from "./taskForm";
-import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel, TaskModel } from "../../../types/task";
 
 const styles = require("./taskList.module.scss");
@@ -17,7 +16,7 @@ const TaskList: React.FC<TaskListProps> = ({ category }) => {
 
   return (
     <section className={styles.categoryContainer}>
-      <CategoryHeader name={category.name} count={tasks.length} />
+      <CategoryHeader category={category} count={tasks.length} />
       <div className={styles.taskListContainer}>
         <ul className={styles.taskList}>
           {tasks.map((task: TaskModel, index: number) => {
