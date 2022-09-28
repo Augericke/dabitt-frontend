@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { NextPage } from "next";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import Layout from "../../components/layout";
 import DashboardView from "../../components/pages/dashboard";
 import { CategoryModel } from "../../types/task";
@@ -49,4 +49,4 @@ const DashboardPage: NextPage = () => {
   );
 };
 
-export default DashboardPage;
+export default withAuthenticationRequired(DashboardPage);
