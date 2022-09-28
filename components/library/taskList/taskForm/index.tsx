@@ -32,7 +32,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
         });
 
         const dataConfig = {
-          userId: "asf31cvz21", //user.sub!.replace("|", "-");
           categoryId: category.id,
           description: newTaskDescription,
         };

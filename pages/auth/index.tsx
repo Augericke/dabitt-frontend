@@ -21,7 +21,6 @@ const Auth: NextPage = () => {
           });
 
           const dataConfig = {
-            id: user.sub!.replace("|", "-"),
             username: user!.nickname,
           };
 
