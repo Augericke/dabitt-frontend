@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   width: 100%;
+  margin-top: 6px;
   gap: 15px;
 
   .addTaskButton {
@@ -27,6 +28,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-top: 6px;
     }
   }
 
@@ -41,6 +43,12 @@
     word-wrap: break-word;
     transition: padding 400ms;
 
+    // Hide Scroll Bar
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+      display: none;
+    }
     &:focus {
       outline-color: var(--icon-color);
       padding-left: 10px;

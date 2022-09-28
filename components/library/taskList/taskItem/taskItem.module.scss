@@ -20,9 +20,16 @@
     width: 100%;
     padding: 0;
     resize: none;
-    overflow-y: auto;
+    overflow-y: hidden;
     word-wrap: break-word;
     transition: padding 400ms;
+
+    // Hide Scroll Bar
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     &:focus {
       outline: none;

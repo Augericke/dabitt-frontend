@@ -19,7 +19,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   // Resize textArea based on description length
   const textRef = useRef<any>();
   useEffect(() => {
-    textRef.current.style.height = "0px";
+    textRef.current.style.height = "1px";
     const scrollHeight = textRef.current.scrollHeight;
     textRef.current.style.height = `${scrollHeight}px`;
   }, [taskDescription]);
