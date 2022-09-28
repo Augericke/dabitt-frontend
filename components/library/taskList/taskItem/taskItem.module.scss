@@ -22,9 +22,11 @@
     resize: none;
     overflow-y: auto;
     word-wrap: break-word;
+    transition: padding 400ms;
 
     &:focus {
       outline: none;
+      padding-left: 10px;
     }
   }
 }

@@ -41,7 +41,7 @@
     width: 20vw;
     resize: none;
     color: var(--foreground-color);
-    transition: color 800ms;
+    transition: padding 400ms, color 800ms;
 
     &Populated {
       @extend .categoryInput;
@@ -52,6 +52,7 @@
 
     &:focus {
       outline-color: var(--icon-color);
+      padding-left: 5px;
     }
   }
 }

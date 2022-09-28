@@ -34,16 +34,26 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
     }
   };
 
+  // Only update and trim whitespace if there is a task description / task description has changed
+  const onBlur = () => {
+    if (!taskDescription || taskDescription === task.description) {
+      setTaskDescription(task.description);
+    } else {
+      setTaskDescription(taskDescription.trim());
+      updateTask();
+    }
+  };
+
   const updateTask = async () => {
     try {
-      if (!isLoading && taskDescription !== task.description) {
+      if (!isLoading && taskDescription) {
         const token = await getAccessTokenSilently({
           audience: "API/dabitt",
           scope: "",
         });
 
         const dataConfig = {
-          description: taskDescription,
+          description: taskDescription.trim(),
         };
 
         const headerConfig = {
@@ -69,7 +79,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         value={taskDescription}
         onChange={onChangeHandler}
         onKeyDown={onEnterSubmit}
-        onBlur={() => updateTask()}
+        onBlur={onBlur}
         maxLength={140}
       />
     </li>

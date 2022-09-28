@@ -15,7 +15,6 @@ type TaskFormProps = {
 
 const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
   const { isLoading, getAccessTokenSilently } = useAuth0();
-  const [textRows, setTextRows] = useState(1);
   const [newTaskDescription, setNewTaskDescription] = useState("");
 
   const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -91,7 +90,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
         value={newTaskDescription}
         onChange={handleDescription}
         onKeyDown={taskEnterSubmit}
-        onBlur={() => setTextRows(1)}
         maxLength={140}
       />
     </form>
