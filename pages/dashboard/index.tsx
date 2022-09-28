@@ -8,7 +8,7 @@ import { api } from "../../utils/environmentManager";
 
 const DashboardPage: NextPage = () => {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
-  const [categories, setCategories] = useState<CategoryModel[]>();
+  const [categories, setCategories] = useState<CategoryModel[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -40,7 +40,11 @@ const DashboardPage: NextPage = () => {
 
   return (
     <Layout>
-      <DashboardView categories={categories} setCategories={setCategories} />
+      {isLoading ? (
+        <p>todo add skelton</p>
+      ) : (
+        <DashboardView categories={categories} setCategories={setCategories} />
+      )}
     </Layout>
   );
 };

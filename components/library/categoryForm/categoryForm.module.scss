@@ -1,0 +1,55 @@
+.categoryFormContainer {
+  padding: 20px;
+  width: 50vw;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  .addCategoryButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    background: none;
+    padding: 0px;
+    cursor: not-allowed;
+    color: var(--foreground-color);
+    font-size: 25px;
+    transition: opacity 200ms, font-size 400ms;
+
+    &Populated {
+      @extend .addCategoryButton;
+      cursor: pointer;
+      font-size: 30px;
+      color: var(--text-color);
+    }
+
+    .addIcon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 400ms;
+    }
+  }
+
+  .categoryInput {
+    font-weight: 200;
+    font-size: 18px;
+    background: none;
+    width: 20vw;
+    resize: none;
+    color: var(--foreground-color);
+    transition: all 800ms;
+
+    &Populated {
+      @extend .categoryInput;
+      outline-color: var(--foreground-color);
+      color: var(--text-color);
+      font-weight: 800;
+    }
+
+    &:focus {
+      outline-color: var(--foreground-color);
+    }
+  }
+}

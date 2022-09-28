@@ -1,14 +1,13 @@
-import React, { useState, useEffect, SetStateAction, Dispatch } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
-import { api } from "../../../utils/environmentManager";
+import React, { SetStateAction, Dispatch } from "react";
 import TaskList from "../../library/taskList";
+import CategoryForm from "../../library/categoryForm";
 import { CategoryModel } from "../../../types/task";
 
 const styles = require("./dashboard.module.scss");
 
 type DashboardViewProps = {
-  categories: CategoryModel[] | undefined;
-  setCategories: Dispatch<SetStateAction<CategoryModel[] | undefined>>;
+  categories: CategoryModel[];
+  setCategories: Dispatch<SetStateAction<CategoryModel[]>>;
 };
 
 const DashboardView: React.FC<DashboardViewProps> = ({
@@ -24,8 +23,9 @@ const DashboardView: React.FC<DashboardViewProps> = ({
           })}
         </>
       ) : (
-        <p>hello</p>
+        <p>todo add looks like you have no categories section</p>
       )}
+      <CategoryForm categories={categories} setCategories={setCategories} />
     </div>
   );
 };

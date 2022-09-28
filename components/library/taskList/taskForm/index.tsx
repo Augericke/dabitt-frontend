@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { api } from "../../../../utils/environmentManager";
 import { BsPlusCircle } from "react-icons/bs";
@@ -14,18 +14,17 @@ type TaskFormProps = {
 };
 
 const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
-  const { user, isLoading, getAccessTokenSilently } = useAuth0();
+  const { isLoading, getAccessTokenSilently } = useAuth0();
   const [textRows, setTextRows] = useState(1);
   const [newTaskDescription, setNewTaskDescription] = useState("");
 
-  const handleDescription = (event: any) => {
+  const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTaskDescription(event.target.value.replace(/\n/g, ""));
   };
-
-  const addTask = async (event: any) => {
+  const addTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (!isLoading && user && newTaskDescription) {
+      if (!isLoading && newTaskDescription) {
         const token = await getAccessTokenSilently({
           audience: "API/dabitt",
           scope: "",

@@ -17,7 +17,7 @@ const TaskList: React.FC<TaskListProps> = ({ category }) => {
 
   return (
     <section className={styles.categoryContainer}>
-      <CategoryHeader name={category.name} count={category.tasks.length} />
+      <CategoryHeader name={category.name} count={tasks.length} />
       <div className={styles.taskListContainer}>
         <ul className={styles.taskList}>
           {tasks.map((task: TaskModel, index: number) => {
