@@ -2,6 +2,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { api } from "../../../../utils/environmentManager";
+import TickBox from "../../tickBox";
 import { TaskModel } from "../../../../types/task";
 
 const styles = require("./taskItem.module.scss");
@@ -13,6 +14,7 @@ type TaskItemProps = {
 const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
   const { isLoading, getAccessTokenSilently } = useAuth0();
   const [taskDescription, setTaskDescription] = useState(task.description);
+  const [isTicked, setIsTicked] = useState(task.completedAt != null);
 
   // Resize textArea based on description length
   const textRef = useRef<any>();
@@ -36,25 +38,38 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
 
   // Only update and trim whitespace if there is a task description / task description has changed
   const onBlur = () => {
+    setTaskDescription(taskDescription.trim());
+
     if (!taskDescription || taskDescription === task.description) {
       setTaskDescription(task.description);
     } else {
-      setTaskDescription(taskDescription.trim());
-      updateTask();
+      const dataConfig = {
+        description: taskDescription,
+      };
+
+      updateTask(dataConfig);
     }
   };
 
-  const updateTask = async () => {
+  const handleTickBox = () => {
+    let dataConfig = {};
+    if (isTicked) {
+      dataConfig = { completedAt: null };
+    } else {
+      dataConfig = { completedAt: new Date() };
+    }
+
+    updateTask(dataConfig);
+    setIsTicked(!isTicked);
+  };
+
+  const updateTask = async (dataConfig: {}) => {
     try {
       if (!isLoading && taskDescription) {
         const token = await getAccessTokenSilently({
           audience: "API/dabitt",
           scope: "",
         });
-
-        const dataConfig = {
-          description: taskDescription,
-        };
 
         const headerConfig = {
           headers: {
@@ -71,7 +86,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
 
   return (
     <li className={styles.taskItem}>
-      <span className={styles.taskStatusIcon} />
+      <TickBox isTicked={isTicked} onClick={handleTickBox} />
       <textarea
         ref={textRef}
         className={styles.taskInput}

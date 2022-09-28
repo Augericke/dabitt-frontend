@@ -66,7 +66,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({ category, count }) => {
   };
 
   useEffect(() => {
-    textRef.current.style.width = "0px";
+    textRef.current.style.width = "5px";
     const scrollWidth = textRef.current.scrollWidth;
     textRef.current.style.width = `${scrollWidth + 5}px`;
   }, [categoryName]);

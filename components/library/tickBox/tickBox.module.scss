@@ -1,0 +1,20 @@
+.tickBoxIcon {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  border-radius: 20px;
+  border: 2px solid var(--icon-color);
+  background: none;
+  cursor: pointer;
+  padding: 5px;
+  margin-top: 6px;
+
+  &Filled {
+    @extend .tickBoxIcon;
+    background-color: var(--icon-color);
+  }
+}
+
+.path {
+  stroke: var(--icon-color);
+}
