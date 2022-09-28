@@ -36,10 +36,13 @@
     background: none;
     width: 100%;
     resize: none;
+    padding: 0;
+    overflow-y: auto;
+    word-wrap: break-word;
 
     &:focus {
       outline-color: var(--icon-color);
-      padding: 10px 15px 10px 15px;
+      padding-left: 10px;
     }
   }
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { api } from "../../../../utils/environmentManager";
 import { BsPlusCircle } from "react-icons/bs";
@@ -29,10 +29,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
     }
   };
 
-  const handleTextAreaRows = () => {
-    const rowSize = (newTaskDescription.length & 10) + 1;
-    setTextRows(rowSize);
-  };
+  // Resize textArea based on description length
+  const textRef = useRef<any>();
+  useEffect(() => {
+    textRef.current.style.height = "0px";
+    const scrollHeight = textRef.current.scrollHeight;
+    textRef.current.style.height = `${scrollHeight}px`;
+  }, [newTaskDescription]);
 
   const addTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -82,16 +85,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
         </span>
       </button>
       <textarea
+        ref={textRef}
         className={styles.taskInput}
         placeholder="add task"
         value={newTaskDescription}
         onChange={handleDescription}
         onKeyDown={taskEnterSubmit}
-        onFocus={handleTextAreaRows}
         onBlur={() => setTextRows(1)}
-        rows={textRows}
-        cols={2}
-        wrap="soft"
         maxLength={140}
       />
     </form>

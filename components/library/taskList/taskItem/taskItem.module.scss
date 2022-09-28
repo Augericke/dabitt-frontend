@@ -13,8 +13,18 @@
     background-color: var(--icon-color);
   }
 
-  .taskDescription {
+  .taskInput {
     font-weight: 100;
     font-size: 18px;
+    background: none;
+    width: 100%;
+    padding: 0;
+    resize: none;
+    overflow-y: auto;
+    word-wrap: break-word;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
