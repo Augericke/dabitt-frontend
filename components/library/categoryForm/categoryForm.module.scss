@@ -13,7 +13,8 @@
     background: none;
     padding: 0px;
     cursor: not-allowed;
-    color: var(--foreground-color);
+    color: var(--icon-color);
+    opacity: 0.5;
     font-size: 25px;
     transition: opacity 200ms, font-size 400ms;
 
@@ -21,7 +22,8 @@
       @extend .addCategoryButton;
       cursor: pointer;
       font-size: 30px;
-      color: var(--text-color);
+      color: var(--icon-color);
+      opacity: 1;
     }
 
     .addIcon {
@@ -39,17 +41,17 @@
     width: 20vw;
     resize: none;
     color: var(--foreground-color);
-    transition: all 800ms;
+    transition: color 800ms;
 
     &Populated {
       @extend .categoryInput;
-      outline-color: var(--foreground-color);
+      outline-color: var(--icon-color);
       color: var(--text-color);
       font-weight: 800;
     }
 
     &:focus {
-      outline-color: var(--foreground-color);
+      outline-color: var(--icon-color);
     }
   }
 }

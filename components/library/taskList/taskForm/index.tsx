@@ -21,6 +21,19 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
   const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTaskDescription(event.target.value.replace(/\n/g, ""));
   };
+
+  const taskEnterSubmit = (event: any) => {
+    if (event.key === "Enter" && event.shiftKey == false) {
+      event.preventDefault();
+      return addTask(event);
+    }
+  };
+
+  const handleTextAreaRows = () => {
+    const rowSize = (newTaskDescription.length & 10) + 1;
+    setTextRows(rowSize);
+  };
+
   const addTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -73,10 +86,11 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
         placeholder="add task"
         value={newTaskDescription}
         onChange={handleDescription}
-        onFocus={() => setTextRows(3)}
+        onKeyDown={taskEnterSubmit}
+        onFocus={handleTextAreaRows}
         onBlur={() => setTextRows(1)}
         rows={textRows}
-        cols={20}
+        cols={2}
         wrap="soft"
         maxLength={140}
       />

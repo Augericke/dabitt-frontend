@@ -1,6 +1,7 @@
 .taskForm {
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 15px;
 
   .addTaskButton {
@@ -20,7 +21,6 @@
       @extend .addTaskButton;
       cursor: pointer;
       opacity: 1;
-      font-size: 25px;
     }
 
     .addIcon {
@@ -34,11 +34,12 @@
     font-weight: 100;
     font-size: 18px;
     background: none;
-    width: 20vw;
+    width: 100%;
     resize: none;
 
     &:focus {
       outline-color: var(--icon-color);
+      padding: 10px 15px 10px 15px;
     }
   }
 }
