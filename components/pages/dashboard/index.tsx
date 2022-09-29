@@ -19,7 +19,14 @@ const DashboardView: React.FC<DashboardViewProps> = ({
       {categories ? (
         <>
           {categories.map((category, index) => {
-            return <TaskList key={index} category={category} />;
+            return (
+              <TaskList
+                key={index}
+                category={category}
+                categories={categories}
+                setCategories={setCategories}
+              />
+            );
           })}
         </>
       ) : (

@@ -123,7 +123,9 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
         onBlur={onBlur}
         maxLength={140}
       />
-      <Popover menuItems={getMenuItems(textRef, deleteTask)} />
+      <span className={styles.popoverContainer}>
+        <Popover menuItems={getMenuItems(textRef, deleteTask)} />
+      </span>
     </li>
   );
 };

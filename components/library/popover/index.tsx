@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { TbDots, TbCommand, TbBackspace, TbEdit } from "react-icons/tb";
-import { AiTwotoneDelete } from "react-icons/ai";
-import { motion } from "framer-motion";
+import { TbDots } from "react-icons/tb";
+import { RiSettings5Fill } from "react-icons/ri";
 
 const styles = require("./popover.module.scss");
 
@@ -10,11 +9,24 @@ type PopoverProps = {
     content: JSX.Element;
     onClick: () => void;
   }[];
+  iconType?: "dots" | "gear";
 };
 
-const Popover: React.FC<PopoverProps> = ({ menuItems }) => {
+const Popover: React.FC<PopoverProps> = ({ menuItems, iconType = "dots" }) => {
   const [showMenu, setShowMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  let icon = <></>;
+  switch (iconType) {
+    case "dots":
+      icon = <TbDots size={20} />;
+      break;
+    case "gear":
+      icon = <RiSettings5Fill size={20} />;
+      break;
+    default:
+      icon = <TbDots size={20} />;
+  }
 
   useEffect(() => {
     if (showMenu && menuRef.current) {
@@ -28,7 +40,7 @@ const Popover: React.FC<PopoverProps> = ({ menuItems }) => {
         className={styles.popoverContainer}
         onClick={() => setShowMenu(!showMenu)}
       >
-        <TbDots />
+        {icon}
 
         {/* Hidden div to close menu when clicked off */}
         {showMenu && (

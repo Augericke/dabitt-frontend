@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import CategoryHeader from "./categoryHeader";
 import TaskItem from "./taskItem";
 import TaskForm from "./taskForm";
@@ -9,14 +9,25 @@ const styles = require("./taskList.module.scss");
 
 type TaskListProps = {
   category: CategoryModel;
+  categories: CategoryModel[] | null;
+  setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
 
-const TaskList: React.FC<TaskListProps> = ({ category }) => {
+const TaskList: React.FC<TaskListProps> = ({
+  category,
+  categories,
+  setCategories,
+}) => {
   const [tasks, setTasks] = useState(category.tasks);
 
   return (
     <section className={styles.categoryContainer}>
-      <CategoryHeader category={category} count={tasks.length} />
+      <CategoryHeader
+        category={category}
+        categories={categories}
+        setCategories={setCategories}
+        count={tasks.length}
+      />
       <div className={styles.taskListContainer}>
         <ul className={styles.taskList}>
           {tasks.map((task: TaskModel, index: number) => {

@@ -1,7 +1,13 @@
 .categoryHeaderContainer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 15px;
+}
+
+.categoryTitleContainer {
+  display: flex;
+  align-items: center;
 
   .categoryInput {
     font-weight: 800;

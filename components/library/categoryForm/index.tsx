@@ -1,8 +1,8 @@
 import React, { useState, SetStateAction, Dispatch, FormEvent } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { api } from "../../../utils/environmentManager";
 import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel } from "../../../types/task";
+import categoryService from "../../../utils/services/category";
 
 const styles = require("./categoryForm.module.scss");
 
@@ -31,23 +31,19 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
           scope: "",
         });
 
-        const dataConfig = {
+        const data = {
           name: newCategoryName,
         };
 
-        const headerConfig = {
+        const header = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         };
 
-        const addedCategory = await api.post<CategoryModel>(
-          "/category",
-          dataConfig,
-          headerConfig,
-        );
+        const addedCategory = await categoryService.create(data, header);
 
-        setCategories([...categories, { ...addedCategory.data, tasks: [] }]);
+        setCategories([...categories, { ...addedCategory, tasks: [] }]);
         setNewCategoryName("");
       }
     } catch (error) {
