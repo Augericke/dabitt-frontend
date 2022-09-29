@@ -6,8 +6,8 @@ import { CategoryModel } from "../../../types/task";
 const styles = require("./dashboard.module.scss");
 
 type DashboardViewProps = {
-  categories: CategoryModel[];
-  setCategories: Dispatch<SetStateAction<CategoryModel[]>>;
+  categories: CategoryModel[] | null;
+  setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
 
 const DashboardView: React.FC<DashboardViewProps> = ({

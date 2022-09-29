@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { api } from "../../../../utils/environmentManager";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
 import { TaskModel } from "../../../../types/task";
+import taskService from "../../../../utils/services/task";
 
 const styles = require("./taskItem.module.scss");
 
@@ -15,10 +15,16 @@ type TaskItemProps = {
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
+  // Requests
   const { isLoading, getAccessTokenSilently } = useAuth0();
+  const [header, setHeader] = useState({});
+
+  // Text Area
   const [taskDescription, setTaskDescription] = useState(task.description);
-  const [isTicked, setIsTicked] = useState(task.completedAt != null);
   const [checkSpelling, setCheckSpelling] = useState(false);
+
+  // Tick Box
+  const [isTicked, setIsTicked] = useState(task.completedAt != null);
 
   // Resize textArea based on description length
   const textRef = useRef<any>();
@@ -31,13 +37,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
   // Avoid users adding line breaks
   const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTaskDescription(event.target.value.replace(/\n/g, ""));
-  };
-
-  // Force loss of focus on enter (triggers updateTask)
-  const onEnterSubmit = (event: any) => {
-    if (event.key === "Enter" && event.shiftKey == false) {
-      event.target.blur();
-    }
   };
 
   // Only update and trim whitespace if there is a task description / task description has changed
@@ -57,32 +56,31 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
   };
 
   const handleTickBox = () => {
-    let dataConfig = {};
+    let updateData = {};
     if (isTicked) {
-      dataConfig = { completedAt: null };
+      updateData = { completedAt: null };
     } else {
-      dataConfig = { completedAt: new Date() };
+      updateData = { completedAt: new Date() };
     }
 
-    updateTask(dataConfig);
+    updateTask(updateData);
     setIsTicked(!isTicked);
   };
 
-  const updateTask = async (dataConfig: {}) => {
+  const updateTask = async (updateData: {}) => {
     try {
-      if (!isLoading && taskDescription) {
+      if (taskDescription) {
         const token = await getAccessTokenSilently({
           audience: "API/dabitt",
           scope: "",
         });
 
-        const headerConfig = {
+        const header = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         };
-
-        await api.put<TaskModel>(`/task/${task.id}`, dataConfig, headerConfig);
+        await taskService.update(task.id, updateData, header);
       }
     } catch (error) {
       console.error(error);
@@ -91,23 +89,20 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
 
   const deleteTask = async () => {
     try {
-      if (!isLoading) {
-        const token = await getAccessTokenSilently({
-          audience: "API/dabitt",
-          scope: "",
-        });
+      const token = await getAccessTokenSilently({
+        audience: "API/dabitt",
+        scope: "",
+      });
 
-        const headerConfig = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
+      const header = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
 
-        const updatedTasks = tasks.filter((tasks) => tasks.id != task.id);
-
-        await api.delete<TaskModel>(`/task/${task.id}`, headerConfig);
-        setTasks(updatedTasks);
-      }
+      const updatedTasks = tasks.filter((tasks) => tasks.id != task.id);
+      await taskService.destroy(task.id, header);
+      setTasks(updatedTasks);
     } catch (error) {
       console.error(error);
     }
@@ -134,3 +129,10 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
 };
 
 export default TaskItem;
+
+// Force loss of focus on enter (triggers updateTask)
+const onEnterSubmit = (event: any) => {
+  if (event.key === "Enter" && event.shiftKey == false) {
+    event.target.blur();
+  }
+};

@@ -1,9 +1,8 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { api } from "../../../../utils/environmentManager";
 import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel, TaskModel } from "../../../../types/task";
+import taskService from "../../../../utils/services/task";
 
 const styles = require("./taskForm.module.scss");
 
@@ -14,7 +13,7 @@ type TaskFormProps = {
 };
 
 const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
-  const { isLoading, getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const [newTaskDescription, setNewTaskDescription] = useState("");
 
   const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -39,29 +38,26 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
   const addTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (!isLoading && newTaskDescription) {
+      if (newTaskDescription) {
         const token = await getAccessTokenSilently({
           audience: "API/dabitt",
           scope: "",
         });
 
-        const dataConfig = {
+        const data = {
           categoryId: category.id,
           description: newTaskDescription,
         };
 
-        const headerConfig = {
+        const header = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         };
 
-        const addedTask = await api.post<TaskModel>(
-          `/task`,
-          dataConfig,
-          headerConfig,
-        );
-        setTasks([...tasks, addedTask.data]);
+        const addedTask = await taskService.create(data, header);
+
+        setTasks([...tasks, addedTask]);
         setNewTaskDescription("");
       }
     } catch (error) {

@@ -8,10 +8,12 @@ function isProd(): boolean {
   return process.env.NODE_ENV === "production";
 }
 
+const baseApiUrl = isDev()
+  ? "http://localhost:3001/api"
+  : "http://localhost:3001/api";
+
 const api = axios.create({
-  baseURL: `${
-    isDev() ? "http://localhost:3001/api" : "http://localhost:3001/api"
-  }`,
+  baseURL: `${baseApiUrl}`,
 });
 
-export { isDev, isProd, api };
+export { isDev, isProd, baseApiUrl, api };

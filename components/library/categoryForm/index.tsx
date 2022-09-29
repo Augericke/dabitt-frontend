@@ -7,15 +7,15 @@ import { CategoryModel } from "../../../types/task";
 const styles = require("./categoryForm.module.scss");
 
 type CategoryFormProps = {
-  categories: CategoryModel[];
-  setCategories: Dispatch<SetStateAction<CategoryModel[]>>;
+  categories: CategoryModel[] | null;
+  setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
 
 const CategoryForm: React.FC<CategoryFormProps> = ({
   categories,
   setCategories,
 }) => {
-  const { isLoading, getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
   const [newCategoryName, setNewCategoryName] = useState("");
 
   const handleCategoryName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +25,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const addCategory = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (!isLoading && newCategoryName) {
+      if (newCategoryName && categories) {
         const token = await getAccessTokenSilently({
           audience: "API/dabitt",
           scope: "",

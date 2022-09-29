@@ -1,7 +1,6 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { api } from "../../../../utils/environmentManager";
+import categoryService from "../../../../utils/services/category";
 import { CategoryModel } from "../../../../types/task";
 
 const styles = require("./categoryHeader.module.scss");
@@ -44,20 +43,16 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({ category, count }) => {
           scope: "",
         });
 
-        const dataConfig = {
-          name: categoryName,
-        };
-
-        const headerConfig = {
+        const header = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         };
 
-        await api.put<CategoryModel>(
-          `/category/${category.id}`,
-          dataConfig,
-          headerConfig,
+        await categoryService.update(
+          category.id,
+          { name: categoryName },
+          header,
         );
       }
     } catch (error) {
@@ -65,7 +60,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({ category, count }) => {
     }
   };
 
-  //TODO: fix issue with initial render having wrong width
+  //TODO: fix issue with initial render having wrong
   useEffect(() => {
     textRef.current.style.width = `0px`;
     const scrollWidth = textRef.current.scrollWidth;
