@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 import React, { useRef, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { api } from "../../../../utils/environmentManager";
@@ -19,6 +18,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
   const { isLoading, getAccessTokenSilently } = useAuth0();
   const [taskDescription, setTaskDescription] = useState(task.description);
   const [isTicked, setIsTicked] = useState(task.completedAt != null);
+  const [checkSpelling, setCheckSpelling] = useState(false);
 
   // Resize textArea based on description length
   const textRef = useRef<any>();
@@ -43,6 +43,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
   // Only update and trim whitespace if there is a task description / task description has changed
   const onBlur = () => {
     setTaskDescription(taskDescription.trim());
+    setCheckSpelling(false);
 
     if (!taskDescription || taskDescription === task.description) {
       setTaskDescription(task.description);
@@ -119,9 +120,11 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
         ref={textRef}
         className={styles.taskInput}
         placeholder="add task"
+        spellCheck={checkSpelling}
         value={taskDescription}
         onChange={onChangeHandler}
         onKeyDown={onEnterSubmit}
+        onFocus={() => setCheckSpelling(true)}
         onBlur={onBlur}
         maxLength={140}
       />
