@@ -48,6 +48,13 @@
     &::-webkit-scrollbar {
       display: none;
     }
+
+    &::placeholder {
+      @extend .taskInput;
+      font-weight: 200;
+      color: var(--subtle-color);
+    }
+
     &:focus {
       outline-color: var(--icon-color);
       padding-left: 10px;

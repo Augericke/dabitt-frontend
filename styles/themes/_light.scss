@@ -1,5 +1,6 @@
 $background-color: #e4e4e4;
 $foreground-color: #b1b1b1;
+$subtle-color: #4d4e5e;
 $icon-color: #ffffff;
 $text-color: #2b2b2b;
 
@@ -14,4 +15,7 @@ $text-color: #2b2b2b;
 }
 :export {
   text-color: $text-color;
+}
+:export {
+  subtle-color: $subtle-color;
 }

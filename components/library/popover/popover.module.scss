@@ -1,0 +1,71 @@
+.popoverContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 2px;
+  cursor: pointer;
+  color: var(--subtle-color);
+  font-size: 18px;
+  transition: background-color 200ms;
+
+  // Disable text selection on double click
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+
+  &:hover {
+    background-color: var(--subtle-color);
+    color: var(--text-color);
+  }
+}
+
+.hiddenContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  cursor: default;
+}
+
+.menuContainer {
+  position: absolute;
+  list-style-type: none;
+  background-color: var(--subtle-color);
+  border-radius: 5px;
+  top: 150%;
+  padding: 10px;
+  z-index: 1;
+
+  .menuItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color);
+    font-weight: 200;
+    font-size: 14px;
+    line-height: 0;
+    border-radius: 3px;
+    width: 200px;
+    padding: 10px;
+    z-index: 2;
+    opacity: 0.5;
+    transition: opacity 400ms, background-color 200ms;
+
+    &:hover {
+      background-color: var(--icon-color);
+      font-weight: 400;
+      opacity: 1;
+    }
+  }
+}
+
+.hideElement {
+  display: none;
+}

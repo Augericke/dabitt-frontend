@@ -6,6 +6,7 @@
   // default
   --background-color: #{light.$background-color};
   --foreground-color: #{light.$foreground-color};
+  --subtle-color: #{light.$subtle-color};
   --icon-color: #{light.$icon-color};
   --text-color: #{light.$text-color};
   --button-border-radius: 20px;
@@ -14,6 +15,7 @@
 [data-theme="light"] {
   --background-color: #{light.$background-color};
   --foreground-color: #{light.$foreground-color};
+  --subtle-color: #{light.$subtle-color};
   --icon-color: #{light.$icon-color};
   --text-color: #{light.$text-color};
 }
@@ -21,6 +23,7 @@
 [data-theme="dark"] {
   --background-color: #{dark.$background-color};
   --foreground-color: #{dark.$foreground-color};
+  --subtle-color: #{dark.$subtle-color};
   --icon-color: #{dark.$icon-color};
   --text-color: #{dark.$text-color};
 }
@@ -28,6 +31,7 @@
 [data-theme="lobby"] {
   --background-color: #{lobby.$background-color};
   --foreground-color: #{lobby.$foreground-color};
+  --subtle-color: #{dark.$subtle-color};
   --icon-color: #{lobby.$icon-color};
   --text-color: #{lobby.$text-color};
 }
@@ -55,6 +59,10 @@ input {
 
 textarea {
   border: none;
+  font-family: "Poppins", sans-serif;
+}
+
+kbd {
   font-family: "Poppins", sans-serif;
 }
 

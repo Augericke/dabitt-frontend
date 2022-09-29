@@ -1,0 +1,15 @@
+.itemInfoContainer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.itemShortcutContainer {
+  display: flex;
+  align-items: center;
+
+  .itemShortcut {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -3,6 +3,8 @@ import React, { useRef, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { api } from "../../../../utils/environmentManager";
 import TickBox from "../../tickBox";
+import Popover from "../../popover";
+import TaskMenuOptions from "./taskMenuOptions";
 import { TaskModel } from "../../../../types/task";
 
 const styles = require("./taskItem.module.scss");
@@ -97,6 +99,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         onBlur={onBlur}
         maxLength={140}
       />
+      <Popover menuItems={TaskMenuOptions} />
     </li>
   );
 };
