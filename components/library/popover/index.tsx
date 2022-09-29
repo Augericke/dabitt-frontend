@@ -32,22 +32,29 @@ const Popover: React.FC<PopoverProps> = ({ menuItems }) => {
 
         {/* Hidden div to close menu when clicked off */}
         {showMenu && (
-          <div ref={menuRef} className={styles.hiddenContainer} tabIndex={-1} />
+          <>
+            <div
+              ref={menuRef}
+              className={styles.hiddenContainer}
+              tabIndex={-1}
+            />
+            <ul
+              className={showMenu ? styles.menuContainer : styles.hideElement}
+            >
+              {menuItems.map((item, index) => {
+                return (
+                  <li
+                    key={index}
+                    className={styles.menuItem}
+                    onClick={item.onClick}
+                  >
+                    {item.content}
+                  </li>
+                );
+              })}
+            </ul>
+          </>
         )}
-
-        <ul className={showMenu ? styles.menuContainer : styles.hideElement}>
-          {menuItems.map((item, index) => {
-            return (
-              <li
-                key={index}
-                className={styles.menuItem}
-                onClick={item.onClick}
-              >
-                {item.content}
-              </li>
-            );
-          })}
-        </ul>
       </div>
     </>
   );

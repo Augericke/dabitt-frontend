@@ -32,6 +32,7 @@
   top: 0;
   bottom: 0;
   cursor: default;
+  z-index: 1;
 }
 
 .menuContainer {
@@ -56,6 +57,7 @@
     padding: 10px;
     z-index: 2;
     opacity: 0.5;
+    cursor: pointer;
     transition: opacity 400ms, background-color 200ms;
 
     &:hover {
