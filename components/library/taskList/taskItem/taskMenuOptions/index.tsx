@@ -8,8 +8,11 @@ export const getMenuItems = (
   inputRef: React.MutableRefObject<any>,
   handleDelete: () => Promise<void>,
 ) => {
+  // Focus on text input field and place cursor at end of string
   const handleEditClick = () => {
+    const taskLength = inputRef.current.value.length;
     inputRef.current.focus();
+    inputRef.current.setSelectionRange(taskLength, taskLength);
   };
 
   const menuItems = [
@@ -17,7 +20,7 @@ export const getMenuItems = (
       content: (
         <>
           <div className={styles.itemInfoContainer}>
-            <TbEdit /> edit task
+            <TbEdit /> edit
           </div>
           <div className={styles.itemShortcutContainer}>
             <kbd className={styles.itemShortcut}>
@@ -33,7 +36,7 @@ export const getMenuItems = (
       content: (
         <>
           <div className={styles.itemInfoContainer}>
-            <AiTwotoneDelete /> delete task
+            <AiTwotoneDelete /> delete
           </div>
           <div className={styles.itemShortcutContainer}>
             <kbd className={styles.itemShortcut}>
@@ -45,6 +48,7 @@ export const getMenuItems = (
           </div>
         </>
       ),
+      //TODO: add modal on delete
       onClick: handleDelete,
     },
   ];

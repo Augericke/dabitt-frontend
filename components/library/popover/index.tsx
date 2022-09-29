@@ -33,11 +33,7 @@ const Popover: React.FC<PopoverProps> = ({ menuItems }) => {
         {/* Hidden div to close menu when clicked off */}
         {showMenu && (
           <>
-            <div
-              ref={menuRef}
-              className={styles.hiddenContainer}
-              tabIndex={-1}
-            />
+            <div ref={menuRef} className={styles.hiddenContainer} />
             <ul
               className={showMenu ? styles.menuContainer : styles.hideElement}
             >
