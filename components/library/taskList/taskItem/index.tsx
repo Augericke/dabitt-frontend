@@ -4,16 +4,18 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { api } from "../../../../utils/environmentManager";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
-import TaskMenuOptions from "./taskMenuOptions";
+import { getMenuItems } from "./taskMenuOptions";
 import { TaskModel } from "../../../../types/task";
 
 const styles = require("./taskItem.module.scss");
 
 type TaskItemProps = {
   task: TaskModel;
+  tasks: TaskModel[];
+  setTasks: React.Dispatch<React.SetStateAction<TaskModel[]>>;
 };
 
-const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
   const { isLoading, getAccessTokenSilently } = useAuth0();
   const [taskDescription, setTaskDescription] = useState(task.description);
   const [isTicked, setIsTicked] = useState(task.completedAt != null);
@@ -86,6 +88,30 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
     }
   };
 
+  const deleteTask = async () => {
+    try {
+      if (!isLoading) {
+        const token = await getAccessTokenSilently({
+          audience: "API/dabitt",
+          scope: "",
+        });
+
+        const headerConfig = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const updatedTasks = tasks.filter((tasks) => tasks.id != task.id);
+
+        await api.delete<TaskModel>(`/task/${task.id}`, headerConfig);
+        setTasks(updatedTasks);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <li className={styles.taskItem}>
       <TickBox isTicked={isTicked} onClick={handleTickBox} />
@@ -99,7 +125,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task }) => {
         onBlur={onBlur}
         maxLength={140}
       />
-      <Popover menuItems={TaskMenuOptions} />
+      <Popover menuItems={getMenuItems(textRef, deleteTask)} />
     </li>
   );
 };

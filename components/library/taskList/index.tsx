@@ -20,7 +20,14 @@ const TaskList: React.FC<TaskListProps> = ({ category }) => {
       <div className={styles.taskListContainer}>
         <ul className={styles.taskList}>
           {tasks.map((task: TaskModel, index: number) => {
-            return <TaskItem key={index} task={task} />;
+            return (
+              <TaskItem
+                key={index}
+                task={task}
+                tasks={tasks}
+                setTasks={setTasks}
+              />
+            );
           })}
           <li>
             <TaskForm category={category} tasks={tasks} setTasks={setTasks} />
