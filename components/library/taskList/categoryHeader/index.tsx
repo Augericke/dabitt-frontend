@@ -65,10 +65,11 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({ category, count }) => {
     }
   };
 
+  //TODO: fix issue with initial render having wrong width
   useEffect(() => {
-    textRef.current.style.width = "5px";
+    textRef.current.style.width = `0px`;
     const scrollWidth = textRef.current.scrollWidth;
-    textRef.current.style.width = `${scrollWidth + 5}px`;
+    textRef.current.style.width = `${scrollWidth}px`;
   }, [categoryName]);
 
   return (
