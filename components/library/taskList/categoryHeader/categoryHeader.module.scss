@@ -14,7 +14,8 @@
     line-height: 40px;
     background: none;
     font-size: 26px;
-    transition: margin 400ms;
+    transition: padding 400ms, margin 400ms;
+    border-bottom: 0px solid var(--icon-color);
 
     // Hide Scroll Bar
     -ms-overflow-style: none; /* IE and Edge */
@@ -26,6 +27,9 @@
     &:focus {
       outline: none;
       margin-right: 10px;
+      padding-bottom: 5px;
+      border-bottom: 2px solid var(--icon-color);
+      border-radius: 1px;
     }
   }
 

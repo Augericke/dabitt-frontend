@@ -20,10 +20,10 @@
     width: 100%;
     padding: 0;
     resize: none;
-
+    border-left: 0px solid var(--icon-color);
     overflow-y: hidden;
     word-wrap: break-word;
-    transition: padding 400ms;
+    transition: border 100ms, padding 400ms;
 
     // Hide Scroll Bar
     -ms-overflow-style: none; /* IE and Edge */
@@ -35,6 +35,8 @@
     &:focus {
       outline: none;
       padding-left: 10px;
+      border-left: 2px solid var(--icon-color);
+      border-radius: 1px;
     }
   }
 }

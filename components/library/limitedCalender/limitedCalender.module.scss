@@ -1,21 +1,25 @@
 .calenderContainer {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  background-color: var(--foreground-color);
-  border-radius: 10px;
-  padding: 10px 25px 10px 25px;
+  width: 30vw;
 
   .calenderHeader {
-    font-size: 21px;
-    line-height: 0;
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    line-height: 26px;
+    background: none;
+    font-size: 26px;
   }
 
   .datesContainer {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    align-items: center;
+    border-radius: 10px;
+    padding: 0px 10px 0px 10px;
+    gap: 25px;
 
     .dateContainer {
       display: flex;
@@ -24,9 +28,8 @@
       align-items: center;
       cursor: pointer;
       color: var(--subtle-color);
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 200;
-      transition: color 200ms;
       margin: 5px;
 
       &Selected {
