@@ -36,7 +36,7 @@ const Auth: NextPage = () => {
             headerConfig,
           );
 
-          Router.push(response.data.completedSetup ? "/dashboard" : "/setup");
+          Router.push(response.data.completedSetup ? "/tasks" : "/setup");
         }
       } catch (error) {
         console.error(error);

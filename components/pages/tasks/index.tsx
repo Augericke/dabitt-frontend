@@ -5,17 +5,14 @@ import CategoryForm from "../../library/categoryForm";
 import { CategoryModel } from "../../../types/task";
 import { getYesterdayTodayTomorrow } from "../../../utils/dateComputer";
 
-const styles = require("./dashboard.module.scss");
+const styles = require("./tasks.module.scss");
 
-type DashboardViewProps = {
+type TasksViewProps = {
   categories: CategoryModel[] | null;
   setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
 
-const DashboardView: React.FC<DashboardViewProps> = ({
-  categories,
-  setCategories,
-}) => {
+const TasksView: React.FC<TasksViewProps> = ({ categories, setCategories }) => {
   const dates = getYesterdayTodayTomorrow();
   const [selectedDate, setSelectedDate] = useState(dates.today.date);
 
@@ -47,4 +44,4 @@ const DashboardView: React.FC<DashboardViewProps> = ({
   );
 };
 
-export default DashboardView;
+export default TasksView;

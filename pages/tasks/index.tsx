@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import Layout from "../../components/layout";
-import DashboardView from "../../components/pages/dashboard";
+import TasksView from "../../components/pages/tasks";
 import { CategoryModel } from "../../types/task";
 import { useApi } from "../../utils/hooks/useApi";
 
-const DashboardPage: NextPage = () => {
+const TasksPage: NextPage = () => {
   const { loading, error, data } = useApi("/category/user/", {});
   const [categories, setCategories] = useState<CategoryModel[] | null>([]);
 
@@ -19,10 +19,10 @@ const DashboardPage: NextPage = () => {
       {loading ? (
         <p>todo add skelton & error handling</p>
       ) : (
-        <DashboardView categories={categories} setCategories={setCategories} />
+        <TasksView categories={categories} setCategories={setCategories} />
       )}
     </Layout>
   );
 };
 
-export default withAuthenticationRequired(DashboardPage);
+export default withAuthenticationRequired(TasksPage);
