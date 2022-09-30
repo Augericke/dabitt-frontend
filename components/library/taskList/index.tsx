@@ -19,7 +19,7 @@ const TaskList: React.FC<TaskListProps> = ({
   setCategories,
 }) => {
   const [tasks, setTasks] = useState(category.tasks);
-
+  console.log(category);
   return (
     <section className={styles.categoryContainer}>
       <CategoryHeader
@@ -30,10 +30,10 @@ const TaskList: React.FC<TaskListProps> = ({
       />
       <div className={styles.taskListContainer}>
         <ul className={styles.taskList}>
-          {tasks.map((task: TaskModel, index: number) => {
+          {tasks.map((task: TaskModel) => {
             return (
               <TaskItem
-                key={index}
+                key={task.id}
                 task={task}
                 tasks={tasks}
                 setTasks={setTasks}
