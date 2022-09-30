@@ -35,7 +35,7 @@ const SetupView: React.FC<SetupViewProps> = (props: SetupViewProps) => {
         };
 
         await api.put(`/user`, dataConfig, headerConfig);
-        Router.push("/dashboard");
+        Router.push("/tasks");
       }
     } catch (error) {
       console.error(error);

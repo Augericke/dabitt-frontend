@@ -9,6 +9,8 @@
   color: var(--subtle-color);
   font-size: 18px;
   transition: background-color 200ms;
+  background: none;
+  border: none;
 
   // Disable text selection on double click
   user-select: none;
@@ -19,6 +21,12 @@
   &:hover {
     background-color: var(--subtle-color);
     color: var(--text-color);
+  }
+
+  .iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -48,6 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: none;
     color: var(--text-color);
     font-weight: 200;
     font-size: 14px;

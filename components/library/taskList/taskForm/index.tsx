@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
+import Popover from "../../popover";
 
 const styles = require("./taskForm.module.scss");
 
@@ -15,6 +16,10 @@ type TaskFormProps = {
 const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
   const { getAccessTokenSilently } = useAuth0();
   const [newTaskDescription, setNewTaskDescription] = useState("");
+  const [taskTimeEstimate, setTaskTimeEstimate] = useState({
+    displayText: "15 minutes",
+    minutes: 15,
+  });
 
   const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTaskDescription(event.target.value.replace(/\n/g, ""));
@@ -47,6 +52,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
         const data = {
           categoryId: category.id,
           description: newTaskDescription,
+          estimateMinutes: taskTimeEstimate.minutes,
         };
 
         const header = {
@@ -59,6 +65,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
 
         setTasks([...tasks, addedTask]);
         setNewTaskDescription("");
+        setTaskTimeEstimate({
+          displayText: "15 minutes",
+          minutes: 15,
+        });
       }
     } catch (error) {
       console.error(error);
@@ -79,15 +89,68 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
           <BsPlusCircle />
         </span>
       </button>
-      <textarea
-        ref={textRef}
-        className={styles.taskInput}
-        placeholder="add task"
-        value={newTaskDescription}
-        onChange={handleDescription}
-        onKeyDown={taskEnterSubmit}
-        maxLength={140}
-      />
+      <div className={styles.inputsContainer}>
+        <textarea
+          ref={textRef}
+          className={styles.taskInput}
+          placeholder="add task"
+          value={newTaskDescription}
+          onChange={handleDescription}
+          onKeyDown={taskEnterSubmit}
+          maxLength={140}
+        />
+        {/* TODO: break inputs into their own components */}
+        <div
+          className={
+            newTaskDescription
+              ? styles.taskTimeEstimateContainer
+              : styles.hideElement
+          }
+        >
+          <Popover
+            iconType="clock"
+            iconText={
+              <span className={styles.estimateLabel}>
+                {taskTimeEstimate.displayText}
+              </span>
+            }
+            menuItems={[
+              {
+                content: <span>15 minutes</span>,
+                onClick: () =>
+                  setTaskTimeEstimate({
+                    displayText: "15 minutes",
+                    minutes: 15,
+                  }),
+              },
+              {
+                content: <span>30 minutes</span>,
+                onClick: () =>
+                  setTaskTimeEstimate({
+                    displayText: "30 minutes",
+                    minutes: 30,
+                  }),
+              },
+              {
+                content: <span>1 hour</span>,
+                onClick: () =>
+                  setTaskTimeEstimate({
+                    displayText: "1 hour",
+                    minutes: 60,
+                  }),
+              },
+              {
+                content: <span>2 hour</span>,
+                onClick: () =>
+                  setTaskTimeEstimate({
+                    displayText: "2 hours",
+                    minutes: 120,
+                  }),
+              },
+            ]}
+          />
+        </div>
+      </div>
     </form>
   );
 };

@@ -13,7 +13,7 @@ const TasksPage: NextPage = () => {
   useEffect(() => {
     setCategories(data);
   }, [data]);
-
+  console.log(categories);
   return (
     <Layout>
       {loading ? (

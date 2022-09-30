@@ -30,6 +30,11 @@
       justify-content: center;
     }
   }
+}
+
+.inputsContainer {
+  display: flex;
+  gap: 15px;
 
   .taskInput {
     font-weight: 100;
@@ -60,4 +65,25 @@
       padding-left: 10px;
     }
   }
+
+  .taskTimeEstimateContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .estimateLabel {
+      font-weight: 200;
+      font-size: 16px;
+      width: 100px;
+      text-align: center;
+    }
+
+    .estimateSelector {
+      background-color: none;
+    }
+  }
+}
+
+.hideElement {
+  display: none;
 }

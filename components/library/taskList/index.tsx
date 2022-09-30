@@ -19,7 +19,6 @@ const TaskList: React.FC<TaskListProps> = ({
   setCategories,
 }) => {
   const [tasks, setTasks] = useState(category.tasks);
-  console.log(category);
   return (
     <section className={styles.categoryContainer}>
       <CategoryHeader
