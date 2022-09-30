@@ -22,7 +22,7 @@ const Popover: React.FC<PopoverProps> = ({ menuItems, iconType = "dots" }) => {
       icon = <TbDots size={20} />;
       break;
     case "gear":
-      icon = <RiSettings5Fill size={20} />;
+      icon = <RiSettings5Fill size={15} />;
       break;
     default:
       icon = <TbDots size={20} />;

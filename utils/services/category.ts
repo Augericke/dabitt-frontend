@@ -1,10 +1,7 @@
 import { api } from "../environmentManager";
 import { CategoryModel } from "../../types/task";
 
-const create = async (
-  data: { categoryId: string; description: string },
-  headers: {},
-) => {
+const create = async (data: { name: string }, headers: {}) => {
   const response = await api.post<CategoryModel>("/category", data, headers);
   return response.data;
 };

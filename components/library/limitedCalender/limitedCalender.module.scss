@@ -1,0 +1,45 @@
+.calenderContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--foreground-color);
+  border-radius: 10px;
+  padding: 10px 25px 10px 25px;
+
+  .calenderHeader {
+    font-size: 21px;
+    line-height: 0;
+  }
+
+  .datesContainer {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    .dateContainer {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: var(--subtle-color);
+      font-size: 16px;
+      font-weight: 200;
+      transition: color 200ms;
+      margin: 5px;
+
+      &Selected {
+        @extend .dateContainer;
+        color: var(--text-color);
+        font-weight: 400;
+      }
+
+      .dayText {
+        color: var(--subtle-color);
+        font-size: 12px;
+        font-weight: 200;
+      }
+    }
+  }
+}
