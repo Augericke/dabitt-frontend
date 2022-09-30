@@ -16,12 +16,23 @@ type TaskItemProps = {
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
   // Requests
-  const { isLoading, getAccessTokenSilently } = useAuth0();
-  const [header, setHeader] = useState({});
+  const { getAccessTokenSilently } = useAuth0();
 
   // Text Area
   const [taskDescription, setTaskDescription] = useState(task.description);
   const [checkSpelling, setCheckSpelling] = useState(false);
+
+  // Time Estimate
+  //TODO: write date function get display text with just minute input
+  const [taskTimeEstimate, setTaskTimeEstimate] = useState({
+    displayText:
+      task.estimateMinutes < 60
+        ? `${task.estimateMinutes} minutes`
+        : task.estimateMinutes === 60
+        ? "1 hour"
+        : `${task.estimateMinutes / 60} hours`,
+    minutes: task.estimateMinutes,
+  });
 
   // Tick Box
   const [isTicked, setIsTicked] = useState(task.completedAt != null);
@@ -47,11 +58,11 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
     if (!taskDescription || taskDescription === task.description) {
       setTaskDescription(task.description);
     } else {
-      const dataConfig = {
+      const updateDate = {
         description: taskDescription,
       };
 
-      updateTask(dataConfig);
+      updateTask(updateDate);
     }
   };
 
@@ -65,6 +76,18 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
 
     updateTask(updateData);
     setIsTicked(!isTicked);
+  };
+
+  const handleTimeChange = (newTime: {
+    displayText: string;
+    minutes: number;
+  }) => {
+    const updateData = {
+      estimateMinutes: newTime.minutes,
+    };
+
+    updateTask(updateData);
+    setTaskTimeEstimate(newTime);
   };
 
   const updateTask = async (updateData: {}) => {
@@ -123,6 +146,50 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, tasks, setTasks }) => {
         onBlur={onBlur}
         maxLength={140}
       />
+      <div className={styles.taskTimeEstimateContainer}>
+        <Popover
+          iconType="clock"
+          iconText={
+            <span className={styles.estimateLabel}>
+              {taskTimeEstimate.displayText}
+            </span>
+          }
+          menuItems={[
+            {
+              content: <span>15 minutes</span>,
+              onClick: () =>
+                handleTimeChange({
+                  displayText: "15 minutes",
+                  minutes: 15,
+                }),
+            },
+            {
+              content: <span>30 minutes</span>,
+              onClick: () =>
+                handleTimeChange({
+                  displayText: "30 minutes",
+                  minutes: 30,
+                }),
+            },
+            {
+              content: <span>1 hour</span>,
+              onClick: () =>
+                handleTimeChange({
+                  displayText: "1 hour",
+                  minutes: 60,
+                }),
+            },
+            {
+              content: <span>2 hour</span>,
+              onClick: () =>
+                handleTimeChange({
+                  displayText: "2 hours",
+                  minutes: 120,
+                }),
+            },
+          ]}
+        />
+      </div>
       <span className={styles.popoverContainer}>
         <Popover menuItems={getMenuItems(textRef, deleteTask)} />
       </span>

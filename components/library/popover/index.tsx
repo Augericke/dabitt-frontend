@@ -62,14 +62,12 @@ const Popover: React.FC<PopoverProps> = ({
             >
               {menuItems.map((item, index) => {
                 return (
-                  <li key={index}>
-                    <button
-                      type="button"
-                      className={styles.menuItem}
-                      onClick={item.onClick}
-                    >
-                      {item.content}
-                    </button>
+                  <li
+                    key={index}
+                    className={styles.menuItem}
+                    onClick={item.onClick}
+                  >
+                    {item.content}
                   </li>
                 );
               })}
