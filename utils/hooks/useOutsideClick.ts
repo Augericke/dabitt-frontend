@@ -1,5 +1,6 @@
-import React, { SyntheticEvent, useEffect } from "react";
+import React, { useEffect } from "react";
 
+// Trigger callback if a click occurs outside of react element
 export const useOutsideClick = (
   ref: React.RefObject<any>,
   callback: () => void,
@@ -10,7 +11,6 @@ export const useOutsideClick = (
         callback();
       }
     }
-
     document.addEventListener("mousedown", handleOutsideClick);
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
