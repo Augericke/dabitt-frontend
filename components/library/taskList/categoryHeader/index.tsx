@@ -20,6 +20,8 @@ type CategoryHeaderProps = {
   category: CategoryModel;
   categories: CategoryModel[] | null;
   setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
+  categoryColor: IconColors;
+  setCategoryColor: React.Dispatch<React.SetStateAction<IconColors>>;
   count: number;
 };
 
@@ -27,15 +29,14 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   category,
   categories,
   setCategories,
+  categoryColor,
+  setCategoryColor,
   count,
 }) => {
-  const [selectedColor, setSelectedColor] = useState<IconColors>(
-    category.iconColor,
-  );
   const { getAccessTokenSilently } = useAuth0();
   const { backgroundColor, borderColor } = getSelectableColorClass(
     styles,
-    selectedColor,
+    categoryColor,
   );
   const [categoryName, setCategoryName] = useState(category.name);
   const textRef = useRef<any>();
@@ -45,7 +46,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   };
 
   const onColorChangeHandler = (color: IconColors) => {
-    setSelectedColor(color);
+    setCategoryColor(color);
   };
 
   const onBlur = () => {

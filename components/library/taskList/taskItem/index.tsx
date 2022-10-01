@@ -3,7 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
-import { CategoryModel, TaskModel } from "../../../../types/task";
+import { CategoryModel, IconColors, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 
@@ -14,6 +14,7 @@ type TaskItemProps = {
   task: TaskModel;
   tasks: TaskModel[];
   setTasks: React.Dispatch<React.SetStateAction<TaskModel[]>>;
+  categoryColor: IconColors;
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({
@@ -21,12 +22,13 @@ const TaskItem: React.FC<TaskItemProps> = ({
   task,
   tasks,
   setTasks,
+  categoryColor,
 }) => {
   // Requests
   const { getAccessTokenSilently } = useAuth0();
 
   // Text Area
-  const { borderColor } = getSelectableColorClass(styles, category.iconColor);
+  const { borderColor } = getSelectableColorClass(styles, categoryColor);
   const [taskDescription, setTaskDescription] = useState(task.description);
   const [checkSpelling, setCheckSpelling] = useState(false);
 
@@ -144,7 +146,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       <TickBox
         isTicked={isTicked}
         onClick={handleTickBox}
-        selectedColor={category.iconColor}
+        categoryColor={categoryColor}
       />
       <textarea
         ref={textRef}

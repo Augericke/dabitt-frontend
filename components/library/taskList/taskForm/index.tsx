@@ -1,7 +1,7 @@
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BsPlusCircle } from "react-icons/bs";
-import { CategoryModel, TaskModel } from "../../../../types/task";
+import { CategoryModel, IconColors, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import Popover from "../../popover";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
@@ -12,13 +12,19 @@ type TaskFormProps = {
   category: CategoryModel;
   tasks: TaskModel[];
   setTasks: React.Dispatch<React.SetStateAction<TaskModel[]>>;
+  categoryColor: IconColors;
 };
 
-const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
+const TaskForm: React.FC<TaskFormProps> = ({
+  category,
+  tasks,
+  setTasks,
+  categoryColor,
+}) => {
   const { getAccessTokenSilently } = useAuth0();
   const { textColor, outlineColor } = getSelectableColorClass(
     styles,
-    category.iconColor,
+    categoryColor,
   );
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskTimeEstimate, setTaskTimeEstimate] = useState({

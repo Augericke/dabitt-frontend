@@ -1,23 +1,24 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { getSelectableColorClass } from "../../../utils/selectableColorClass";
+import { IconColors } from "../../../types/task";
 
 const styles = require("./tickBox.module.scss");
 
 type TickBoxProps = {
   isTicked: boolean;
   onClick: () => void;
-  selectedColor?: string;
+  categoryColor: IconColors;
 };
 
 const TickBox: React.FC<TickBoxProps> = ({
   isTicked,
   onClick,
-  selectedColor = "",
+  categoryColor,
 }) => {
   const { backgroundColor, borderColor } = getSelectableColorClass(
     styles,
-    selectedColor,
+    categoryColor,
   );
 
   const tickVariants = {

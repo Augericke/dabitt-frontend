@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import CategoryHeader from "./categoryHeader";
 import TaskItem from "./taskItem";
 import TaskForm from "./taskForm";
-import { CategoryModel, TaskModel } from "../../../types/task";
+import { CategoryModel, IconColors, TaskModel } from "../../../types/task";
 
 const styles = require("./taskList.module.scss");
 
@@ -19,12 +19,17 @@ const TaskList: React.FC<TaskListProps> = ({
   setCategories,
 }) => {
   const [tasks, setTasks] = useState(category.tasks);
+  const [categoryColor, setCategoryColor] = useState<IconColors>(
+    category.iconColor,
+  );
   return (
     <section className={styles.categoryContainer}>
       <CategoryHeader
         category={category}
         categories={categories}
         setCategories={setCategories}
+        categoryColor={categoryColor}
+        setCategoryColor={setCategoryColor}
         count={tasks.length}
       />
       <div className={styles.taskListContainer}>
@@ -37,11 +42,17 @@ const TaskList: React.FC<TaskListProps> = ({
                 task={task}
                 tasks={tasks}
                 setTasks={setTasks}
+                categoryColor={categoryColor}
               />
             );
           })}
           <li>
-            <TaskForm category={category} tasks={tasks} setTasks={setTasks} />
+            <TaskForm
+              category={category}
+              tasks={tasks}
+              setTasks={setTasks}
+              categoryColor={categoryColor}
+            />
           </li>
         </ul>
       </div>
