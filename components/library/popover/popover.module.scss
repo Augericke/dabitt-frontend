@@ -1,5 +1,11 @@
 .popoverContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
+}
+
+.popoverButtonContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,25 +36,12 @@
   }
 }
 
-.hiddenContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  cursor: default;
-  z-index: 1;
-}
-
 .menuContainer {
   position: absolute;
   list-style-type: none;
   background-color: var(--subtle-color);
   border-radius: 5px;
-  top: 150%;
+  top: 100%;
   padding: 10px;
   z-index: 1;
 

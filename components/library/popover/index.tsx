@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, ReactElement } from "react";
+import React, { useState, useRef, ReactElement } from "react";
+import { useOutsideClick } from "../../../utils/hooks/useOutsideClick";
 import { TbDots, TbClock } from "react-icons/tb";
 import { RiSettings5Fill } from "react-icons/ri";
 
@@ -19,7 +20,15 @@ const Popover: React.FC<PopoverProps> = ({
   iconText,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Hide Menu when click outside of popover container
+  const wrapperRef = useRef(null);
+  useOutsideClick(wrapperRef, () => setShowMenu(false));
+
+  const handleSelection = (callback: () => void) => {
+    callback();
+    setShowMenu(false);
+  };
 
   let icon = <></>;
   switch (iconType) {
@@ -36,46 +45,36 @@ const Popover: React.FC<PopoverProps> = ({
       icon = <TbDots size={20} />;
   }
 
-  useEffect(() => {
-    if (showMenu && menuRef.current) {
-      menuRef.current.focus();
-    }
-  }, [showMenu, menuRef]);
-
   return (
-    <>
+    <div ref={showMenu ? wrapperRef : null} className={styles.popoverContainer}>
       <button
         type="button"
-        className={styles.popoverContainer}
+        className={styles.popoverButtonContainer}
         onClick={() => setShowMenu(!showMenu)}
       >
         <span className={styles.iconContainer}>
           {icon} {iconText}
         </span>
-
-        {/* Hidden div to close menu when clicked off */}
-        {showMenu && (
-          <>
-            <div ref={menuRef} className={styles.hiddenContainer} />
-            <ul
-              className={showMenu ? styles.menuContainer : styles.hideElement}
-            >
-              {menuItems.map((item, index) => {
-                return (
-                  <li
-                    key={index}
+      </button>
+      {showMenu && (
+        <>
+          <ul className={showMenu ? styles.menuContainer : styles.hideElement}>
+            {menuItems.map((item, index) => {
+              return (
+                <li key={index}>
+                  <button
                     className={styles.menuItem}
-                    onClick={item.onClick}
+                    onClick={() => handleSelection(item.onClick)}
                   >
                     {item.content}
-                  </li>
-                );
-              })}
-            </ul>
-          </>
-        )}
-      </button>
-    </>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </>
+      )}
+    </div>
   );
 };
 
