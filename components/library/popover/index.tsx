@@ -10,16 +10,28 @@ type PopoverProps = {
     content: JSX.Element;
     onClick: () => void;
   }[];
-  iconType?: "dots" | "gear" | "clock";
+  iconType?: "dots" | "gear" | "clock" | "none";
   iconText?: string | ReactElement;
+  customButtonClass?: string;
+  customMenuClass?: string;
 };
 
 const Popover: React.FC<PopoverProps> = ({
   menuItems,
   iconType = "dots",
   iconText,
+  customButtonClass,
+  customMenuClass,
 }) => {
   const [showMenu, setShowMenu] = useState(false);
+
+  const buttonContainer = customButtonClass
+    ? `${styles.popoverButtonContainer} ${customButtonClass}`
+    : styles.popoverButtonContainer;
+
+  const menuContainer = customMenuClass
+    ? `${styles.menuContainer} ${customMenuClass}`
+    : styles.menuContainer;
 
   // Hide Menu when click outside of popover container
   const wrapperRef = useRef(null);
@@ -41,6 +53,9 @@ const Popover: React.FC<PopoverProps> = ({
     case "clock":
       icon = <TbClock size={15} />;
       break;
+    case "none":
+      icon = <></>;
+      break;
     default:
       icon = <TbDots size={20} />;
   }
@@ -49,7 +64,7 @@ const Popover: React.FC<PopoverProps> = ({
     <div ref={showMenu ? wrapperRef : null} className={styles.popoverContainer}>
       <button
         type="button"
-        className={styles.popoverButtonContainer}
+        className={buttonContainer}
         onClick={() => setShowMenu(!showMenu)}
       >
         <span className={styles.iconContainer}>
@@ -58,12 +73,12 @@ const Popover: React.FC<PopoverProps> = ({
       </button>
       {showMenu && (
         <>
-          <ul className={showMenu ? styles.menuContainer : styles.hideElement}>
+          <ul className={showMenu ? menuContainer : styles.hideElement}>
             {menuItems.map((item, index) => {
               return (
                 <li key={index}>
                   <button
-                    className={styles.menuItem}
+                    className={styles.menuItemButton}
                     onClick={() => handleSelection(item.onClick)}
                   >
                     {item.content}

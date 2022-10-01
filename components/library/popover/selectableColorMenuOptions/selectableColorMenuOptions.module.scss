@@ -1,0 +1,17 @@
+@use "../../../../styles/selectableColors";
+
+.itemInfoContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px;
+  gap: 15px;
+  cursor: pointer;
+  text-transform: capitalize;
+  font-size: 12px;
+}
+
+.colorIcon {
+  padding: 10px;
+  border-radius: 50%;
+}

@@ -5,7 +5,7 @@ import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
 import { CategoryModel, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
-import { useSelectableColors } from "../../../../utils/hooks/useSelectableColors";
+import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 
 const styles = require("./taskItem.module.scss");
 
@@ -26,7 +26,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const { getAccessTokenSilently } = useAuth0();
 
   // Text Area
-  const { borderColor } = useSelectableColors(styles, category.iconColor);
+  const { borderColor } = getSelectableColorClass(styles, category.iconColor);
   const [taskDescription, setTaskDescription] = useState(task.description);
   const [checkSpelling, setCheckSpelling] = useState(false);
 

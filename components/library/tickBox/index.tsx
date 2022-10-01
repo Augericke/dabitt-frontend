@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { useSelectableColors } from "../../../utils/hooks/useSelectableColors";
+import { getSelectableColorClass } from "../../../utils/selectableColorClass";
 
 const styles = require("./tickBox.module.scss");
 
@@ -15,7 +15,7 @@ const TickBox: React.FC<TickBoxProps> = ({
   onClick,
   selectedColor = "",
 }) => {
-  const { backgroundColor, borderColor } = useSelectableColors(
+  const { backgroundColor, borderColor } = getSelectableColorClass(
     styles,
     selectedColor,
   );

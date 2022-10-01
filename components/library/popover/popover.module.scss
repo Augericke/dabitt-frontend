@@ -17,6 +17,7 @@
   transition: background-color 200ms;
   background: none;
   border: none;
+  max-height: 200px;
 
   // Disable text selection on double click
   user-select: none;
@@ -45,7 +46,7 @@
   padding: 10px;
   z-index: 1;
 
-  .menuItem {
+  .menuItemButton {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -55,7 +56,7 @@
     font-size: 14px;
     line-height: 0;
     border-radius: 3px;
-    width: 200px;
+    width: 150px;
     padding: 10px;
     z-index: 2;
     opacity: 0.5;

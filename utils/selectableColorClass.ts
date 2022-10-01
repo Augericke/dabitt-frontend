@@ -1,6 +1,6 @@
-// Exportable useable scss classes for coloring user selected elements
-// however, does require importing _selectableColors.scss  in the styles module file
-export const useSelectableColors = (styles: any, color: string) => {
+import { IconColors } from "../types/task";
+
+export const getSelectableColorClass = (styles: any, color: IconColors) => {
   let backgroundColor: string;
   let outlineColor: string;
   let textColor: string;

@@ -1,16 +1,18 @@
 import React, {
   Dispatch,
   SetStateAction,
+  useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import categoryService from "../../../../utils/services/category";
-import { CategoryModel } from "../../../../types/task";
+import { CategoryModel, IconColors } from "../../../../types/task";
 import Popover from "../../popover";
 import { getMenuItems } from "./categoryMenuOptions";
-import { useSelectableColors } from "../../../../utils/hooks/useSelectableColors";
+import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
+import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -27,10 +29,13 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   setCategories,
   count,
 }) => {
-  const { getAccessTokenSilently } = useAuth0();
-  const { backgroundColor, borderColor } = useSelectableColors(
-    styles,
+  const [selectedColor, setSelectedColor] = useState<IconColors>(
     category.iconColor,
+  );
+  const { getAccessTokenSilently } = useAuth0();
+  const { backgroundColor, borderColor } = getSelectableColorClass(
+    styles,
+    selectedColor,
   );
   const [categoryName, setCategoryName] = useState(category.name);
   const textRef = useRef<any>();
@@ -39,16 +44,15 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     setCategoryName(event.target.value);
   };
 
-  const onBlur = () => {
-    if (!categoryName || categoryName === category.name) {
-      setCategoryName(category.name);
-    } else {
-      setCategoryName(categoryName.trim());
-      updateCategory();
-    }
+  const onColorChangeHandler = (color: IconColors) => {
+    setSelectedColor(color);
   };
 
-  const updateCategory = async () => {
+  const onBlur = () => {
+    updateCategory({ name: categoryName });
+  };
+
+  const updateCategory = async (body: {}) => {
     try {
       if (categoryName) {
         const token = await getAccessTokenSilently({
@@ -61,12 +65,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             Authorization: `Bearer ${token}`,
           },
         };
-
-        await categoryService.update(
-          category.id,
-          { name: categoryName },
-          header,
-        );
+        await categoryService.update(category.id, body, header);
       }
     } catch (error) {
       console.error(error);
@@ -117,9 +116,17 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           onBlur={onBlur}
           maxLength={25}
         />
-        <div className={`${styles.categoryCount} ${backgroundColor}`}>
-          {count}
-        </div>
+        <Popover
+          customButtonClass={styles.customPopoverClass}
+          customMenuClass={styles.customMenuClass}
+          menuItems={getSelectableColorMenuOptions(onColorChangeHandler)}
+          iconType="none"
+          iconText={
+            <span className={`${styles.categoryCount} ${backgroundColor}`}>
+              {count}
+            </span>
+          }
+        />
       </hgroup>
       <Popover
         menuItems={getMenuItems(textRef, deleteCategory)}

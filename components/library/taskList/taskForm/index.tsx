@@ -4,7 +4,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import Popover from "../../popover";
-import { useSelectableColors } from "../../../../utils/hooks/useSelectableColors";
+import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 
 const styles = require("./taskForm.module.scss");
 
@@ -16,7 +16,7 @@ type TaskFormProps = {
 
 const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
   const { getAccessTokenSilently } = useAuth0();
-  const { textColor, outlineColor } = useSelectableColors(
+  const { textColor, outlineColor } = getSelectableColorClass(
     styles,
     category.iconColor,
   );
