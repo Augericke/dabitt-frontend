@@ -1,0 +1,145 @@
+$category-color-default: var(--icon-color);
+$category-color-default-secondary: var(--subtle-color);
+$category-color-forest: #54655c;
+$category-color-coffee: #b78b6c;
+$category-color-blush: #9f6c66;
+$category-color-tan: #c9a069;
+$category-color-space: #322b41;
+$category-color-steel: #6d848a;
+$category-color-copper: #9f6c66;
+$category-color-pine-cone: #655554;
+
+@mixin text-colors {
+  color: $category-color-default;
+
+  &Default {
+    color: $category-color-default;
+  }
+
+  &DefaultSecondary {
+    color: $category-color-default-secondary;
+  }
+
+  &Forest {
+    color: $category-color-forest;
+  }
+
+  &Coffee {
+    color: $category-color-coffee;
+  }
+
+  &Blush {
+    color: $category-color-blush;
+  }
+
+  &Tan {
+    color: $category-color-tan;
+  }
+
+  &Space {
+    color: $category-color-space;
+  }
+
+  &Steel {
+    color: $category-color-steel;
+  }
+
+  &Copper {
+    color: $category-color-copper;
+  }
+
+  &PineCone {
+    color: $category-color-pine-cone;
+  }
+}
+
+@mixin colors-for-property($property) {
+  #{$property}: $category-color-default;
+
+  &Default {
+    #{$property}: $category-color-default;
+  }
+
+  &DefaultSecondary {
+    #{$property}: $category-color-default-secondary;
+  }
+
+  &Forest {
+    #{$property}: $category-color-forest;
+  }
+
+  &Coffee {
+    #{$property}: $category-color-coffee;
+  }
+
+  &Blush {
+    #{$property}: $category-color-blush;
+  }
+
+  &Tan {
+    #{$property}: $category-color-tan;
+  }
+
+  &Space {
+    #{$property}: $category-color-space;
+  }
+
+  &Steel {
+    #{$property}: $category-color-steel;
+  }
+
+  &Copper {
+    #{$property}: $category-color-copper;
+  }
+
+  &PineCone {
+    #{$property}: $category-color-pine-cone;
+  }
+}
+
+.textColor {
+  @include text-colors();
+}
+
+.borderColor {
+  @include colors-for-property(border-color);
+}
+
+.backgroundColor {
+  @include colors-for-property(background-color);
+}
+
+.outlineColor {
+  @include colors-for-property(outline-color);
+}
+
+:export {
+  category-color-default: $category-color-default;
+}
+:export {
+  category-color-default-secondary: $category-color-default-secondary;
+}
+:export {
+  category-color-forest: $category-color-forest;
+}
+:export {
+  category-color-forest: $category-color-coffee;
+}
+:export {
+  category-color-forest: $category-color-blush;
+}
+:export {
+  category-color-forest: $category-color-tan;
+}
+:export {
+  category-color-forest: $category-color-space;
+}
+:export {
+  category-color-forest: $category-color-steel;
+}
+:export {
+  category-color-forest: $category-color-copper;
+}
+:export {
+  category-color-forest: $category-color-pine-cone;
+}

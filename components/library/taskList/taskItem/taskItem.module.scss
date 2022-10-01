@@ -1,3 +1,5 @@
+@use "../../../../styles/selectableColors";
+
 .taskItem {
   display: flex;
   align-items: center;
@@ -20,10 +22,9 @@
     width: 100%;
     padding: 0;
     resize: none;
-    border-left: 0px solid var(--icon-color);
     overflow-y: hidden;
     word-wrap: break-word;
-    transition: border 100ms, padding 400ms;
+    transition: border 100ms, margin 400ms;
 
     // Hide Scroll Bar
     -ms-overflow-style: none; /* IE and Edge */
@@ -34,8 +35,13 @@
 
     &:focus {
       outline: none;
+      margin-left: 5px;
       padding-left: 10px;
-      border-left: 2px solid var(--icon-color);
+      border-width: 2px;
+      border-top: 0px;
+      border-bottom: 0px;
+      border-right: 0px;
+      border-style: solid;
       border-radius: 1px;
     }
   }

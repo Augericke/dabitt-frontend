@@ -10,6 +10,7 @@ import categoryService from "../../../../utils/services/category";
 import { CategoryModel } from "../../../../types/task";
 import Popover from "../../popover";
 import { getMenuItems } from "./categoryMenuOptions";
+import { useSelectableColors } from "../../../../utils/hooks/useSelectableColors";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -27,6 +28,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   count,
 }) => {
   const { getAccessTokenSilently } = useAuth0();
+  const { backgroundColor } = useSelectableColors(styles, category.iconColor);
   const [categoryName, setCategoryName] = useState(category.name);
   const textRef = useRef<any>();
 
@@ -112,7 +114,9 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           onBlur={onBlur}
           maxLength={25}
         />
-        <div className={styles.categoryCount}>{count}</div>
+        <div className={`${styles.categoryCount} ${backgroundColor}`}>
+          {count}
+        </div>
       </hgroup>
       <Popover
         menuItems={getMenuItems(textRef, deleteCategory)}

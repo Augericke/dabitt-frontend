@@ -4,6 +4,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import Popover from "../../popover";
+import { useSelectableColors } from "../../../../utils/hooks/useSelectableColors";
 
 const styles = require("./taskForm.module.scss");
 
@@ -15,6 +16,10 @@ type TaskFormProps = {
 
 const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
   const { getAccessTokenSilently } = useAuth0();
+  const { textColor, outlineColor } = useSelectableColors(
+    styles,
+    category.iconColor,
+  );
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskTimeEstimate, setTaskTimeEstimate] = useState({
     displayText: "15 minutes",
@@ -85,14 +90,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, tasks, setTasks }) => {
         }
         type="submit"
       >
-        <span className={styles.addIcon}>
+        <span className={`${styles.addIcon} ${textColor}`}>
           <BsPlusCircle />
         </span>
       </button>
       <div className={styles.inputsContainer}>
         <textarea
           ref={textRef}
-          className={styles.taskInput}
+          className={`${styles.taskInput} ${outlineColor}`}
           placeholder="add task"
           value={newTaskDescription}
           onChange={handleDescription}

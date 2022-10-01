@@ -1,3 +1,5 @@
+@use "../../../../styles/selectableColors.scss";
+
 .categoryHeaderContainer {
   display: flex;
   align-items: center;
@@ -35,11 +37,10 @@
 
   .categoryCount {
     display: inline-block;
-    background-color: var(--foreground-color);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
     margin-left: 10px;
     font-weight: 300;
     font-size: 18px;

@@ -1,16 +1,18 @@
+@use "../../../styles/selectableColors";
+
 .tickBoxIcon {
   display: inline-block;
   height: 20px;
   width: 20px;
   border-radius: 20px;
-  border: 2px solid var(--icon-color);
-  background: none;
+  border-width: 2px;
+  border-style: solid;
   cursor: pointer;
   padding: 5px;
 
-  &Filled {
+  &Empty {
     @extend .tickBoxIcon;
-    background-color: var(--icon-color);
+    background: none;
   }
 }
 

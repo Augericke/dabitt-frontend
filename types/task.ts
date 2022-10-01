@@ -10,4 +10,15 @@ export type CategoryModel = {
   id: string;
   name: string;
   tasks: TaskModel[];
+  iconColor:
+    | "default"
+    | "default_secondary"
+    | "forest"
+    | "coffee"
+    | "blush"
+    | "tan"
+    | "space"
+    | "steel"
+    | "copper"
+    | "pine_cone";
 };

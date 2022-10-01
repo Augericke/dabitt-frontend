@@ -1,14 +1,25 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { useSelectableColors } from "../../../utils/hooks/useSelectableColors";
 
 const styles = require("./tickBox.module.scss");
 
 type TickBoxProps = {
   isTicked: boolean;
   onClick: () => void;
+  selectedColor?: string;
 };
 
-const TickBox: React.FC<TickBoxProps> = ({ isTicked, onClick }) => {
+const TickBox: React.FC<TickBoxProps> = ({
+  isTicked,
+  onClick,
+  selectedColor = "",
+}) => {
+  const { backgroundColor, borderColor } = useSelectableColors(
+    styles,
+    selectedColor,
+  );
+
   const tickVariants = {
     pressed: { scale: 0.95 },
     ticked: {
@@ -29,7 +40,11 @@ const TickBox: React.FC<TickBoxProps> = ({ isTicked, onClick }) => {
 
   return (
     <motion.button
-      className={isTicked ? styles.tickBoxIconFilled : styles.tickBoxIcon}
+      className={
+        isTicked
+          ? `${styles.tickBoxIcon} ${backgroundColor} ${borderColor}`
+          : `${styles.tickBoxIconEmpty} ${borderColor}`
+      }
       animate={isTicked ? "ticked" : "unticked"}
       whileTap="pressed"
       onClick={onClick}
