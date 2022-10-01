@@ -34,6 +34,8 @@
 
 .inputsContainer {
   display: flex;
+  align-items: center;
+  width: 79%;
   gap: 15px;
 
   .taskInput {
