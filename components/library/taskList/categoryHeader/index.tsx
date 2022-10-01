@@ -28,7 +28,10 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   count,
 }) => {
   const { getAccessTokenSilently } = useAuth0();
-  const { backgroundColor } = useSelectableColors(styles, category.iconColor);
+  const { backgroundColor, borderColor } = useSelectableColors(
+    styles,
+    category.iconColor,
+  );
   const [categoryName, setCategoryName] = useState(category.name);
   const textRef = useRef<any>();
 
@@ -107,7 +110,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
       <hgroup className={styles.categoryTitleContainer}>
         <input
           ref={textRef}
-          className={styles.categoryInput}
+          className={`${styles.categoryInput} ${borderColor}`}
           value={categoryName}
           onChange={onChangeHandler}
           onKeyDown={onEnterSubmit}

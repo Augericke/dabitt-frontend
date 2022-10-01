@@ -2,13 +2,11 @@
 
 .tickBoxIcon {
   display: inline-block;
-  height: 20px;
-  width: 20px;
-  border-radius: 20px;
+  border-radius: 50%;
   border-width: 2px;
   border-style: solid;
   cursor: pointer;
-  padding: 5px;
+  padding: 10px;
 
   &Empty {
     @extend .tickBoxIcon;

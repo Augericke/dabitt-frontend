@@ -17,7 +17,7 @@
     background: none;
     font-size: 26px;
     transition: padding 400ms, margin 400ms;
-    border-bottom: 0px solid var(--icon-color);
+    // border-bottom: 0px solid var(--icon-color);
 
     // Hide Scroll Bar
     -ms-overflow-style: none; /* IE and Edge */
@@ -30,7 +30,13 @@
       outline: none;
       margin-right: 10px;
       padding-bottom: 5px;
-      border-bottom: 2px solid var(--icon-color);
+      // border-bottom: 2px solid var(--icon-color);
+      border-radius: 1px;
+      border-width: 2px;
+      border-top: 0px;
+      border-left: 0px;
+      border-right: 0px;
+      border-style: solid;
       border-radius: 1px;
     }
   }
