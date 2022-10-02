@@ -38,23 +38,12 @@
       border-radius: 1px;
     }
   }
-
-  .categoryCount {
-    display: inline-block;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
-    margin-left: 10px;
-    font-weight: 300;
-    font-size: 18px;
-    text-align: center;
-  }
 }
 
 .customPopoverClass {
   color: var(--text-color);
   transition: transform 400ms;
+  margin-left: 10px;
 
   &:hover {
     background: none;
@@ -64,4 +53,15 @@
 .customMenuClass {
   max-height: 200px;
   overflow-y: scroll;
+}
+
+.categoryCount {
+  display: inline-block;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  font-weight: 300;
+  font-size: 18px;
+  text-align: center;
 }
