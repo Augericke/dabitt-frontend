@@ -47,15 +47,20 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
 
   const onColorChangeHandler = (color: IconColors) => {
     setCategoryColor(color);
+    updateCategory({ iconColor: color });
   };
 
   const onBlur = () => {
-    updateCategory({ name: categoryName });
+    if (categoryName !== category.name) {
+      const newName = categoryName === "" ? category.name : categoryName.trim();
+      setCategoryName(newName);
+      updateCategory({ name: newName });
+    }
   };
 
-  const updateCategory = async (body: {}) => {
-    try {
-      if (categoryName) {
+  const updateCategory = useCallback(
+    async (body: { name?: string; iconColor?: string }) => {
+      try {
         const token = await getAccessTokenSilently({
           audience: "API/dabitt",
           scope: "",
@@ -67,11 +72,12 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           },
         };
         await categoryService.update(category.id, body, header);
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    },
+    [category.id, getAccessTokenSilently],
+  );
 
   const deleteCategory = async () => {
     try {
