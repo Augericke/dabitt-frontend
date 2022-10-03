@@ -42,4 +42,21 @@ function getYesterdayTodayTomorrow(): YesterdayTodayTomorrow {
   return dates;
 }
 
-export { formatDate, getYesterdayTodayTomorrow };
+function displayHourMinutes(minutes: number): string {
+  const hours = minutes / 60;
+  const completeHours = Math.floor(hours);
+  const remainingMinutes = Math.round((hours - completeHours) * 60);
+
+  const hourText =
+    completeHours > 0
+      ? `${completeHours} hour${completeHours > 1 ? "s" : ""}`
+      : "";
+
+  const minuteText =
+    remainingMinutes > 0
+      ? `${remainingMinutes} minute${remainingMinutes > 1 ? "s" : ""}`
+      : "";
+  return `${hourText} ${minuteText}`;
+}
+
+export { formatDate, getYesterdayTodayTomorrow, displayHourMinutes };
