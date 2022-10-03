@@ -6,6 +6,7 @@ import { getMenuItems } from "./taskMenuOptions";
 import { CategoryModel, IconColors, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
+import useFontFaceObserver from "use-font-face-observer";
 
 const styles = require("./taskItem.module.scss");
 
@@ -29,7 +30,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   // Text Area
   const { borderColor } = getSelectableColorClass(styles, categoryColor);
-  const [taskDescription, setTaskDescription] = useState(task.description);
+  const [taskDescription, setTaskDescription] = useState("loading...");
   const [checkSpelling, setCheckSpelling] = useState(false);
 
   // Time Estimate
@@ -49,8 +50,17 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   // Resize textArea based on description length
   const textRef = useRef<any>();
+  const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
+
+  // Wait until fonts loaded before initial render so height matches
   useEffect(() => {
-    textRef.current.style.height = "1px";
+    if (isFontListLoaded) {
+      setTaskDescription(task.description);
+    }
+  }, [isFontListLoaded, task.description]);
+
+  useEffect(() => {
+    textRef.current.style.height = "0px";
     const scrollHeight = textRef.current.scrollHeight;
     textRef.current.style.height = `${scrollHeight}px`;
   }, [taskDescription]);
@@ -150,6 +160,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       />
       <textarea
         ref={textRef}
+        id="textarea"
         className={`${styles.taskInput} ${borderColor}`}
         placeholder="add task"
         spellCheck={checkSpelling}

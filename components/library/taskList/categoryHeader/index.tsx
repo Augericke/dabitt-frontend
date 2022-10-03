@@ -13,6 +13,7 @@ import Popover from "../../popover";
 import { getMenuItems } from "./categoryMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
+import useFontFaceObserver from "use-font-face-observer";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -38,8 +39,9 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     styles,
     categoryColor,
   );
-  const [categoryName, setCategoryName] = useState(category.name);
+  const [categoryName, setCategoryName] = useState("loading...");
   const textRef = useRef<any>();
+  const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(event.target.value);
@@ -104,9 +106,16 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     }
   };
 
-  //TODO: fix issue with initial render having wrong length
+  // Wait until fonts loaded before initial render so width matches
   useEffect(() => {
-    textRef.current.style.width = `0px`;
+    if (isFontListLoaded) {
+      setCategoryName(category.name);
+    }
+  }, [isFontListLoaded, category.name]);
+
+  // Expand text input horizontally with input
+  useEffect(() => {
+    textRef.current.style.width = "0px";
     const scrollWidth = textRef.current.scrollWidth;
     textRef.current.style.width = `${scrollWidth}px`;
   }, [categoryName]);
