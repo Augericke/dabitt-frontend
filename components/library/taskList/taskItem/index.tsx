@@ -1,9 +1,15 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  SetStateAction,
+  Dispatch,
+} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
-import { IconColors, TaskModel } from "../../../../types/task";
+import { CategoryModel, IconColors, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
@@ -13,6 +19,8 @@ import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions"
 const styles = require("./taskItem.module.scss");
 
 type TaskItemProps = {
+  categories: CategoryModel[] | null;
+  setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
   task: TaskModel;
   tasks: TaskModel[];
   setTasks: React.Dispatch<React.SetStateAction<TaskModel[]>>;

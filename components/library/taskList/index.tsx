@@ -39,6 +39,7 @@ const TaskList: React.FC<TaskListProps> = ({
               <TaskItem
                 key={task.id}
                 category={category}
+                setCategories={setCategories}
                 task={task}
                 tasks={tasks}
                 setTasks={setTasks}

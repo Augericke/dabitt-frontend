@@ -59,7 +59,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   };
 
   const updateCategory = useCallback(
-    async (body: { name?: string; iconColor?: string }) => {
+    async (body: { name?: string; iconColor?: IconColors }) => {
       try {
         const token = await getAccessTokenSilently({
           audience: "API/dabitt",

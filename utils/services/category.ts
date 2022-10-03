@@ -1,5 +1,5 @@
 import { api } from "../environmentManager";
-import { CategoryModel, IconColorEnum } from "../../types/task";
+import { CategoryModel, IconColors } from "../../types/task";
 
 const create = async (data: { name: string }, headers: {}) => {
   const response = await api.post<CategoryModel>("/category", data, headers);
@@ -8,7 +8,7 @@ const create = async (data: { name: string }, headers: {}) => {
 
 const update = async (
   id: string,
-  data: { name?: string; iconColor?: IconColorEnum },
+  data: { name?: string; iconColor?: IconColors },
   headers: {},
 ) => {
   const response = await api.put(`/category/${id}`, data, headers);
