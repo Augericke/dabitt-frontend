@@ -14,6 +14,7 @@ import { getMenuItems } from "./categoryMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import useFontFaceObserver from "use-font-face-observer";
+import produce from "immer";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -21,23 +22,17 @@ type CategoryHeaderProps = {
   category: CategoryModel;
   categories: CategoryModel[] | null;
   setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
-  categoryColor: IconColors;
-  setCategoryColor: React.Dispatch<React.SetStateAction<IconColors>>;
-  count: number;
 };
 
 const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   category,
   categories,
   setCategories,
-  categoryColor,
-  setCategoryColor,
-  count,
 }) => {
   const { getAccessTokenSilently } = useAuth0();
   const { backgroundColor, borderColor } = getSelectableColorClass(
     styles,
-    categoryColor,
+    category.iconColor,
   );
   const [categoryName, setCategoryName] = useState("loading...");
 
@@ -46,8 +41,17 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   };
 
   const onColorChangeHandler = (color: IconColors) => {
-    setCategoryColor(color);
     updateCategory({ iconColor: color });
+    setCategories(
+      produce((draft) => {
+        if (draft) {
+          const index = draft?.findIndex(
+            (updatedCategory) => updatedCategory.id === category.id,
+          );
+          if (index !== -1) draft[index].iconColor = color;
+        }
+      }),
+    );
   };
 
   const onBlur = () => {
@@ -55,6 +59,16 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
       const newName = categoryName === "" ? category.name : categoryName.trim();
       setCategoryName(newName);
       updateCategory({ name: newName });
+      setCategories(
+        produce((draft) => {
+          if (draft) {
+            const index = draft?.findIndex(
+              (updatedCategory) => updatedCategory.id === category.id,
+            );
+            if (index !== -1) draft[index].name = newName;
+          }
+        }),
+      );
     }
   };
 
@@ -139,7 +153,8 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           iconType="none"
           iconText={
             <span className={`${styles.categoryCount} ${backgroundColor}`}>
-              {count}
+              {categories?.find((cat) => cat.id === category.id)?.tasks
+                .length || 0}
             </span>
           }
         />

@@ -9,12 +9,14 @@ const styles = require("./taskList.module.scss");
 
 type TaskListProps = {
   category: CategoryModel;
+  categoryId: string;
   categories: CategoryModel[] | null;
   setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
 
 const TaskList: React.FC<TaskListProps> = ({
   category,
+  categoryId,
   categories,
   setCategories,
 }) => {
@@ -28,8 +30,6 @@ const TaskList: React.FC<TaskListProps> = ({
         category={category}
         categories={categories}
         setCategories={setCategories}
-        categoryColor={categoryColor}
-        setCategoryColor={setCategoryColor}
         count={tasks.length}
       />
       <div className={styles.taskListContainer}>
