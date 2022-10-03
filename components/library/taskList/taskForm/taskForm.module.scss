@@ -62,6 +62,7 @@
     &::placeholder {
       @extend .taskInput;
       font-weight: 200;
+      height: 28px;
       color: var(--subtle-color);
     }
 

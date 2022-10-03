@@ -40,8 +40,6 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     categoryColor,
   );
   const [categoryName, setCategoryName] = useState("loading...");
-  const textRef = useRef<any>();
-  const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(event.target.value);
@@ -107,6 +105,8 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   };
 
   // Wait until fonts loaded before initial render so width matches
+  const textRef = useRef<any>();
+  const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
   useEffect(() => {
     if (isFontListLoaded) {
       setCategoryName(category.name);

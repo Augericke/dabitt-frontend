@@ -3,11 +3,12 @@ import { useAuth0 } from "@auth0/auth0-react";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
-import { CategoryModel, IconColors, TaskModel } from "../../../../types/task";
+import { IconColors, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
+import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 
 const styles = require("./taskItem.module.scss");
 
@@ -33,30 +34,12 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const [checkSpelling, setCheckSpelling] = useState(false);
 
   // Time Estimate
-  //TODO: write date function get display text with just minute input
   const [taskTimeEstimate, setTaskTimeEstimate] = useState(
     task.estimateMinutes,
   );
 
   // Tick Box
   const [isTicked, setIsTicked] = useState(task.completedAt != null);
-
-  // Resize textArea based on description length
-  const textRef = useRef<any>();
-  const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
-
-  // Wait until fonts loaded before initial render so height matches
-  useEffect(() => {
-    if (isFontListLoaded) {
-      setTaskDescription(task.description);
-    }
-  }, [isFontListLoaded, task.description]);
-
-  useEffect(() => {
-    textRef.current.style.height = "0px";
-    const scrollHeight = textRef.current.scrollHeight;
-    textRef.current.style.height = `${scrollHeight}px`;
-  }, [taskDescription]);
 
   // Avoid users adding line breaks
   const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -141,6 +124,24 @@ const TaskItem: React.FC<TaskItemProps> = ({
     }
   };
 
+  // Resize textArea based on description length
+  const textRef = useRef<any>();
+  const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
+
+  // Wait until fonts loaded before initial render so height matches
+  useEffect(() => {
+    if (isFontListLoaded) {
+      setTaskDescription(task.description);
+    }
+  }, [isFontListLoaded, task.description]);
+
+  // Expand Textarea to input length
+  useEffect(() => {
+    textRef.current.style.height = "0px";
+    const scrollHeight = textRef.current.scrollHeight;
+    textRef.current.style.height = `${scrollHeight}px`;
+  }, [taskDescription]);
+
   return (
     <li className={styles.taskItem}>
       <TickBox
@@ -169,13 +170,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
               {displayHourMinutes(taskTimeEstimate)}
             </span>
           }
-          // Possible time estimate options
-          menuItems={[15, 30, 60, 120].map((time) => {
-            return {
-              content: <span>{displayHourMinutes(time)}</span>,
-              onClick: () => handleTimeChange(time),
-            };
-          })}
+          menuItems={getTimeEstimateMenuOptions(setTaskTimeEstimate)}
         />
       </div>
       <span className={styles.popoverContainer}>

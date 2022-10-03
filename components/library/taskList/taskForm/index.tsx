@@ -5,6 +5,8 @@ import { CategoryModel, IconColors, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import Popover from "../../popover";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
+import { displayHourMinutes } from "../../../../utils/dateComputer";
+import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
 
 const styles = require("./taskForm.module.scss");
 
@@ -27,10 +29,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
     categoryColor,
   );
   const [newTaskDescription, setNewTaskDescription] = useState("");
-  const [taskTimeEstimate, setTaskTimeEstimate] = useState({
-    displayText: "15 minutes",
-    minutes: 15,
-  });
+  const [taskTimeEstimate, setTaskTimeEstimate] = useState(15);
 
   const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTaskDescription(event.target.value.replace(/\n/g, ""));
@@ -42,14 +41,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
       return addTask(event);
     }
   };
-
-  // Resize textArea based on description length
-  const textRef = useRef<any>();
-  useEffect(() => {
-    textRef.current.style.height = "0px";
-    const scrollHeight = textRef.current.scrollHeight;
-    textRef.current.style.height = `${scrollHeight}px`;
-  }, [newTaskDescription]);
 
   const addTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -63,7 +54,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
         const data = {
           categoryId: category.id,
           description: newTaskDescription,
-          estimateMinutes: taskTimeEstimate.minutes,
+          estimateMinutes: taskTimeEstimate,
         };
 
         const header = {
@@ -76,15 +67,20 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
         setTasks([...tasks, addedTask]);
         setNewTaskDescription("");
-        setTaskTimeEstimate({
-          displayText: "15 minutes",
-          minutes: 15,
-        });
+        setTaskTimeEstimate(15);
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  // Resize textArea based on description length
+  const textRef = useRef<any>();
+  useEffect(() => {
+    textRef.current.style.height = "0px";
+    const scrollHeight = textRef.current.scrollHeight;
+    textRef.current.style.height = `${scrollHeight}px`;
+  }, [newTaskDescription]);
 
   return (
     <form className={styles.taskForm} onSubmit={addTask}>
@@ -110,7 +106,6 @@ const TaskForm: React.FC<TaskFormProps> = ({
           onKeyDown={taskEnterSubmit}
           maxLength={140}
         />
-        {/* TODO: break inputs into their own components */}
         <div
           className={
             newTaskDescription
@@ -122,43 +117,10 @@ const TaskForm: React.FC<TaskFormProps> = ({
             iconType="clock"
             iconText={
               <span className={styles.estimateLabel}>
-                {taskTimeEstimate.displayText}
+                {displayHourMinutes(taskTimeEstimate)}
               </span>
             }
-            menuItems={[
-              {
-                content: <span>15 minutes</span>,
-                onClick: () =>
-                  setTaskTimeEstimate({
-                    displayText: "15 minutes",
-                    minutes: 15,
-                  }),
-              },
-              {
-                content: <span>30 minutes</span>,
-                onClick: () =>
-                  setTaskTimeEstimate({
-                    displayText: "30 minutes",
-                    minutes: 30,
-                  }),
-              },
-              {
-                content: <span>1 hour</span>,
-                onClick: () =>
-                  setTaskTimeEstimate({
-                    displayText: "1 hour",
-                    minutes: 60,
-                  }),
-              },
-              {
-                content: <span>2 hour</span>,
-                onClick: () =>
-                  setTaskTimeEstimate({
-                    displayText: "2 hours",
-                    minutes: 120,
-                  }),
-              },
-            ]}
+            menuItems={getTimeEstimateMenuOptions(setTaskTimeEstimate)}
           />
         </div>
       </div>
