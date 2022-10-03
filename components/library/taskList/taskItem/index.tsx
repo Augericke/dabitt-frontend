@@ -12,7 +12,6 @@ import { displayHourMinutes } from "../../../../utils/dateComputer";
 const styles = require("./taskItem.module.scss");
 
 type TaskItemProps = {
-  category: CategoryModel;
   task: TaskModel;
   tasks: TaskModel[];
   setTasks: React.Dispatch<React.SetStateAction<TaskModel[]>>;
@@ -20,7 +19,6 @@ type TaskItemProps = {
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({
-  category,
   task,
   tasks,
   setTasks,
@@ -171,6 +169,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
               {displayHourMinutes(taskTimeEstimate)}
             </span>
           }
+          // Possible time estimate options
           menuItems={[15, 30, 60, 120].map((time) => {
             return {
               content: <span>{displayHourMinutes(time)}</span>,
