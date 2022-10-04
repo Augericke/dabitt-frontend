@@ -6,7 +6,7 @@ const styles = require("./timeEstimateMenuOptions.module.scss");
 export const getTimeEstimateMenuOptions = (
   handleTimeChange: (newEstimate: number) => void,
 ) => {
-  const menuItems = [15, 30, 60, 120].map((time) => {
+  const menuItems = [15, 30, 60, 120, 240].map((time) => {
     return {
       content: (
         <div className={styles.timeEstimateContainer}>
