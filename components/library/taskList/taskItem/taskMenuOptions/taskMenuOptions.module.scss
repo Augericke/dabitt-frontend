@@ -1,7 +1,7 @@
 .itemContainer {
   display: flex;
   justify-content: space-between;
-  width: 150px;
+  width: 100px;
   font-weight: 100;
   color: var(--text-color);
   font-size: 14px;
@@ -13,7 +13,6 @@
   @media only screen and (max-width: 768px) {
     gap: 10px;
     font-size: 10x;
-    width: 100px;
   }
 
   .itemInfoContainer {
@@ -22,15 +21,5 @@
     gap: 15px;
     cursor: pointer;
     background: none;
-  }
-
-  .itemShortcutContainer {
-    display: flex;
-    align-items: center;
-
-    .itemShortcut {
-      display: flex;
-      align-items: center;
-    }
   }
 }

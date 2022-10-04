@@ -169,7 +169,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
         />
       </hgroup>
       <Popover
-        direction="left"
+        customMenuClass={styles.customCategoryMenuClass}
         menuItems={getMenuItems(textRef, deleteCategory)}
         iconType="gear"
       />

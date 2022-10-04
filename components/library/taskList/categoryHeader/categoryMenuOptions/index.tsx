@@ -22,12 +22,6 @@ export const getMenuItems = (
           <div className={styles.itemInfoContainer}>
             <TbEdit /> edit
           </div>
-          <div className={styles.itemShortcutContainer}>
-            <kbd className={styles.itemShortcut}>
-              <TbCommand />
-            </kbd>
-            <kbd className={styles.itemShortcut}>E</kbd>
-          </div>
         </div>
       ),
       onClick: handleEditClick,
@@ -37,14 +31,6 @@ export const getMenuItems = (
         <div className={styles.itemContainer}>
           <div className={styles.itemInfoContainer}>
             <AiTwotoneDelete /> delete
-          </div>
-          <div className={styles.itemShortcutContainer}>
-            <kbd className={styles.itemShortcut}>
-              <TbCommand />
-            </kbd>
-            <kbd className={styles.itemShortcut}>
-              <TbBackspace />
-            </kbd>
           </div>
         </div>
       ),

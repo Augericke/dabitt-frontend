@@ -246,7 +246,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       </div>
       <span className={styles.popoverContainer}>
         <Popover
-          direction="left"
+          customMenuClass={styles.customTaskMenu}
           menuItems={getMenuItems(textRef, deleteTask)}
         />
       </span>
