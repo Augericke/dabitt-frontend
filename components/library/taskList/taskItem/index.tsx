@@ -15,29 +15,30 @@ import { getSelectableColorClass } from "../../../../utils/selectableColorClass"
 import useFontFaceObserver from "use-font-face-observer";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
+import produce from "immer";
 
 const styles = require("./taskItem.module.scss");
 
 type TaskItemProps = {
-  categories: CategoryModel[] | null;
+  category: CategoryModel;
   setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
   task: TaskModel;
   tasks: TaskModel[];
   setTasks: React.Dispatch<React.SetStateAction<TaskModel[]>>;
-  categoryColor: IconColors;
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({
+  category,
+  setCategories,
   task,
   tasks,
   setTasks,
-  categoryColor,
 }) => {
   // Requests
   const { getAccessTokenSilently } = useAuth0();
 
   // Text Area
-  const { borderColor } = getSelectableColorClass(styles, categoryColor);
+  const { borderColor } = getSelectableColorClass(styles, category.iconColor);
   const [taskDescription, setTaskDescription] = useState("loading...");
   const [checkSpelling, setCheckSpelling] = useState(false);
 
@@ -59,11 +60,28 @@ const TaskItem: React.FC<TaskItemProps> = ({
     const newDescription =
       taskDescription === "" ? task.description : taskDescription.trim();
     if (newDescription && newDescription !== task.description) {
-      const updateDate = {
+      const updateData = {
         description: taskDescription,
       };
 
-      updateTask(updateDate);
+      updateTask(updateData);
+      setCategories(
+        produce((draft) => {
+          if (draft) {
+            const index = draft?.findIndex(
+              (updatedCategory) => updatedCategory.id === category.id,
+            );
+            if (index !== -1) {
+              const taskIndex = draft[index].tasks.findIndex(
+                (updatedTask) => updatedTask.id === task.id,
+              );
+
+              if (taskIndex !== -1)
+                draft[index].tasks[taskIndex].description = taskDescription;
+            }
+          }
+        }),
+      );
     }
 
     setTaskDescription(newDescription);
@@ -71,15 +89,30 @@ const TaskItem: React.FC<TaskItemProps> = ({
   };
 
   const handleTickBox = () => {
-    let updateData = {};
-    if (isTicked) {
-      updateData = { completedAt: null };
-    } else {
-      updateData = { completedAt: new Date() };
+    let completedAt: Date | null = null;
+    if (!isTicked) {
+      completedAt = new Date();
     }
 
-    updateTask(updateData);
     setIsTicked(!isTicked);
+    updateTask({ completedAt: completedAt });
+    setCategories(
+      produce((draft) => {
+        if (draft) {
+          const index = draft?.findIndex(
+            (updatedCategory) => updatedCategory.id === category.id,
+          );
+          if (index !== -1) {
+            const taskIndex = draft[index].tasks.findIndex(
+              (updatedTask) => updatedTask.id === task.id,
+            );
+
+            if (taskIndex !== -1)
+              draft[index].tasks[taskIndex].completedAt = completedAt;
+          }
+        }
+      }),
+    );
   };
 
   const handleTimeChange = (newEstimate: number) => {
@@ -89,6 +122,23 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
     updateTask(updateData);
     setTaskTimeEstimate(newEstimate);
+    setCategories(
+      produce((draft) => {
+        if (draft) {
+          const index = draft?.findIndex(
+            (updatedCategory) => updatedCategory.id === category.id,
+          );
+          if (index !== -1) {
+            const taskIndex = draft[index].tasks.findIndex(
+              (updatedTask) => updatedTask.id === task.id,
+            );
+
+            if (taskIndex !== -1)
+              draft[index].tasks[taskIndex].estimateMinutes = newEstimate;
+          }
+        }
+      }),
+    );
   };
 
   const updateTask = async (updateData: {}) => {
@@ -155,7 +205,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       <TickBox
         isTicked={isTicked}
         onClick={handleTickBox}
-        categoryColor={categoryColor}
+        categoryColor={category.iconColor}
       />
       <textarea
         ref={textRef}
@@ -178,7 +228,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
               {displayHourMinutes(taskTimeEstimate)}
             </span>
           }
-          menuItems={getTimeEstimateMenuOptions(setTaskTimeEstimate)}
+          menuItems={getTimeEstimateMenuOptions(handleTimeChange)}
         />
       </div>
       <span className={styles.popoverContainer}>

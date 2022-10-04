@@ -16,7 +16,6 @@ type TaskListProps = {
 
 const TaskList: React.FC<TaskListProps> = ({
   category,
-  categoryId,
   categories,
   setCategories,
 }) => {
@@ -30,7 +29,6 @@ const TaskList: React.FC<TaskListProps> = ({
         category={category}
         categories={categories}
         setCategories={setCategories}
-        count={tasks.length}
       />
       <div className={styles.taskListContainer}>
         <ul className={styles.taskList}>
@@ -43,7 +41,6 @@ const TaskList: React.FC<TaskListProps> = ({
                 task={task}
                 tasks={tasks}
                 setTasks={setTasks}
-                categoryColor={categoryColor}
               />
             );
           })}
