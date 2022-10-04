@@ -115,31 +115,20 @@ $category-color-pine-cone: #655554;
 
 :export {
   category-color-default: $category-color-default;
-}
-:export {
   category-color-default-secondary: $category-color-default-secondary;
-}
-:export {
   category-color-forest: $category-color-forest;
-}
-:export {
-  category-color-forest: $category-color-coffee;
-}
-:export {
-  category-color-forest: $category-color-blush;
-}
-:export {
-  category-color-forest: $category-color-tan;
-}
-:export {
-  category-color-forest: $category-color-space;
-}
-:export {
-  category-color-forest: $category-color-steel;
-}
-:export {
-  category-color-forest: $category-color-copper;
-}
-:export {
-  category-color-forest: $category-color-pine-cone;
+  category-color-coffee: $category-color-coffee;
+  category-color-blush: $category-color-blush;
+  category-color-tan: $category-color-tan;
+  category-color-space: $category-color-space;
+  category-color-steel: $category-color-steel;
+  category-color-copper: $category-color-copper;
+  category-color-pine-cone: $category-color-pine-cone;
+
+  // Global colors
+  background-color: var(--background-color);
+  foreground-color: var(--foreground-color);
+  icon-color: var(--icon-color);
+  text-color: var(--text-color);
+  subtle-color: var(--subtle-color);
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import CalenderMap from "../../library/charts/calendarMap";
 
 const styles = require("./dashboard.module.scss");
 
@@ -9,7 +10,7 @@ const DashboardView: React.FC<DashboardViewProps> = (
 ) => {
   return (
     <div className={styles.placeHolderContainer}>
-      <p>gm world</p>
+      <CalenderMap />
     </div>
   );
 };
