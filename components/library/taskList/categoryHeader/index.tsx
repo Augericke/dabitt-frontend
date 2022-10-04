@@ -15,6 +15,7 @@ import { getSelectableColorClass } from "../../../../utils/selectableColorClass"
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import useFontFaceObserver from "use-font-face-observer";
 import produce from "immer";
+import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -128,6 +129,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
 
   // Wait until fonts loaded before initial render so width matches
   const textRef = useRef<any>();
+  const { width } = useWindowSize(); // ensure proper resize on screen change
   const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
   useEffect(() => {
     if (isFontListLoaded) {
@@ -140,7 +142,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     textRef.current.style.width = "0px";
     const scrollWidth = textRef.current.scrollWidth;
     textRef.current.style.width = `${scrollWidth}px`;
-  }, [categoryName]);
+  }, [categoryName, width]);
 
   return (
     <div className={styles.categoryHeaderContainer}>

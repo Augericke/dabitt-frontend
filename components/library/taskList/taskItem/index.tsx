@@ -16,6 +16,7 @@ import useFontFaceObserver from "use-font-face-observer";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 import produce from "immer";
+import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 
 const styles = require("./taskItem.module.scss");
 
@@ -195,6 +196,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   // Resize textArea based on description length
   const textRef = useRef<any>();
+  const { width, height } = useWindowSize(); // ensure proper resize on screen change
   const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
 
   // Wait until fonts loaded before initial render so height matches
@@ -209,7 +211,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
     textRef.current.style.height = "0px";
     const scrollHeight = textRef.current.scrollHeight;
     textRef.current.style.height = `${scrollHeight}px`;
-  }, [taskDescription]);
+  }, [taskDescription, width, height]);
 
   return (
     <li className={styles.taskItem}>
