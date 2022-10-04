@@ -1,3 +1,5 @@
+@use "../../../../styles//selectableColors";
+
 .categoryFormContainer {
   padding-top: 20px;
   width: 100%;
@@ -13,7 +15,6 @@
     background: none;
     padding: 0px;
     cursor: not-allowed;
-    color: var(--icon-color);
     opacity: 0.5;
     font-size: 25px;
     transition: opacity 200ms, font-size 400ms;
@@ -30,7 +31,6 @@
       @extend .addCategoryButton;
       cursor: pointer;
       font-size: 30px;
-      color: var(--icon-color);
       opacity: 1;
 
       @media only screen and (max-width: 768px) {
@@ -56,8 +56,8 @@
     background: none;
     width: 20vw;
     resize: none;
-    color: var(--foreground-color);
-    transition: width 400ms, color 800ms;
+    color: var(--text-color);
+    transition: padding 400ms, width 400ms, color 800ms;
 
     @media only screen and (max-width: 768px) {
       font-size: 18px;
@@ -72,14 +72,19 @@
 
     &Populated {
       @extend .categoryInput;
-      outline-color: var(--icon-color);
-      color: var(--text-color);
       font-weight: 800;
+      padding-left: 5px;
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 1px;
     }
 
     &:focus {
-      outline-color: var(--icon-color);
+      outline: none;
       padding-left: 5px;
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 1px;
     }
 
     &::placeholder {
@@ -90,4 +95,13 @@
       color: var(--subtle-color);
     }
   }
+}
+
+.customColorMenuClass {
+  max-height: 150px;
+  overflow-y: scroll;
+}
+.colorSelectorContainer {
+  padding: 10px;
+  border-radius: 50%;
 }

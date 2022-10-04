@@ -1,9 +1,12 @@
 import React, { useState, SetStateAction, Dispatch, FormEvent } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BsPlusCircle } from "react-icons/bs";
-import { CategoryModel } from "../../../../types/task";
+import { CategoryModel, colorList, IconColors } from "../../../../types/task";
 import categoryService from "../../../../utils/services/category";
 import produce from "immer";
+import Popover from "../../popover";
+import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
+import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 
 const styles = require("./categoryForm.module.scss");
 
@@ -18,6 +21,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 }) => {
   const { getAccessTokenSilently } = useAuth0();
   const [newCategoryName, setNewCategoryName] = useState("");
+  const [newCategoryColor, setNewCategoryColor] = useState<IconColors>(
+    colorList[0],
+  );
+  const { backgroundColor, borderColor, textColor } = getSelectableColorClass(
+    styles,
+    newCategoryColor,
+  );
 
   const handleCategoryName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewCategoryName(event.target.value);
@@ -34,6 +44,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
         const data = {
           name: newCategoryName,
+          iconColor: newCategoryColor,
         };
 
         const header = {
@@ -43,7 +54,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
         };
 
         const addedCategory = await categoryService.create(data, header);
-
         setNewCategoryName("");
         setCategories(
           produce((draft) => {
@@ -63,8 +73,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       <button
         className={
           newCategoryName
-            ? styles.addCategoryButtonPopulated
-            : styles.addCategoryButton
+            ? `${styles.addCategoryButtonPopulated} ${textColor}`
+            : `${styles.addCategoryButton} ${textColor}`
         }
         type="submit"
       >
@@ -74,13 +84,30 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
       </button>
       <input
         className={
-          newCategoryName ? styles.categoryInputPopulated : styles.categoryInput
+          newCategoryName
+            ? `${styles.categoryInputPopulated} ${borderColor}`
+            : `${styles.categoryInput} ${borderColor}`
         }
         placeholder="add category"
         value={newCategoryName}
         onChange={handleCategoryName}
         maxLength={25}
       />
+      {newCategoryName && (
+        <Popover
+          customButtonClass={styles.customPopoverClass}
+          customMenuClass={styles.customColorMenuClass}
+          menuItems={getSelectableColorMenuOptions((color: IconColors) =>
+            setNewCategoryColor(color),
+          )}
+          iconType="none"
+          iconText={
+            <span
+              className={`${styles.colorSelectorContainer} ${backgroundColor}`}
+            />
+          }
+        />
+      )}
     </form>
   );
 };
