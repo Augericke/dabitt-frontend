@@ -20,7 +20,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
   }, 0);
 
   chartData = chartData.map((data) => {
-    return { ...data, value: Math.round((data.value / totalValue) * 100) };
+    return { ...data, value: Math.ceil((data.value / totalValue) * 100) };
   });
 
   // Display completed values first

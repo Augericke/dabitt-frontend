@@ -10,6 +10,7 @@ type PopoverProps = {
     content: JSX.Element;
     onClick: () => void;
   }[];
+  direction?: "top" | "bottom" | "left" | "right";
   iconType?: "dots" | "gear" | "clock" | "none";
   iconText?: string | ReactElement;
   customButtonClass?: string;
@@ -18,6 +19,7 @@ type PopoverProps = {
 
 const Popover: React.FC<PopoverProps> = ({
   menuItems,
+  direction = "bottom",
   iconType = "dots",
   iconText,
   customButtonClass,
@@ -29,9 +31,27 @@ const Popover: React.FC<PopoverProps> = ({
     ? `${styles.popoverButtonContainer} ${customButtonClass}`
     : styles.popoverButtonContainer;
 
+  let menuContainerDirection: string;
+  switch (direction) {
+    case "top":
+      menuContainerDirection = styles.menuContainerTop;
+      break;
+    case "bottom":
+      menuContainerDirection = styles.menuContainerBottom;
+      break;
+    case "left":
+      menuContainerDirection = styles.menuContainerLeft;
+      break;
+    case "right":
+      menuContainerDirection = styles.menuContainerRight;
+      break;
+    default:
+      menuContainerDirection = styles.menuContainerTop;
+  }
+
   const menuContainer = customMenuClass
-    ? `${styles.menuContainer} ${customMenuClass}`
-    : styles.menuContainer;
+    ? `${menuContainerDirection} ${customMenuClass}`
+    : menuContainerDirection;
 
   // Hide Menu when click outside of popover container
   const wrapperRef = useRef(null);

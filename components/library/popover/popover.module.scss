@@ -42,9 +42,28 @@
   list-style-type: none;
   background-color: var(--subtle-color);
   border-radius: 5px;
-  top: 110%;
   padding: 10px;
   z-index: 1;
+
+  &Top {
+    @extend .menuContainer;
+    bottom: 110%;
+  }
+
+  &Bottom {
+    @extend .menuContainer;
+    top: 110%;
+  }
+
+  &Left {
+    @extend .menuContainer;
+    right: 110%;
+  }
+
+  &Right {
+    @extend .menuContainer;
+    left: 110%;
+  }
 
   .menuItemButton {
     display: flex;
