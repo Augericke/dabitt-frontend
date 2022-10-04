@@ -36,6 +36,14 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   );
   const [categoryName, setCategoryName] = useState("loading...");
 
+  let taskCount = 0;
+  if (categories) {
+    const currentCategory = categories.find((cat) => cat.id === category.id);
+    if (currentCategory) {
+      taskCount = currentCategory.tasks.length;
+    }
+  }
+
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(event.target.value);
   };
@@ -153,8 +161,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           iconType="none"
           iconText={
             <span className={`${styles.categoryCount} ${backgroundColor}`}>
-              {categories?.find((cat) => cat.id === category.id)?.tasks
-                .length || 0}
+              {taskCount}
             </span>
           }
         />

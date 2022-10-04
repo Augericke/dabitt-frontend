@@ -9,7 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
-import { CategoryModel, IconColors, TaskModel } from "../../../../types/task";
+import { CategoryModel, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
@@ -21,18 +21,15 @@ const styles = require("./taskItem.module.scss");
 
 type TaskItemProps = {
   category: CategoryModel;
+  categories: CategoryModel[] | null;
   setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
   task: TaskModel;
-  tasks: TaskModel[];
-  setTasks: React.Dispatch<React.SetStateAction<TaskModel[]>>;
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({
   category,
   setCategories,
   task,
-  tasks,
-  setTasks,
 }) => {
   // Requests
   const { getAccessTokenSilently } = useAuth0();
@@ -174,9 +171,23 @@ const TaskItem: React.FC<TaskItemProps> = ({
         },
       };
 
-      const updatedTasks = tasks.filter((tasks) => tasks.id != task.id);
       await taskService.destroy(task.id, header);
-      setTasks(updatedTasks);
+      setCategories(
+        produce((draft) => {
+          if (draft) {
+            const index = draft?.findIndex(
+              (updatedCategory) => updatedCategory.id === category.id,
+            );
+            if (index !== -1) {
+              const taskIndex = draft[index].tasks.findIndex(
+                (updatedTask) => updatedTask.id === task.id,
+              );
+
+              if (taskIndex !== -1) draft[index].tasks.splice(taskIndex, 1);
+            }
+          }
+        }),
+      );
     } catch (error) {
       console.error(error);
     }

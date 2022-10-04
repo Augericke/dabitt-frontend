@@ -1,32 +1,33 @@
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BsPlusCircle } from "react-icons/bs";
-import { CategoryModel, IconColors, TaskModel } from "../../../../types/task";
+import { CategoryModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import Popover from "../../popover";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
+import produce from "immer";
 
 const styles = require("./taskForm.module.scss");
 
 type TaskFormProps = {
   category: CategoryModel;
-  tasks: TaskModel[];
-  setTasks: React.Dispatch<React.SetStateAction<TaskModel[]>>;
-  categoryColor: IconColors;
+  setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
 
-const TaskForm: React.FC<TaskFormProps> = ({
-  category,
-  tasks,
-  setTasks,
-  categoryColor,
-}) => {
+const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
   const { getAccessTokenSilently } = useAuth0();
   const { textColor, outlineColor } = getSelectableColorClass(
     styles,
-    categoryColor,
+    category.iconColor,
   );
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskTimeEstimate, setTaskTimeEstimate] = useState(15);
@@ -65,9 +66,18 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
         const addedTask = await taskService.create(data, header);
 
-        setTasks([...tasks, addedTask]);
         setNewTaskDescription("");
         setTaskTimeEstimate(15);
+        setCategories(
+          produce((draft) => {
+            if (draft) {
+              const index = draft?.findIndex(
+                (updatedCategory) => updatedCategory.id === category.id,
+              );
+              if (index !== -1) draft[index].tasks.push(addedTask);
+            }
+          }),
+        );
       }
     } catch (error) {
       console.error(error);

@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-html-link-for-pages */
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CategoryHeader from "./categoryHeader";
 import TaskItem from "./taskItem";
 import TaskForm from "./taskForm";
 import { CategoryModel, IconColors, TaskModel } from "../../../types/task";
+import produce from "immer";
 
 const styles = require("./taskList.module.scss");
 
 type TaskListProps = {
   category: CategoryModel;
-  categoryId: string;
   categories: CategoryModel[] | null;
   setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
@@ -19,10 +19,14 @@ const TaskList: React.FC<TaskListProps> = ({
   categories,
   setCategories,
 }) => {
-  const [tasks, setTasks] = useState(category.tasks);
-  const [categoryColor, setCategoryColor] = useState<IconColors>(
-    category.iconColor,
-  );
+  const [tasks, testTasks] = useState<TaskModel[]>();
+
+  useEffect(() => {
+    if (categories) {
+      testTasks(categories?.find((cat) => cat.id === category.id)?.tasks);
+    }
+  }, [categories, category.id]);
+
   return (
     <section className={styles.categoryContainer}>
       <CategoryHeader
@@ -32,25 +36,23 @@ const TaskList: React.FC<TaskListProps> = ({
       />
       <div className={styles.taskListContainer}>
         <ul className={styles.taskList}>
-          {tasks.map((task: TaskModel) => {
-            return (
-              <TaskItem
-                key={task.id}
-                category={category}
-                setCategories={setCategories}
-                task={task}
-                tasks={tasks}
-                setTasks={setTasks}
-              />
-            );
-          })}
+          {tasks && (
+            <>
+              {tasks.map((task: TaskModel) => {
+                return (
+                  <TaskItem
+                    key={task.id}
+                    category={category}
+                    task={task}
+                    categories={categories}
+                    setCategories={setCategories}
+                  />
+                );
+              })}
+            </>
+          )}
           <li>
-            <TaskForm
-              category={category}
-              tasks={tasks}
-              setTasks={setTasks}
-              categoryColor={categoryColor}
-            />
+            <TaskForm category={category} setCategories={setCategories} />
           </li>
         </ul>
       </div>
