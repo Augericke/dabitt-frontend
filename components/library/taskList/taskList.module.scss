@@ -1,14 +1,24 @@
 .categoryContainer {
-  padding: 20px;
-  width: 50vw;
+  padding-top: 20px;
+  width: 100%;
 
   .taskListContainer {
     display: flex;
     align-items: flex-start;
     background-color: var(--foreground-color);
     border-radius: 10px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 40px;
+    padding-right: 40px;
+
+    @media only screen and (max-width: 992px) {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
 
     .taskList {
       display: flex;

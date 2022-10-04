@@ -16,7 +16,12 @@
     line-height: 40px;
     background: none;
     font-size: 26px;
-    transition: padding 400ms, margin 400ms;
+    transition: font-size 400ms, padding 400ms, margin 400ms;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 23px;
+      line-height: 35px;
+    }
 
     // Hide Scroll Bar
     -ms-overflow-style: none; /* IE and Edge */
@@ -64,4 +69,9 @@
   font-weight: 300;
   font-size: 18px;
   text-align: center;
+  transition: font-size 400ms;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 16px;
+  }
 }

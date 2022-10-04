@@ -28,6 +28,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
     (a, b) => Number(b.completed) - Number(a.completed),
   );
 
+  //TODO: add tooltip
   return (
     <div className={styles.barContainer}>
       {chartData.map((data, index) => {

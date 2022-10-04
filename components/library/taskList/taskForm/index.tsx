@@ -109,7 +109,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
       <div className={styles.inputsContainer}>
         <textarea
           ref={textRef}
-          className={`${styles.taskInput} ${outlineColor}`}
+          className={`${
+            newTaskDescription ? styles.taskInputPopulated : styles.taskInput
+          } ${outlineColor}`}
           placeholder="add task"
           value={newTaskDescription}
           onChange={handleDescription}
