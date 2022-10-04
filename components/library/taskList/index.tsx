@@ -3,8 +3,7 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import CategoryHeader from "./categoryHeader";
 import TaskItem from "./taskItem";
 import TaskForm from "./taskForm";
-import { CategoryModel, IconColors, TaskModel } from "../../../types/task";
-import produce from "immer";
+import { CategoryModel, TaskModel } from "../../../types/task";
 
 const styles = require("./taskList.module.scss");
 

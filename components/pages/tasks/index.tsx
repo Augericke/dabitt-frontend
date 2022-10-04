@@ -1,7 +1,7 @@
 import React, { SetStateAction, Dispatch, useState, useEffect } from "react";
 import LimitedCalender from "../../library/limitedCalender";
 import TaskList from "../../library/taskList";
-import CategoryForm from "../../library/categoryForm";
+import CategoryForm from "../../library/taskList/categoryForm";
 import { CategoryModel } from "../../../types/task";
 import { getYesterdayTodayTomorrow } from "../../../utils/dateComputer";
 import ProgressBar, {

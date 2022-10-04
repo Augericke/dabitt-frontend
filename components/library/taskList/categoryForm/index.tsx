@@ -1,8 +1,9 @@
 import React, { useState, SetStateAction, Dispatch, FormEvent } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BsPlusCircle } from "react-icons/bs";
-import { CategoryModel } from "../../../types/task";
-import categoryService from "../../../utils/services/category";
+import { CategoryModel } from "../../../../types/task";
+import categoryService from "../../../../utils/services/category";
+import produce from "immer";
 
 const styles = require("./categoryForm.module.scss");
 
@@ -43,8 +44,14 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
         const addedCategory = await categoryService.create(data, header);
 
-        setCategories([...categories, { ...addedCategory, tasks: [] }]);
         setNewCategoryName("");
+        setCategories(
+          produce((draft) => {
+            if (draft) {
+              draft.push({ ...addedCategory, tasks: [] });
+            }
+          }),
+        );
       }
     } catch (error) {
       console.error(error);
