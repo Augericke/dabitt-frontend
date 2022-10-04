@@ -5,6 +5,10 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
+
+  @media only screen and (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 }
 
 .categoryTitleContainer {
@@ -16,11 +20,12 @@
     line-height: 40px;
     background: none;
     font-size: 26px;
+    max-width: 60vw;
     transition: font-size 400ms, padding 400ms, margin 400ms;
 
     @media only screen and (max-width: 768px) {
-      font-size: 23px;
-      line-height: 35px;
+      font-size: 18px;
+      line-height: 22px;
     }
 
     // Hide Scroll Bar
@@ -56,8 +61,13 @@
   }
 }
 .customMenuClass {
-  max-height: 200px;
+  margin-left: 200px;
+  max-height: 30vh;
   overflow-y: scroll;
+
+  @media only screen and (max-width: 992px) {
+    margin-left: 150px;
+  }
 }
 
 .categoryCount {
@@ -72,6 +82,9 @@
   transition: font-size 400ms;
 
   @media only screen and (max-width: 768px) {
-    font-size: 16px;
+    font-size: 14px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
   }
 }

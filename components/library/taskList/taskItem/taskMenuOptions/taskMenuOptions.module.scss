@@ -1,9 +1,10 @@
-.itemInfoContainer {
+.itemContainer {
   display: flex;
-  align-items: center;
-  gap: 15px;
-  cursor: pointer;
-  background: none;
+  justify-content: space-between;
+  width: 150px;
+  font-weight: 100;
+  color: var(--text-color);
+  font-size: 14px;
 
   @media only screen and (max-width: 992px) {
     font-size: 12px;
@@ -12,15 +13,24 @@
   @media only screen and (max-width: 768px) {
     gap: 10px;
     font-size: 10x;
+    width: 100px;
   }
-}
 
-.itemShortcutContainer {
-  display: flex;
-  align-items: center;
-
-  .itemShortcut {
+  .itemInfoContainer {
     display: flex;
     align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    background: none;
+  }
+
+  .itemShortcutContainer {
+    display: flex;
+    align-items: center;
+
+    .itemShortcut {
+      display: flex;
+      align-items: center;
+    }
   }
 }

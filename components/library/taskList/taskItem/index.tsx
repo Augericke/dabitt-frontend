@@ -243,7 +243,10 @@ const TaskItem: React.FC<TaskItemProps> = ({
         />
       </div>
       <span className={styles.popoverContainer}>
-        <Popover menuItems={getMenuItems(textRef, deleteTask)} />
+        <Popover
+          direction="left"
+          menuItems={getMenuItems(textRef, deleteTask)}
+        />
       </span>
     </li>
   );

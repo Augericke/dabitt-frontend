@@ -18,7 +18,7 @@ export const getMenuItems = (
   const menuItems = [
     {
       content: (
-        <>
+        <div className={styles.itemContainer}>
           <div className={styles.itemInfoContainer}>
             <TbEdit /> edit
           </div>
@@ -28,13 +28,13 @@ export const getMenuItems = (
             </kbd>
             <kbd className={styles.itemShortcut}>E</kbd>
           </div>
-        </>
+        </div>
       ),
       onClick: handleEditClick,
     },
     {
       content: (
-        <>
+        <div className={styles.itemContainer}>
           <div className={styles.itemInfoContainer}>
             <AiTwotoneDelete /> delete
           </div>
@@ -46,7 +46,7 @@ export const getMenuItems = (
               <TbBackspace />
             </kbd>
           </div>
-        </>
+        </div>
       ),
       //TODO: add modal on delete
       onClick: handleDelete,

@@ -18,12 +18,28 @@
     font-size: 25px;
     transition: opacity 200ms, font-size 400ms;
 
+    @media only screen and (max-width: 768px) {
+      font-size: 21px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      font-size: 14px;
+    }
+
     &Populated {
       @extend .addCategoryButton;
       cursor: pointer;
       font-size: 30px;
       color: var(--icon-color);
       opacity: 1;
+
+      @media only screen and (max-width: 768px) {
+        font-size: 25px;
+      }
+
+      @media only screen and (max-width: 576px) {
+        font-size: 16px;
+      }
     }
 
     .addIcon {
@@ -41,7 +57,18 @@
     width: 20vw;
     resize: none;
     color: var(--foreground-color);
-    transition: padding 400ms, color 800ms;
+    transition: width 400ms, color 800ms;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 18px;
+      line-height: 22px;
+      width: 40vw;
+    }
+
+    @media only screen and (max-width: 576px) {
+      font-size: 14px;
+      line-height: 16px;
+    }
 
     &Populated {
       @extend .categoryInput;
@@ -53,6 +80,14 @@
     &:focus {
       outline-color: var(--icon-color);
       padding-left: 5px;
+    }
+
+    &::placeholder {
+      @extend .categoryInput;
+      display: flex;
+      font-weight: 200;
+      height: 30px;
+      color: var(--subtle-color);
     }
   }
 }

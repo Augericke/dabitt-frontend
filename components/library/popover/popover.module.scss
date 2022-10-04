@@ -66,19 +66,8 @@
   }
 
   .menuItemButton {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     background: none;
-    color: var(--text-color);
-    font-weight: 200;
-    font-size: 14px;
-    line-height: 0;
-    border-radius: 3px;
-    width: 150px;
-    padding: 10px;
     z-index: 2;
-    opacity: 0.5;
     cursor: pointer;
     transition: opacity 400ms, background-color 200ms;
 

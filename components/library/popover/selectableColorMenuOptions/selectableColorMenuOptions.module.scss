@@ -5,10 +5,21 @@
   justify-content: space-between;
   align-items: center;
   width: 200px;
-  gap: 15px;
   cursor: pointer;
-  text-transform: capitalize;
-  font-size: 12px;
+  text-transform: lowercase;
+  font-weight: 200;
+  font-size: 14px;
+  color: var(--text-color);
+
+  @media only screen and (max-width: 992px) {
+    width: 150px;
+    font-size: 10px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    gap: 10px;
+    font-size: 10x;
+  }
 }
 
 .colorIcon {
