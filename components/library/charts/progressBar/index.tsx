@@ -34,7 +34,7 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
   return (
     <div
       className={
-        chartData.filter((data) => data.value > 0)
+        chartData.filter((data) => data.value > 0).length
           ? styles.barContainer
           : styles.barContainerEmpty
       }

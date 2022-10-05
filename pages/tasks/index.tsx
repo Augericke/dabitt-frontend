@@ -7,12 +7,13 @@ import { CategoryModel } from "../../types/task";
 import { useApi } from "../../utils/hooks/useApi";
 
 const TasksPage: NextPage = () => {
-  const { loading, error, data } = useApi("/category/user/", {});
+  const { loading, error, data } = useApi(`/category/user/display-tasks`, {});
   const [categories, setCategories] = useState<CategoryModel[] | null>([]);
 
   useEffect(() => {
     setCategories(data);
   }, [data]);
+
   return (
     <Layout>
       {loading ? (
