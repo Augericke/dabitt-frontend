@@ -51,11 +51,11 @@ const TasksView: React.FC<TasksViewProps> = ({ categories, setCategories }) => {
 
   return (
     <div className={styles.placeHolderContainer}>
-      {/* <LimitedCalender
+      <LimitedCalender
         dates={dates}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
-      /> */}
+      />
       {categories ? (
         <>
           <ProgressBar chartData={chartData} />

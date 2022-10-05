@@ -1,4 +1,30 @@
-.test {
-  height: 500px;
-  width: 1000px;
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .legendContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    color: var(--text-color);
+    font-weight: 200;
+    font-size: 12px;
+    text-align: center;
+    margin-left: 100px;
+    margin-top: -50px;
+
+    .legendBox {
+      height: 15px;
+      width: 15px;
+    }
+  }
+}
+
+.tooltipContainer {
+  width: 100px;
+  background-color: var(--subtle-color);
 }

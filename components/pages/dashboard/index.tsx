@@ -10,7 +10,9 @@ const DashboardView: React.FC<DashboardViewProps> = (
 ) => {
   return (
     <div className={styles.placeHolderContainer}>
-      <CalenderMap />
+      <div className={styles.calenderContainer}>
+        <CalenderMap />
+      </div>
     </div>
   );
 };
