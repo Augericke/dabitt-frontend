@@ -13,7 +13,10 @@ import { CategoryModel, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
-import { displayHourMinutes } from "../../../../utils/dateComputer";
+import {
+  displayHourMinutes,
+  getTomorrow,
+} from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
@@ -139,6 +142,32 @@ const TaskItem: React.FC<TaskItemProps> = ({
     );
   };
 
+  const handleCanKick = () => {
+    const tomorrow = getTomorrow(new Date());
+    const updateData = {
+      startAt: tomorrow,
+    };
+
+    updateTask(updateData);
+    setCategories(
+      produce((draft) => {
+        if (draft) {
+          const index = draft?.findIndex(
+            (updatedCategory) => updatedCategory.id === category.id,
+          );
+          if (index !== -1) {
+            const taskIndex = draft[index].tasks.findIndex(
+              (updatedTask) => updatedTask.id === task.id,
+            );
+
+            if (taskIndex !== -1)
+              draft[index].tasks[taskIndex].startAt = tomorrow;
+          }
+        }
+      }),
+    );
+  };
+
   const updateTask = async (updateData: {}) => {
     try {
       if (taskDescription) {
@@ -247,7 +276,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       <span className={styles.popoverContainer}>
         <Popover
           customMenuClass={styles.customTaskMenu}
-          menuItems={getMenuItems(textRef, deleteTask)}
+          menuItems={getMenuItems(textRef, handleCanKick, deleteTask)}
         />
       </span>
     </li>

@@ -1,11 +1,13 @@
 import React from "react";
 import { AiTwotoneDelete } from "react-icons/ai";
-import { TbBackspace, TbCommand, TbEdit } from "react-icons/tb";
+import { TbEdit } from "react-icons/tb";
+import { GiConverseShoe } from "react-icons/gi";
 
 const styles = require("./taskMenuOptions.module.scss");
 
 export const getMenuItems = (
   inputRef: React.MutableRefObject<any>,
+  handleCanKick: () => void,
   handleDelete: () => Promise<void>,
 ) => {
   // Focus on text input field and place cursor at end of string
@@ -30,11 +32,24 @@ export const getMenuItems = (
       content: (
         <div className={styles.itemContainer}>
           <div className={styles.itemInfoContainer}>
+            <span className={styles.canContainer}>
+              <GiConverseShoe />
+            </span>
+            kick the can
+          </div>
+        </div>
+      ),
+      onClick: handleCanKick,
+    },
+    //TODO: add modal on delete
+    {
+      content: (
+        <div className={styles.itemContainer}>
+          <div className={styles.itemInfoContainer}>
             <AiTwotoneDelete /> delete
           </div>
         </div>
       ),
-      //TODO: add modal on delete
       onClick: handleDelete,
     },
   ];

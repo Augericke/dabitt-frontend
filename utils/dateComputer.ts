@@ -19,10 +19,20 @@ export type YesterdayTodayTomorrow = {
   };
 };
 
+function getYesterday(date: Date) {
+  const today = startOfDay(new Date(date));
+  return sub(today, { days: 1 });
+}
+
+function getTomorrow(date: Date) {
+  const today = startOfDay(new Date(date));
+  return add(today, { days: 1 });
+}
+
 function getYesterdayTodayTomorrow(): YesterdayTodayTomorrow {
   const today = startOfDay(new Date());
-  const yesterday = sub(today, { days: 1 });
-  const tomorrow = add(today, { days: 1 });
+  const yesterday = getYesterday(today);
+  const tomorrow = getTomorrow(today);
 
   const dates = {
     yesterday: {
@@ -59,4 +69,10 @@ function displayHourMinutes(minutes: number): string {
   return `${hourText} ${minuteText}`;
 }
 
-export { formatDate, getYesterdayTodayTomorrow, displayHourMinutes };
+export {
+  formatDate,
+  getYesterdayTodayTomorrow,
+  displayHourMinutes,
+  getYesterday,
+  getTomorrow,
+};

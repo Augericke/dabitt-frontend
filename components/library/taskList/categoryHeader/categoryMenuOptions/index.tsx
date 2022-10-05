@@ -1,6 +1,6 @@
 import React from "react";
 import { AiTwotoneDelete } from "react-icons/ai";
-import { TbBackspace, TbCommand, TbEdit } from "react-icons/tb";
+import { TbEdit } from "react-icons/tb";
 
 const styles = require("./categoryMenuOptions.module.scss");
 

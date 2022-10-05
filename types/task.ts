@@ -3,6 +3,7 @@ export type TaskModel = {
   description: string;
   createdAt: Date;
   completedAt: Date | null;
+  startAt: Date | null;
   estimateMinutes: number;
 };
 
