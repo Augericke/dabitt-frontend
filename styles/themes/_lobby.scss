@@ -2,12 +2,14 @@ $background-color: #9f6c66;
 $foreground-color: #cabbb5;
 $subtle-color: #4d4e5e;
 $icon-color: #655554;
+$icon-color-rga: 101, 85, 84;
 $text-color: #eeebf2;
 
 :export {
   background-color: $background-color;
   foreground-color: $foreground-color;
   icon-color: $icon-color;
+  icon-color-rga: $icon-color-rga;
   text-color: $text-color;
   subtle-color: $subtle-color;
 }

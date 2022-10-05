@@ -8,6 +8,7 @@
   --foreground-color: #{light.$foreground-color};
   --subtle-color: #{light.$subtle-color};
   --icon-color: #{light.$icon-color};
+  --icon-color-rga: #{light.$icon-color-rga};
   --text-color: #{light.$text-color};
   --button-border-radius: 20px;
 }
@@ -17,6 +18,7 @@
   --foreground-color: #{light.$foreground-color};
   --subtle-color: #{light.$subtle-color};
   --icon-color: #{light.$icon-color};
+  --icon-color-rga: #{light.$icon-color-rga};
   --text-color: #{light.$text-color};
 }
 
@@ -25,14 +27,16 @@
   --foreground-color: #{dark.$foreground-color};
   --subtle-color: #{dark.$subtle-color};
   --icon-color: #{dark.$icon-color};
+  --icon-color-rga: #{dark.$icon-color-rga};
   --text-color: #{dark.$text-color};
 }
 
 [data-theme="lobby"] {
   --background-color: #{lobby.$background-color};
   --foreground-color: #{lobby.$foreground-color};
-  --subtle-color: #{dark.$subtle-color};
+  --subtle-color: #{lobby.$subtle-color};
   --icon-color: #{lobby.$icon-color};
+  --icon-color-rga: #{lobby.$icon-color-rga};
   --text-color: #{lobby.$text-color};
 }
 
