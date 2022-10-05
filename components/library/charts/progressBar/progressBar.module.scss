@@ -6,6 +6,11 @@
   height: 20px;
   border-radius: 10px;
   overflow: hidden;
+
+  &Empty {
+    @extend .barContainer;
+    background-color: var(--foreground-color);
+  }
 }
 
 .barCategory {

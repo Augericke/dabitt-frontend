@@ -3,9 +3,6 @@ import { IconColors } from "../../../../types/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 
 const styles = require("./progressBar.module.scss");
-type ProgressBarProps = {
-  chartData: ProgressBarDataType[];
-};
 
 export type ProgressBarDataType = {
   category: string;
@@ -13,6 +10,11 @@ export type ProgressBarDataType = {
   value: number;
   completed: boolean;
 };
+
+type ProgressBarProps = {
+  chartData: ProgressBarDataType[];
+};
+
 const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
   // Convert value into value 1-100
   const totalValue = chartData.reduce((accumulator, data) => {
@@ -30,7 +32,13 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
 
   //TODO: add tooltip
   return (
-    <div className={styles.barContainer}>
+    <div
+      className={
+        chartData.filter((data) => data.value > 0)
+          ? styles.barContainer
+          : styles.barContainerEmpty
+      }
+    >
       {chartData.map((data, index) => {
         const { backgroundColor } = getSelectableColorClass(styles, data.color);
 
