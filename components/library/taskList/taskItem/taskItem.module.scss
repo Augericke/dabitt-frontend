@@ -96,3 +96,55 @@
   margin-right: 110px;
   margin-top: 5px;
 }
+
+.dangerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: auto;
+  padding: 20px 50px 20px 50px;
+
+  .dangerTitle {
+    font-weight: 800;
+    font-size: 48px;
+    color: var(--icon-color);
+    margin: 0;
+  }
+
+  .dangerContent {
+    color: var(--text-color);
+    font-weight: 100;
+    font-size: 18px;
+    margin-top: 10px;
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 15px;
+    width: 100%;
+
+    .button {
+      display: inline-block;
+      cursor: pointer;
+      text-align: center;
+      background-color: var(--subtle-color);
+      border-radius: var(--button-border-radius);
+      border: none;
+      padding: 10px;
+      width: 150px;
+      transition: padding 200ms, opacity 100ms, width 200ms;
+
+      &Safe {
+        @extend .button;
+      }
+
+      &Danger {
+        @extend .button;
+        background-color: var(--icon-color);
+      }
+    }
+  }
+}

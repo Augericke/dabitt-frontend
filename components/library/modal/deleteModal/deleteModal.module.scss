@@ -1,0 +1,97 @@
+.dangerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: auto;
+  padding: 20px 50px 20px 50px;
+
+  @media only screen and (max-width: 768px) {
+    padding: 10px 25px 10px 25px;
+  }
+
+  @media only screen and (max-width: 576px) {
+    padding: 5px 10px 5px 10px;
+  }
+
+  .dangerTitle {
+    font-weight: 800;
+    font-size: 48px;
+    color: var(--icon-color);
+    margin: 0;
+    transition: font-size 400ms;
+
+    @media only screen and (max-width: 992px) {
+      font-size: 36px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 31px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      font-size: 28px;
+    }
+  }
+
+  .dangerContent {
+    color: var(--text-color);
+    font-weight: 100;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    @media only screen and (max-width: 992px) {
+      font-size: 18px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 16px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      font-size: 14px;
+    }
+  }
+
+  .buttonContainer {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    gap: 15px;
+    width: 100%;
+
+    .button {
+      display: inline-block;
+      cursor: pointer;
+      text-align: center;
+      font-size: 14px;
+      background-color: var(--subtle-color);
+      border-radius: var(--button-border-radius);
+      border: none;
+      padding: 10px;
+      width: 150px;
+      transition: padding 200ms, opacity 100ms, width 200ms;
+
+      @media only screen and (max-width: 768px) {
+        font-size: 12px;
+        padding: 8px;
+      }
+
+      @media only screen and (max-width: 576px) {
+        width: 100px;
+        font-size: 10px;
+      }
+
+      &Safe {
+        @extend .button;
+      }
+
+      &Danger {
+        @extend .button;
+        background-color: var(--icon-color);
+      }
+    }
+  }
+}

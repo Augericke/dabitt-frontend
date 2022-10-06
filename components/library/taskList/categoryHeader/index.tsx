@@ -16,6 +16,7 @@ import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenu
 import useFontFaceObserver from "use-font-face-observer";
 import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
+import DeleteModal from "../../modal/deleteModal";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -35,8 +36,23 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     styles,
     category.iconColor,
   );
-  const [categoryName, setCategoryName] = useState("loading...");
+  const [categoryName, setCategoryName] = useState(category.name);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  // Expand text input horizontally with input
+  const textRef = useRef<any>();
+  const { width } = useWindowSize(); // ensure proper resize on screen change
+  const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
+
+  useEffect(() => {
+    if (isFontListLoaded) {
+      textRef.current.style.width = "0px";
+      const scrollWidth = textRef.current.scrollWidth;
+      textRef.current.style.width = `${scrollWidth}px`;
+    }
+  }, [isFontListLoaded, categoryName, width]);
+
+  // Get Number of Tasks Under Category
   let taskCount = 0;
   if (categories) {
     const currentCategory = categories.find((cat) => cat.id === category.id);
@@ -127,53 +143,46 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     }
   };
 
-  // Wait until fonts loaded before initial render so width matches
-  const textRef = useRef<any>();
-  const { width } = useWindowSize(); // ensure proper resize on screen change
-  const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
-  useEffect(() => {
-    if (isFontListLoaded) {
-      setCategoryName(category.name);
-    }
-  }, [isFontListLoaded, category.name]);
-
-  // Expand text input horizontally with input
-  useEffect(() => {
-    textRef.current.style.width = "0px";
-    const scrollWidth = textRef.current.scrollWidth;
-    textRef.current.style.width = `${scrollWidth}px`;
-  }, [categoryName, width]);
-
   return (
-    <div className={styles.categoryHeaderContainer}>
-      <hgroup className={styles.categoryTitleContainer}>
-        <input
-          ref={textRef}
-          className={`${styles.categoryInput} ${borderColor}`}
-          value={categoryName}
-          onChange={onChangeHandler}
-          onKeyDown={onEnterSubmit}
-          onBlur={onBlur}
-          maxLength={25}
-        />
+    <>
+      <div className={styles.categoryHeaderContainer}>
+        <hgroup className={styles.categoryTitleContainer}>
+          <input
+            ref={textRef}
+            className={`${styles.categoryInput} ${borderColor}`}
+            value={categoryName}
+            onChange={onChangeHandler}
+            onKeyDown={onEnterSubmit}
+            onBlur={onBlur}
+            maxLength={25}
+          />
+          <Popover
+            customButtonClass={styles.customPopoverClass}
+            customMenuClass={styles.customMenuClass}
+            menuItems={getSelectableColorMenuOptions(onColorChangeHandler)}
+            iconType="none"
+            iconText={
+              <span className={`${styles.categoryCount} ${backgroundColor}`}>
+                {taskCount}
+              </span>
+            }
+          />
+        </hgroup>
         <Popover
-          customButtonClass={styles.customPopoverClass}
-          customMenuClass={styles.customMenuClass}
-          menuItems={getSelectableColorMenuOptions(onColorChangeHandler)}
-          iconType="none"
-          iconText={
-            <span className={`${styles.categoryCount} ${backgroundColor}`}>
-              {taskCount}
-            </span>
-          }
+          customMenuClass={styles.customCategoryMenuClass}
+          menuItems={getMenuItems(textRef, () => setShowDeleteModal(true))}
+          iconType="gear"
         />
-      </hgroup>
-      <Popover
-        customMenuClass={styles.customCategoryMenuClass}
-        menuItems={getMenuItems(textRef, deleteCategory)}
-        iconType="gear"
+      </div>
+      <DeleteModal
+        isVisible={showDeleteModal}
+        content="Are you sure you want to delete this category?"
+        onClose={() => {
+          setShowDeleteModal(false);
+        }}
+        onDelete={() => deleteCategory()}
       />
-    </div>
+    </>
   );
 };
 

@@ -8,7 +8,7 @@ const styles = require("./taskMenuOptions.module.scss");
 export const getMenuItems = (
   inputRef: React.MutableRefObject<any>,
   handleCanKick: () => void,
-  handleDelete: () => Promise<void>,
+  handleDelete: () => void,
 ) => {
   // Focus on text input field and place cursor at end of string
   const handleEditClick = () => {
@@ -41,7 +41,6 @@ export const getMenuItems = (
       ),
       onClick: handleCanKick,
     },
-    //TODO: add modal on delete
     {
       content: (
         <div className={styles.itemContainer}>

@@ -20,6 +20,7 @@ import {
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
+import DeleteModal from "../../modal/deleteModal";
 
 const styles = require("./taskItem.module.scss");
 
@@ -35,12 +36,14 @@ const TaskItem: React.FC<TaskItemProps> = ({
   setCategories,
   task,
 }) => {
+  // Modal
+  const [showModal, setShowModal] = useState(false);
   // Requests
   const { getAccessTokenSilently } = useAuth0();
 
   // Text Area
   const { borderColor } = getSelectableColorClass(styles, category.iconColor);
-  const [taskDescription, setTaskDescription] = useState("loading...");
+  const [taskDescription, setTaskDescription] = useState(task.description);
   const [checkSpelling, setCheckSpelling] = useState(false);
 
   // Time Estimate
@@ -228,58 +231,65 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const { width, height } = useWindowSize(); // ensure proper resize on screen change
   const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
 
-  // Wait until fonts loaded before initial render so height matches
-  useEffect(() => {
-    if (isFontListLoaded) {
-      setTaskDescription(task.description);
-    }
-  }, [isFontListLoaded, task.description]);
-
   // Expand Textarea to input length
   useEffect(() => {
-    textRef.current.style.height = "0px";
-    const scrollHeight = textRef.current.scrollHeight;
-    textRef.current.style.height = `${scrollHeight}px`;
-  }, [taskDescription, width, height]);
+    if (isFontListLoaded) {
+      textRef.current.style.height = "0px";
+      const scrollHeight = textRef.current.scrollHeight;
+      textRef.current.style.height = `${scrollHeight}px`;
+    }
+  }, [isFontListLoaded, taskDescription, width, height]);
 
   return (
-    <li className={styles.taskItem}>
-      <TickBox
-        isTicked={isTicked}
-        onClick={handleTickBox}
-        categoryColor={category.iconColor}
-      />
-      <textarea
-        ref={textRef}
-        id="textarea"
-        className={`${styles.taskInput} ${borderColor}`}
-        placeholder="add task"
-        spellCheck={checkSpelling}
-        value={taskDescription}
-        onChange={onChangeHandler}
-        onKeyDown={onEnterSubmit}
-        onFocus={() => setCheckSpelling(true)}
-        onBlur={onBlur}
-        maxLength={140}
-      />
-      <div className={styles.taskTimeEstimateContainer}>
-        <Popover
-          iconType="clock"
-          iconText={
-            <span className={styles.estimateLabel}>
-              {displayHourMinutes(taskTimeEstimate)}
-            </span>
-          }
-          menuItems={getTimeEstimateMenuOptions(handleTimeChange)}
+    <>
+      <li className={styles.taskItem}>
+        <TickBox
+          isTicked={isTicked}
+          onClick={handleTickBox}
+          categoryColor={category.iconColor}
         />
-      </div>
-      <span className={styles.popoverContainer}>
-        <Popover
-          customMenuClass={styles.customTaskMenu}
-          menuItems={getMenuItems(textRef, handleCanKick, deleteTask)}
+        <textarea
+          ref={textRef}
+          id="textarea"
+          className={`${styles.taskInput} ${borderColor}`}
+          placeholder="add task"
+          spellCheck={checkSpelling}
+          value={taskDescription}
+          onChange={onChangeHandler}
+          onKeyDown={onEnterSubmit}
+          onFocus={() => setCheckSpelling(true)}
+          onBlur={onBlur}
+          maxLength={140}
         />
-      </span>
-    </li>
+        <div className={styles.taskTimeEstimateContainer}>
+          <Popover
+            iconType="clock"
+            iconText={
+              <span className={styles.estimateLabel}>
+                {displayHourMinutes(taskTimeEstimate)}
+              </span>
+            }
+            menuItems={getTimeEstimateMenuOptions(handleTimeChange)}
+          />
+        </div>
+        <span className={styles.popoverContainer}>
+          <Popover
+            customMenuClass={styles.customTaskMenu}
+            menuItems={getMenuItems(textRef, handleCanKick, () => {
+              setShowModal(true);
+            })}
+          />
+        </span>
+      </li>
+      <DeleteModal
+        isVisible={showModal}
+        content="Are you sure you want to delete this task?"
+        onClose={() => {
+          setShowModal(false);
+        }}
+        onDelete={() => deleteTask()}
+      />
+    </>
   );
 };
 

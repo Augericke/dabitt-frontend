@@ -21,7 +21,7 @@
     background: none;
     font-size: 26px;
     max-width: 60vw;
-    transition: font-size 400ms, padding 400ms, margin 400ms;
+    transition: padding 400ms, margin 400ms;
 
     @media only screen and (max-width: 768px) {
       font-size: 18px;

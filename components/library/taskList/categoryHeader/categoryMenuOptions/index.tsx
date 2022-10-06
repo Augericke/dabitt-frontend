@@ -6,7 +6,7 @@ const styles = require("./categoryMenuOptions.module.scss");
 
 export const getMenuItems = (
   inputRef: React.MutableRefObject<any>,
-  handleDelete: () => Promise<void>,
+  handleDelete: () => void,
 ) => {
   // Focus on text input field and place cursor at end of string
   const handleEditClick = () => {
@@ -34,7 +34,6 @@ export const getMenuItems = (
           </div>
         </div>
       ),
-      //TODO: add modal on delete
       onClick: handleDelete,
     },
   ];
