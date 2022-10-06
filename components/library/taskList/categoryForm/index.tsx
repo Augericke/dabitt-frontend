@@ -1,5 +1,10 @@
-import React, { useState, SetStateAction, Dispatch, FormEvent } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, {
+  useState,
+  SetStateAction,
+  Dispatch,
+  FormEvent,
+  useMemo,
+} from "react";
 import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel, colorList, IconColors } from "../../../../types/task";
 import categoryService from "../../../../utils/services/category";
@@ -7,6 +12,7 @@ import produce from "immer";
 import Popover from "../../popover";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
+import { useApiHeader } from "../../../../utils/hooks/useApi";
 
 const styles = require("./categoryForm.module.scss");
 
@@ -19,7 +25,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   categories,
   setCategories,
 }) => {
-  const { getAccessTokenSilently } = useAuth0();
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryColor, setNewCategoryColor] = useState<IconColors>(
     colorList[0],
@@ -29,6 +34,14 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     newCategoryColor,
   );
 
+  // Get Api Header
+  const { error, loading, header } = useApiHeader();
+  const authHeader = useMemo(() => {
+    if (!error && !loading) {
+      return header;
+    }
+  }, [error, header, loading]);
+
   const handleCategoryName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewCategoryName(event.target.value);
   };
@@ -36,24 +49,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const addCategory = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (newCategoryName && categories) {
-        const token = await getAccessTokenSilently({
-          audience: "API/dabitt",
-          scope: "",
-        });
-
+      if (newCategoryName && categories && authHeader) {
         const data = {
           name: newCategoryName,
           iconColor: newCategoryColor,
         };
 
-        const header = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
-        const addedCategory = await categoryService.create(data, header);
+        const addedCategory = await categoryService.create(data, authHeader);
         setNewCategoryName("");
         setCategories(
           produce((draft) => {

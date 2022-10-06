@@ -14,7 +14,6 @@ const Auth: NextPage = () => {
     (async () => {
       try {
         if (!isLoading && user) {
-          // TODO: standardize api call in a custom hook
           const token = await getAccessTokenSilently({
             audience: "API/dabitt",
             scope: "",

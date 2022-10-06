@@ -3,10 +3,10 @@ import React, {
   SetStateAction,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import categoryService from "../../../../utils/services/category";
 import { CategoryModel, IconColors } from "../../../../types/task";
 import Popover from "../../popover";
@@ -17,6 +17,7 @@ import useFontFaceObserver from "use-font-face-observer";
 import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
+import { useApiHeader } from "../../../../utils/hooks/useApi";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -31,7 +32,6 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   categories,
   setCategories,
 }) => {
-  const { getAccessTokenSilently } = useAuth0();
   const { backgroundColor, borderColor } = getSelectableColorClass(
     styles,
     category.iconColor,
@@ -60,6 +60,14 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
       taskCount = currentCategory.tasks.length;
     }
   }
+
+  // Get Api Header
+  const { error, loading, header } = useApiHeader();
+  const authHeader = useMemo(() => {
+    if (!error && !loading) {
+      return header;
+    }
+  }, [error, header, loading]);
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(event.target.value);
@@ -100,42 +108,23 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   const updateCategory = useCallback(
     async (body: { name?: string; iconColor?: IconColors }) => {
       try {
-        const token = await getAccessTokenSilently({
-          audience: "API/dabitt",
-          scope: "",
-        });
-
-        const header = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        await categoryService.update(category.id, body, header);
+        if (authHeader) {
+          await categoryService.update(category.id, body, authHeader);
+        }
       } catch (error) {
         console.error(error);
       }
     },
-    [category.id, getAccessTokenSilently],
+    [authHeader, category.id],
   );
 
   const deleteCategory = async () => {
     try {
-      if (categories) {
-        const token = await getAccessTokenSilently({
-          audience: "API/dabitt",
-          scope: "",
-        });
-
-        const header = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
+      if (categories && authHeader) {
         const updatedCategories = categories.filter(
           (categories) => categories.id != category.id,
         );
-        await categoryService.destroy(category.id, header);
+        await categoryService.destroy(category.id, authHeader);
         setCategories(updatedCategories);
       }
     } catch (error) {

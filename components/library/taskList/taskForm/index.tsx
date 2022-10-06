@@ -3,10 +3,10 @@ import React, {
   FormEvent,
   SetStateAction,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
@@ -15,6 +15,7 @@ import { getSelectableColorClass } from "../../../../utils/selectableColorClass"
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
 import produce from "immer";
+import { useApiHeader } from "../../../../utils/hooks/useApi";
 
 const styles = require("./taskForm.module.scss");
 
@@ -24,13 +25,20 @@ type TaskFormProps = {
 };
 
 const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
-  const { getAccessTokenSilently } = useAuth0();
   const { textColor, outlineColor } = getSelectableColorClass(
     styles,
     category.iconColor,
   );
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskTimeEstimate, setTaskTimeEstimate] = useState(15);
+
+  // Get Api Header
+  const { error, loading, header } = useApiHeader();
+  const authHeader = useMemo(() => {
+    if (!error && !loading) {
+      return header;
+    }
+  }, [error, header, loading]);
 
   const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTaskDescription(event.target.value.replace(/\n/g, ""));
@@ -46,25 +54,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
   const addTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (newTaskDescription) {
-        const token = await getAccessTokenSilently({
-          audience: "API/dabitt",
-          scope: "",
-        });
-
+      if (newTaskDescription && authHeader) {
         const data = {
           categoryId: category.id,
           description: newTaskDescription,
           estimateMinutes: taskTimeEstimate,
         };
 
-        const header = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
-        const addedTask = await taskService.create(data, header);
+        const addedTask = await taskService.create(data, authHeader);
 
         setNewTaskDescription("");
         setTaskTimeEstimate(15);

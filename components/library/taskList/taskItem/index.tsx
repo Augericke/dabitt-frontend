@@ -4,8 +4,8 @@ import React, {
   useState,
   SetStateAction,
   Dispatch,
+  useMemo,
 } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
@@ -21,6 +21,7 @@ import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions"
 import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
+import { useApiHeader } from "../../../../utils/hooks/useApi";
 
 const styles = require("./taskItem.module.scss");
 
@@ -38,8 +39,6 @@ const TaskItem: React.FC<TaskItemProps> = ({
 }) => {
   // Modal
   const [showModal, setShowModal] = useState(false);
-  // Requests
-  const { getAccessTokenSilently } = useAuth0();
 
   // Text Area
   const { borderColor } = getSelectableColorClass(styles, category.iconColor);
@@ -53,6 +52,14 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   // Tick Box
   const [isTicked, setIsTicked] = useState(task.completedAt != null);
+
+  // Get Api Header
+  const { error, loading, header } = useApiHeader();
+  const authHeader = useMemo(() => {
+    if (!error && !loading) {
+      return header;
+    }
+  }, [error, header, loading]);
 
   // Avoid users adding line breaks
   const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -173,18 +180,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   const updateTask = async (updateData: {}) => {
     try {
-      if (taskDescription) {
-        const token = await getAccessTokenSilently({
-          audience: "API/dabitt",
-          scope: "",
-        });
-
-        const header = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        await taskService.update(task.id, updateData, header);
+      if (taskDescription && authHeader) {
+        await taskService.update(task.id, updateData, authHeader);
       }
     } catch (error) {
       console.error(error);
@@ -193,34 +190,25 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   const deleteTask = async () => {
     try {
-      const token = await getAccessTokenSilently({
-        audience: "API/dabitt",
-        scope: "",
-      });
-
-      const header = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      await taskService.destroy(task.id, header);
-      setCategories(
-        produce((draft) => {
-          if (draft) {
-            const index = draft?.findIndex(
-              (updatedCategory) => updatedCategory.id === category.id,
-            );
-            if (index !== -1) {
-              const taskIndex = draft[index].tasks.findIndex(
-                (updatedTask) => updatedTask.id === task.id,
+      if (authHeader) {
+        await taskService.destroy(task.id, header);
+        setCategories(
+          produce((draft) => {
+            if (draft) {
+              const index = draft?.findIndex(
+                (updatedCategory) => updatedCategory.id === category.id,
               );
+              if (index !== -1) {
+                const taskIndex = draft[index].tasks.findIndex(
+                  (updatedTask) => updatedTask.id === task.id,
+                );
 
-              if (taskIndex !== -1) draft[index].tasks.splice(taskIndex, 1);
+                if (taskIndex !== -1) draft[index].tasks.splice(taskIndex, 1);
+              }
             }
-          }
-        }),
-      );
+          }),
+        );
+      }
     } catch (error) {
       console.error(error);
     }
