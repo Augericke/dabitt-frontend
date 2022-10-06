@@ -4,7 +4,6 @@ import React, {
   useState,
   SetStateAction,
   Dispatch,
-  useMemo,
 } from "react";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
@@ -55,9 +54,10 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   // Get Api Header
   const { error, loading, header } = useApiHeader();
-  const authHeader = useMemo(() => {
+  const [authHeader, setAuthHeader] = useState<any>();
+  useEffect(() => {
     if (!error && !loading) {
-      return header;
+      setAuthHeader(header);
     }
   }, [error, header, loading]);
 

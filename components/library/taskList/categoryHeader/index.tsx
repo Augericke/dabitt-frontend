@@ -3,7 +3,6 @@ import React, {
   SetStateAction,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -63,9 +62,10 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
 
   // Get Api Header
   const { error, loading, header } = useApiHeader();
-  const authHeader = useMemo(() => {
+  const [authHeader, setAuthHeader] = useState<any>();
+  useEffect(() => {
     if (!error && !loading) {
-      return header;
+      setAuthHeader(header);
     }
   }, [error, header, loading]);
 

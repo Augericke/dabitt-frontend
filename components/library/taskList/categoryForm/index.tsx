@@ -3,7 +3,7 @@ import React, {
   SetStateAction,
   Dispatch,
   FormEvent,
-  useMemo,
+  useEffect,
 } from "react";
 import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel, colorList, IconColors } from "../../../../types/task";
@@ -36,9 +36,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
 
   // Get Api Header
   const { error, loading, header } = useApiHeader();
-  const authHeader = useMemo(() => {
+  const [authHeader, setAuthHeader] = useState<any>();
+  useEffect(() => {
     if (!error && !loading) {
-      return header;
+      setAuthHeader(header);
     }
   }, [error, header, loading]);
 

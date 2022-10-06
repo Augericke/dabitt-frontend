@@ -3,7 +3,6 @@ import React, {
   FormEvent,
   SetStateAction,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -34,9 +33,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
 
   // Get Api Header
   const { error, loading, header } = useApiHeader();
-  const authHeader = useMemo(() => {
+  const [authHeader, setAuthHeader] = useState<any>();
+  useEffect(() => {
     if (!error && !loading) {
-      return header;
+      setAuthHeader(header);
     }
   }, [error, header, loading]);
 
