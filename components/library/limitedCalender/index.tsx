@@ -1,23 +1,19 @@
-import React, { useState } from "react";
-import {
-  formatDate,
-  YesterdayTodayTomorrow,
-} from "../../../utils/dateComputer";
-import { isEqual } from "date-fns";
+import React from "react";
+import { formatDate } from "../../../utils/dateComputer";
+import { add, sub } from "date-fns";
 
 const styles = require("./limitedCalender.module.scss");
 
 type LimitedCalenderProps = {
-  dates: YesterdayTodayTomorrow;
   selectedDate: Date;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
 };
 
 const LimitedCalender: React.FC<LimitedCalenderProps> = ({
-  dates,
   selectedDate,
   setSelectedDate,
 }) => {
+  const currentDate = new Date();
   return (
     <div className={styles.calenderContainer}>
       <h1 className={styles.calenderHeader}>
@@ -25,17 +21,20 @@ const LimitedCalender: React.FC<LimitedCalenderProps> = ({
       </h1>
       <div className={styles.datesContainer}>
         <DateSelector
-          dateObj={dates.yesterday}
+          dateObj={sub(currentDate, { days: 1 })}
+          content="yesterday"
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
         <DateSelector
-          dateObj={dates.today}
+          dateObj={currentDate}
+          content="today"
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
         <DateSelector
-          dateObj={dates.tomorrow}
+          dateObj={add(currentDate, { days: 1 })}
+          content="tomorrow"
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
@@ -47,27 +46,29 @@ const LimitedCalender: React.FC<LimitedCalenderProps> = ({
 export default LimitedCalender;
 
 type DateSelectorProps = {
-  dateObj: { date: Date; text: String };
+  dateObj: Date;
+  content: string;
   selectedDate: Date;
   setSelectedDate: React.Dispatch<React.SetStateAction<Date>>;
 };
 const DateSelector: React.FC<DateSelectorProps> = ({
   dateObj,
+  content,
   selectedDate,
   setSelectedDate,
 }) => {
-  const isSelected = isEqual(selectedDate, dateObj.date);
+  const isSelected = selectedDate.toDateString() === dateObj.toDateString();
 
   return (
     <div
       className={
         isSelected ? styles.dateContainerSelected : styles.dateContainer
       }
-      onClick={() => setSelectedDate(dateObj.date)}
+      onClick={() => setSelectedDate(dateObj)}
     >
-      <span>{formatDate(dateObj.date, "EEE")}</span>
-      <span>{formatDate(dateObj.date, "d")}</span>
-      {isSelected && <span className={styles.dayText}>{dateObj.text}</span>}
+      <span>{formatDate(dateObj, "EEE")}</span>
+      <span>{formatDate(dateObj, "d")}</span>
+      {isSelected && <span className={styles.dayText}>{content}</span>}
     </div>
   );
 };

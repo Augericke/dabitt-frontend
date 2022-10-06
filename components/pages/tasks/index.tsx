@@ -3,7 +3,6 @@ import LimitedCalender from "../../library/limitedCalender";
 import TaskList from "../../library/taskList";
 import CategoryForm from "../../library/taskList/categoryForm";
 import { CategoryModel } from "../../../types/task";
-import { getYesterdayTodayTomorrow } from "../../../utils/dateComputer";
 import ProgressBar, {
   ProgressBarDataType,
 } from "../../library/charts/progressBar";
@@ -14,11 +13,16 @@ const styles = require("./tasks.module.scss");
 type TasksViewProps = {
   categories: CategoryModel[] | null;
   setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
+  selectedDate: Date;
+  setSelectedDate: Dispatch<SetStateAction<Date>>;
 };
 
-const TasksView: React.FC<TasksViewProps> = ({ categories, setCategories }) => {
-  const dates = getYesterdayTodayTomorrow();
-  const [selectedDate, setSelectedDate] = useState(dates.today.date);
+const TasksView: React.FC<TasksViewProps> = ({
+  categories,
+  setCategories,
+  selectedDate,
+  setSelectedDate,
+}) => {
   const [chartData, setChartData] = useState<ProgressBarDataType[]>([]);
 
   useEffect(() => {
@@ -52,7 +56,6 @@ const TasksView: React.FC<TasksViewProps> = ({ categories, setCategories }) => {
   return (
     <div className={styles.placeHolderContainer}>
       <LimitedCalender
-        dates={dates}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
       />

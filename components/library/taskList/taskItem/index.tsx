@@ -12,10 +12,8 @@ import { CategoryModel, TaskModel } from "../../../../types/task";
 import taskService from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
-import {
-  displayHourMinutes,
-  getTomorrow,
-} from "../../../../utils/dateComputer";
+import { add } from "date-fns";
+import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
@@ -153,12 +151,13 @@ const TaskItem: React.FC<TaskItemProps> = ({
   };
 
   const handleCanKick = () => {
-    const tomorrow = getTomorrow(new Date());
+    const tomorrow = add(new Date(), { days: 1 });
     const updateData = {
       startAt: tomorrow,
     };
 
     updateTask(updateData);
+    // Remove from categories since displayed tasks is dependent on time selection
     setCategories(
       produce((draft) => {
         if (draft) {
@@ -170,8 +169,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
               (updatedTask) => updatedTask.id === task.id,
             );
 
-            if (taskIndex !== -1)
-              draft[index].tasks[taskIndex].startAt = tomorrow;
+            if (taskIndex !== -1) draft[index].tasks.splice(taskIndex, 1);
           }
         }
       }),

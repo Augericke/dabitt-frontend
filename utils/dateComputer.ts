@@ -1,55 +1,24 @@
-import { format, startOfDay, add, sub } from "date-fns";
+import { format, startOfDay, endOfDay, add, sub, isEqual } from "date-fns";
 
 function formatDate(date: Date, formatString: string): string {
   return format(new Date(date), formatString);
 }
 
-export type YesterdayTodayTomorrow = {
-  yesterday: {
-    date: Date;
-    text: String;
-  };
-  today: {
-    date: Date;
-    text: String;
-  };
-  tomorrow: {
-    date: Date;
-    text: String;
-  };
-};
+function getUTCDayRange(date: Date) {
+  const startTime = startOfDay(new Date(date)).toISOString();
+  const endTime = endOfDay(new Date(date)).toISOString();
 
-function getYesterday(date: Date) {
-  const today = startOfDay(new Date(date));
-  return sub(today, { days: 1 });
+  return { startTime, endTime };
 }
 
-function getTomorrow(date: Date) {
-  const today = startOfDay(new Date(date));
-  return add(today, { days: 1 });
+function getIsCurrent(date: Date) {
+  const startToday = startOfDay(new Date());
+  return isEqual(startToday, startOfDay(date));
 }
 
-function getYesterdayTodayTomorrow(): YesterdayTodayTomorrow {
-  const today = startOfDay(new Date());
-  const yesterday = getYesterday(today);
-  const tomorrow = getTomorrow(today);
-
-  const dates = {
-    yesterday: {
-      date: yesterday,
-      text: "yesterday",
-    },
-    today: {
-      date: today,
-      text: "today",
-    },
-    tomorrow: {
-      date: tomorrow,
-      text: "tomorrow",
-    },
-  };
-
-  return dates;
+function getIsFuture(date: Date) {
+  const startTomorrow = startOfDay(add(new Date(), { days: 1 }));
+  return isEqual(startTomorrow, startOfDay(date));
 }
 
 function displayHourMinutes(minutes: number): string {
@@ -71,8 +40,8 @@ function displayHourMinutes(minutes: number): string {
 
 export {
   formatDate,
-  getYesterdayTodayTomorrow,
   displayHourMinutes,
-  getYesterday,
-  getTomorrow,
+  getUTCDayRange,
+  getIsCurrent,
+  getIsFuture,
 };
