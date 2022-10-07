@@ -8,12 +8,14 @@ import { CategoryModel, TaskModel } from "../../../types/task";
 const styles = require("./taskList.module.scss");
 
 type TaskListProps = {
+  selectedDate: Date;
   category: CategoryModel;
   categories: CategoryModel[] | null;
   setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
 
 const TaskList: React.FC<TaskListProps> = ({
+  selectedDate,
   category,
   categories,
   setCategories,
@@ -26,6 +28,7 @@ const TaskList: React.FC<TaskListProps> = ({
     }
   }, [categories, category.id]);
 
+  console.log(selectedDate);
   return (
     <section className={styles.categoryContainer}>
       <CategoryHeader
@@ -51,7 +54,7 @@ const TaskList: React.FC<TaskListProps> = ({
             </>
           )}
           <li>
-            <TaskForm category={category} setCategories={setCategories} />
+            <TaskForm category={category} selectedDate={selectedDate} />
           </li>
         </ul>
       </div>

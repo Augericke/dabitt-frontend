@@ -66,6 +66,7 @@ const TasksView: React.FC<TasksViewProps> = ({
             return (
               <TaskList
                 key={category.id}
+                selectedDate={selectedDate}
                 category={category}
                 categories={categories}
                 setCategories={setCategories}
@@ -76,7 +77,7 @@ const TasksView: React.FC<TasksViewProps> = ({
       ) : (
         <p>todo add looks like you have no categories section</p>
       )}
-      <CategoryForm categories={categories} setCategories={setCategories} />
+      <CategoryForm selectedDate={selectedDate} />
     </div>
   );
 };

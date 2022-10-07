@@ -10,10 +10,9 @@ import {
   getIsFuture,
 } from "../../utils/dateComputer";
 import { useCategoryTasks } from "../../utils/hooks/query/useCategoryTasks";
-import { startOfDay } from "date-fns";
 
 const TasksPage: NextPage = () => {
-  const [selectedDate, setSelectedDate] = useState(startOfDay(new Date()));
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [categories, setCategories] = useState<CategoryModel[] | null>([]);
 
   //Request Categories

@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDate } from "../../../utils/dateComputer";
+import { formatDate, getUTCDayRange } from "../../../utils/dateComputer";
 import { add, startOfDay, sub } from "date-fns";
 
 const styles = require("./limitedCalender.module.scss");
@@ -58,13 +58,14 @@ const DateSelector: React.FC<DateSelectorProps> = ({
   setSelectedDate,
 }) => {
   const isSelected = selectedDate.toDateString() === dateObj.toDateString();
+  const selectedTimeSpan = getUTCDayRange(dateObj);
 
   return (
     <div
       className={
         isSelected ? styles.dateContainerSelected : styles.dateContainer
       }
-      onClick={() => setSelectedDate(startOfDay(new Date(dateObj)))}
+      onClick={() => setSelectedDate(new Date(selectedTimeSpan.startTime))}
     >
       <span>{formatDate(dateObj, "EEE")}</span>
       <span>{formatDate(dateObj, "d")}</span>

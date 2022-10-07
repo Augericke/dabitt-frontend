@@ -1,7 +1,13 @@
 import { api } from "../environmentManager";
 import { TaskModel } from "../../types/task";
 
-const create = async (data: { categoryId: string; description: string }) => {
+export interface CreateTask {
+  categoryId: string;
+  description: string;
+  estimateMinutes?: number;
+}
+
+const create = async (data: CreateTask) => {
   const response = await api.post<TaskModel>("/task", data);
   return response.data;
 };

@@ -8,21 +8,24 @@ import React, {
 } from "react";
 import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel } from "../../../../types/task";
-import taskService from "../../../../utils/services/task";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import taskService, { CreateTask } from "../../../../utils/services/task";
 import Popover from "../../popover";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
 import produce from "immer";
+import { startOfDay } from "date-fns";
 
 const styles = require("./taskForm.module.scss");
 
 type TaskFormProps = {
+  selectedDate: Date;
   category: CategoryModel;
-  setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
 
-const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
+const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
+  const queryClient = useQueryClient();
   const { textColor, outlineColor } = getSelectableColorClass(
     styles,
     category.iconColor,
@@ -37,37 +40,42 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
   const taskEnterSubmit = (event: any) => {
     if (event.key === "Enter" && event.shiftKey == false) {
       event.preventDefault();
-      return addTask(event);
+      return onSubmit(event);
     }
   };
 
-  const addTask = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      if (newTaskDescription) {
-        const data = {
-          categoryId: category.id,
-          description: newTaskDescription,
-          estimateMinutes: taskTimeEstimate,
-        };
+  const createTask = async (data: CreateTask) => {
+    const addedTask = await taskService.create(data);
+    return addedTask;
+  };
 
-        const addedTask = await taskService.create(data);
-
+  const { mutate, isLoading, error } = useMutation(
+    (newTask: CreateTask) => createTask(newTask),
+    {
+      onSuccess: () => {
         setNewTaskDescription("");
         setTaskTimeEstimate(15);
-        setCategories(
-          produce((draft) => {
-            if (draft) {
-              const index = draft?.findIndex(
-                (updatedCategory) => updatedCategory.id === category.id,
-              );
-              if (index !== -1) draft[index].tasks.push(addedTask);
-            }
-          }),
-        );
-      }
-    } catch (error) {
-      console.error(error);
+        console.log(selectedDate);
+        queryClient.invalidateQueries([
+          "category-tasks",
+          startOfDay(selectedDate),
+        ]);
+      },
+      onError: () => {
+        console.log(error);
+      },
+    },
+  );
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (newTaskDescription) {
+      const newTaskData = {
+        categoryId: category.id,
+        description: newTaskDescription,
+        estimateMinutes: taskTimeEstimate,
+      };
+      mutate(newTaskData);
     }
   };
 
@@ -80,7 +88,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
   }, [newTaskDescription]);
 
   return (
-    <form className={styles.taskForm} onSubmit={addTask}>
+    <form className={styles.taskForm} onSubmit={onSubmit}>
       <button
         className={
           newTaskDescription

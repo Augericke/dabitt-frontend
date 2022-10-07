@@ -27,38 +27,36 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ selectedDate }) => {
     newCategoryColor,
   );
 
-  const handleCategoryName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNewCategoryName(event.target.value);
-  };
-
-  const createCategory = async ({ name, iconColor }: PostCategoryTask) => {
-    const addedCategory = await categoryService.create({ name, iconColor });
-    return addedCategory;
-  };
-
   const { mutate, isLoading, error } = useMutation(
     (newCategory: PostCategoryTask) => createCategory(newCategory),
     {
       onSuccess: () => {
         setNewCategoryName("");
-        queryClient.invalidateQueries([
-          "category-tasks",
-          startOfDay(new Date(selectedDate)),
-        ]);
+        queryClient.invalidateQueries(["category-tasks", selectedDate]);
       },
       onError: () => {
         console.log(error);
       },
-      onSettled: () => {
-        queryClient.invalidateQueries(["category-tasks", selectedDate]);
-      },
     },
   );
+
+  const createCategory = async (data: PostCategoryTask) => {
+    const addedCategory = await categoryService.create(data);
+    return addedCategory;
+  };
+
+  const handleCategoryName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewCategoryName(event.target.value);
+  };
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (newCategoryName) {
-      mutate({ name: newCategoryName, iconColor: newCategoryColor });
+      const newCategoryData = {
+        name: newCategoryName,
+        iconColor: newCategoryColor,
+      };
+      mutate(newCategoryData);
     }
   };
 
