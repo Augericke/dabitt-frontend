@@ -9,36 +9,33 @@ import {
   getIsCurrent,
   getIsFuture,
 } from "../../utils/dateComputer";
-import categoryService from "../../utils/services/category";
-import { useAxios } from "../../utils/axiosProvider";
+import { useCategoryTasks } from "../../utils/hooks/query/useCategoryTasks";
 
 const TasksPage: NextPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [categories, setCategories] = useState<CategoryModel[] | null>([]);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const { startTime, endTime } = getUTCDayRange(selectedDate);
-        const isCurrent = getIsCurrent(selectedDate) ? 1 : 0;
-        const isFuture = getIsFuture(selectedDate) ? 1 : 0;
+  //Request Categories
+  const { startTime, endTime } = getUTCDayRange(selectedDate);
+  const isCurrent = getIsCurrent(selectedDate) ? 1 : 0;
+  const isFuture = getIsFuture(selectedDate) ? 1 : 0;
 
-        const categoriesTasks = await categoryService.read({
-          startTime,
-          endTime,
-          isCurrent,
-          isFuture,
-        });
-        setCategories(categoriesTasks);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, [selectedDate]);
+  const categoryTasks = useCategoryTasks({
+    startTime,
+    endTime,
+    isCurrent,
+    isFuture,
+  });
+
+  useEffect(() => {
+    if (categoryTasks.data) {
+      setCategories(categoryTasks.data);
+    }
+  }, [categoryTasks]);
 
   return (
     <Layout>
-      {false ? (
+      {categoryTasks.isLoading ? (
         <p>todo add skelton & error handling</p>
       ) : (
         <TasksView

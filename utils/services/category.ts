@@ -6,22 +6,28 @@ const create = async (data: { name: string }) => {
   return response.data;
 };
 
-const read = async (query: {
+export type RequestCategoryTask = {
   startTime: string;
   endTime: string;
   isCurrent?: 1 | 0;
   isFuture?: 1 | 0;
-}) => {
-  const { startTime, endTime, isCurrent, isFuture } = query;
+};
+
+const read = async ({
+  startTime,
+  endTime,
+  isCurrent,
+  isFuture,
+}: RequestCategoryTask) => {
   const currentString = isCurrent ? `&isCurrent=${isCurrent}` : "";
   const futureString = isFuture ? `&isFuture=${isFuture}` : "";
-  const response = await api.get<CategoryModel[]>(
+  const { data } = await api.get<CategoryModel[]>(
     `/category/task/?startTime=${startTime}&endTime=${endTime}` +
       currentString +
       futureString,
   );
 
-  return response.data;
+  return data;
 };
 
 const update = async (
