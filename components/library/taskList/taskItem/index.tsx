@@ -18,7 +18,6 @@ import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions"
 import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
-import { useApiHeader } from "../../../../utils/hooks/useApi";
 
 const styles = require("./taskItem.module.scss");
 
@@ -49,15 +48,6 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   // Tick Box
   const [isTicked, setIsTicked] = useState(task.completedAt != null);
-
-  // Get Api Header
-  const { error, loading, header } = useApiHeader();
-  const [authHeader, setAuthHeader] = useState<any>();
-  useEffect(() => {
-    if (!error && !loading) {
-      setAuthHeader(header);
-    }
-  }, [error, header, loading]);
 
   // Avoid users adding line breaks
   const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -178,8 +168,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   const updateTask = async (updateData: {}) => {
     try {
-      if (taskDescription && authHeader) {
-        await taskService.update(task.id, updateData, authHeader);
+      if (taskDescription) {
+        await taskService.update(task.id, updateData);
       }
     } catch (error) {
       console.error(error);
@@ -188,25 +178,23 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   const deleteTask = async () => {
     try {
-      if (authHeader) {
-        await taskService.destroy(task.id, header);
-        setCategories(
-          produce((draft) => {
-            if (draft) {
-              const index = draft?.findIndex(
-                (updatedCategory) => updatedCategory.id === category.id,
+      await taskService.destroy(task.id);
+      setCategories(
+        produce((draft) => {
+          if (draft) {
+            const index = draft?.findIndex(
+              (updatedCategory) => updatedCategory.id === category.id,
+            );
+            if (index !== -1) {
+              const taskIndex = draft[index].tasks.findIndex(
+                (updatedTask) => updatedTask.id === task.id,
               );
-              if (index !== -1) {
-                const taskIndex = draft[index].tasks.findIndex(
-                  (updatedTask) => updatedTask.id === task.id,
-                );
 
-                if (taskIndex !== -1) draft[index].tasks.splice(taskIndex, 1);
-              }
+              if (taskIndex !== -1) draft[index].tasks.splice(taskIndex, 1);
             }
-          }),
-        );
-      }
+          }
+        }),
+      );
     } catch (error) {
       console.error(error);
     }

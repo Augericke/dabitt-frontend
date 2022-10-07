@@ -1,25 +1,18 @@
 import { api } from "../environmentManager";
 import { TaskModel } from "../../types/task";
 
-const create = async (
-  data: { categoryId: string; description: string },
-  headers: {},
-) => {
-  const response = await api.post<TaskModel>("/task", data, headers);
+const create = async (data: { categoryId: string; description: string }) => {
+  const response = await api.post<TaskModel>("/task", data);
   return response.data;
 };
 
-const update = async (
-  id: string,
-  data: { completedAt?: Date | null },
-  headers: {},
-) => {
-  const response = await api.put(`/task/${id}`, data, headers);
+const update = async (id: string, data: { completedAt?: Date | null }) => {
+  const response = await api.put(`/task/${id}`, data);
   return response.data;
 };
 
-const destroy = async (id: string, header: {}) => {
-  const response = await api.delete(`/task/${id}`, header);
+const destroy = async (id: string) => {
+  const response = await api.delete(`/task/${id}`);
   return response.data;
 };
 

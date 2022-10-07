@@ -36,8 +36,6 @@ const TasksPage: NextPage = () => {
     })();
   }, [selectedDate]);
 
-  console.log(useAxios());
-
   return (
     <Layout>
       {false ? (

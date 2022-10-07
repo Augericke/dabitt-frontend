@@ -16,7 +16,6 @@ import useFontFaceObserver from "use-font-face-observer";
 import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
-import { useApiHeader } from "../../../../utils/hooks/useApi";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -60,15 +59,6 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     }
   }
 
-  // Get Api Header
-  const { error, loading, header } = useApiHeader();
-  const [authHeader, setAuthHeader] = useState<any>();
-  useEffect(() => {
-    if (!error && !loading) {
-      setAuthHeader(header);
-    }
-  }, [error, header, loading]);
-
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(event.target.value);
   };
@@ -108,23 +98,21 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   const updateCategory = useCallback(
     async (body: { name?: string; iconColor?: IconColors }) => {
       try {
-        if (authHeader) {
-          await categoryService.update(category.id, body, authHeader);
-        }
+        await categoryService.update(category.id, body);
       } catch (error) {
         console.error(error);
       }
     },
-    [authHeader, category.id],
+    [category.id],
   );
 
   const deleteCategory = async () => {
     try {
-      if (categories && authHeader) {
+      if (categories) {
         const updatedCategories = categories.filter(
           (categories) => categories.id != category.id,
         );
-        await categoryService.destroy(category.id, authHeader);
+        await categoryService.destroy(category.id);
         setCategories(updatedCategories);
       }
     } catch (error) {

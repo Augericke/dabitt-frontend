@@ -12,7 +12,6 @@ import produce from "immer";
 import Popover from "../../popover";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
-import { useApiHeader } from "../../../../utils/hooks/useApi";
 
 const styles = require("./categoryForm.module.scss");
 
@@ -34,15 +33,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     newCategoryColor,
   );
 
-  // Get Api Header
-  const { error, loading, header } = useApiHeader();
-  const [authHeader, setAuthHeader] = useState<any>();
-  useEffect(() => {
-    if (!error && !loading) {
-      setAuthHeader(header);
-    }
-  }, [error, header, loading]);
-
   const handleCategoryName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewCategoryName(event.target.value);
   };
@@ -50,13 +40,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
   const addCategory = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (newCategoryName && categories && authHeader) {
+      if (newCategoryName && categories) {
         const data = {
           name: newCategoryName,
           iconColor: newCategoryColor,
         };
 
-        const addedCategory = await categoryService.create(data, authHeader);
+        const addedCategory = await categoryService.create(data);
         setNewCategoryName("");
         setCategories(
           produce((draft) => {

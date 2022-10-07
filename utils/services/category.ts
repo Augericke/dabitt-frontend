@@ -1,8 +1,8 @@
 import { api } from "../environmentManager";
 import { CategoryModel, IconColors } from "../../types/task";
 
-const create = async (data: { name: string }, headers: {}) => {
-  const response = await api.post<CategoryModel>("/category", data, headers);
+const create = async (data: { name: string }) => {
+  const response = await api.post<CategoryModel>("/category", data);
   return response.data;
 };
 
@@ -27,14 +27,13 @@ const read = async (query: {
 const update = async (
   id: string,
   data: { name?: string; iconColor?: IconColors },
-  headers: {},
 ) => {
-  const response = await api.put(`/category/${id}`, data, headers);
+  const response = await api.put(`/category/${id}`, data);
   return response.data;
 };
 
-const destroy = async (id: string, headers: {}) => {
-  const response = await api.delete(`/category/${id}`, headers);
+const destroy = async (id: string) => {
+  const response = await api.delete(`/category/${id}`);
   return response.data;
 };
 

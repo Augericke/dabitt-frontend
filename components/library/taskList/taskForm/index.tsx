@@ -14,7 +14,6 @@ import { getSelectableColorClass } from "../../../../utils/selectableColorClass"
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
 import produce from "immer";
-import { useApiHeader } from "../../../../utils/hooks/useApi";
 
 const styles = require("./taskForm.module.scss");
 
@@ -31,15 +30,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskTimeEstimate, setTaskTimeEstimate] = useState(15);
 
-  // Get Api Header
-  const { error, loading, header } = useApiHeader();
-  const [authHeader, setAuthHeader] = useState<any>();
-  useEffect(() => {
-    if (!error && !loading) {
-      setAuthHeader(header);
-    }
-  }, [error, header, loading]);
-
   const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTaskDescription(event.target.value.replace(/\n/g, ""));
   };
@@ -54,14 +44,14 @@ const TaskForm: React.FC<TaskFormProps> = ({ category, setCategories }) => {
   const addTask = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      if (newTaskDescription && authHeader) {
+      if (newTaskDescription) {
         const data = {
           categoryId: category.id,
           description: newTaskDescription,
           estimateMinutes: taskTimeEstimate,
         };
 
-        const addedTask = await taskService.create(data, authHeader);
+        const addedTask = await taskService.create(data);
 
         setNewTaskDescription("");
         setTaskTimeEstimate(15);
