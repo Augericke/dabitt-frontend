@@ -10,19 +10,19 @@ import {
   getIsFuture,
 } from "../../utils/dateComputer";
 import { useCategoryTasks } from "../../utils/hooks/query/useCategoryTasks";
+import { startOfDay } from "date-fns";
 
 const TasksPage: NextPage = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(startOfDay(new Date()));
   const [categories, setCategories] = useState<CategoryModel[] | null>([]);
 
   //Request Categories
-  const { startTime, endTime } = getUTCDayRange(selectedDate);
+  const selectedTimeSpan = getUTCDayRange(selectedDate);
   const isCurrent = getIsCurrent(selectedDate) ? 1 : 0;
   const isFuture = getIsFuture(selectedDate) ? 1 : 0;
 
   const categoryTasks = useCategoryTasks({
-    startTime,
-    endTime,
+    ...selectedTimeSpan,
     isCurrent,
     isFuture,
   });

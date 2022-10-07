@@ -1,6 +1,6 @@
 import React from "react";
 import { formatDate } from "../../../utils/dateComputer";
-import { add, sub } from "date-fns";
+import { add, startOfDay, sub } from "date-fns";
 
 const styles = require("./limitedCalender.module.scss");
 
@@ -64,7 +64,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({
       className={
         isSelected ? styles.dateContainerSelected : styles.dateContainer
       }
-      onClick={() => setSelectedDate(dateObj)}
+      onClick={() => setSelectedDate(startOfDay(new Date(dateObj)))}
     >
       <span>{formatDate(dateObj, "EEE")}</span>
       <span>{formatDate(dateObj, "d")}</span>

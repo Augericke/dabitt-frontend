@@ -1,16 +1,20 @@
 import { api } from "../environmentManager";
 import { CategoryModel, IconColors } from "../../types/task";
 
-const create = async (data: { name: string }) => {
-  const response = await api.post<CategoryModel>("/category", data);
-  return response.data;
-};
-
-export type RequestCategoryTask = {
+export interface PostCategoryTask {
+  name: string;
+  iconColor?: IconColors;
+}
+export interface RequestCategoryTask {
   startTime: string;
   endTime: string;
   isCurrent?: 1 | 0;
   isFuture?: 1 | 0;
+}
+
+const create = async (data: PostCategoryTask) => {
+  const response = await api.post<CategoryModel>("/category", data);
+  return response.data;
 };
 
 const read = async ({

@@ -1,29 +1,23 @@
-import React, {
-  useState,
-  SetStateAction,
-  Dispatch,
-  FormEvent,
-  useEffect,
-} from "react";
+import React, { useState, FormEvent } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BsPlusCircle } from "react-icons/bs";
-import { CategoryModel, colorList, IconColors } from "../../../../types/task";
-import categoryService from "../../../../utils/services/category";
-import produce from "immer";
+import { colorList, IconColors } from "../../../../types/task";
+import categoryService, {
+  PostCategoryTask,
+} from "../../../../utils/services/category";
 import Popover from "../../popover";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
+import { startOfDay } from "date-fns";
 
 const styles = require("./categoryForm.module.scss");
 
 type CategoryFormProps = {
-  categories: CategoryModel[] | null;
-  setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
+  selectedDate: Date;
 };
 
-const CategoryForm: React.FC<CategoryFormProps> = ({
-  categories,
-  setCategories,
-}) => {
+const CategoryForm: React.FC<CategoryFormProps> = ({ selectedDate }) => {
+  const queryClient = useQueryClient();
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryColor, setNewCategoryColor] = useState<IconColors>(
     colorList[0],
@@ -37,32 +31,39 @@ const CategoryForm: React.FC<CategoryFormProps> = ({
     setNewCategoryName(event.target.value);
   };
 
-  const addCategory = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      if (newCategoryName && categories) {
-        const data = {
-          name: newCategoryName,
-          iconColor: newCategoryColor,
-        };
+  const createCategory = async ({ name, iconColor }: PostCategoryTask) => {
+    const addedCategory = await categoryService.create({ name, iconColor });
+    return addedCategory;
+  };
 
-        const addedCategory = await categoryService.create(data);
+  const { mutate, isLoading, error } = useMutation(
+    (newCategory: PostCategoryTask) => createCategory(newCategory),
+    {
+      onSuccess: () => {
         setNewCategoryName("");
-        setCategories(
-          produce((draft) => {
-            if (draft) {
-              draft.push({ ...addedCategory, tasks: [] });
-            }
-          }),
-        );
-      }
-    } catch (error) {
-      console.error(error);
+        queryClient.invalidateQueries([
+          "category-tasks",
+          startOfDay(new Date(selectedDate)),
+        ]);
+      },
+      onError: () => {
+        console.log(error);
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries(["category-tasks", selectedDate]);
+      },
+    },
+  );
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (newCategoryName) {
+      mutate({ name: newCategoryName, iconColor: newCategoryColor });
     }
   };
 
   return (
-    <form className={styles.categoryFormContainer} onSubmit={addCategory}>
+    <form className={styles.categoryFormContainer} onSubmit={onSubmit}>
       <button
         className={
           newCategoryName
