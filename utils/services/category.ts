@@ -6,15 +6,12 @@ const create = async (data: { name: string }, headers: {}) => {
   return response.data;
 };
 
-const read = async (
-  query: {
-    startTime: string;
-    endTime: string;
-    isCurrent?: 1 | 0;
-    isFuture?: 1 | 0;
-  },
-  headers: {},
-) => {
+const read = async (query: {
+  startTime: string;
+  endTime: string;
+  isCurrent?: 1 | 0;
+  isFuture?: 1 | 0;
+}) => {
   const { startTime, endTime, isCurrent, isFuture } = query;
   const currentString = isCurrent ? `&isCurrent=${isCurrent}` : "";
   const futureString = isFuture ? `&isFuture=${isFuture}` : "";
@@ -22,7 +19,6 @@ const read = async (
     `/category/task/?startTime=${startTime}&endTime=${endTime}` +
       currentString +
       futureString,
-    headers,
   );
 
   return response.data;
