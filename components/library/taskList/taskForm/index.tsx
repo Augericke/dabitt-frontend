@@ -7,6 +7,7 @@ import Popover from "../../popover";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
+import { TaskModel } from "../../../../types/task";
 
 const styles = require("./taskForm.module.scss");
 
@@ -27,10 +28,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
   const { mutate, isLoading, error } = useMutation(
     (newTask: CreateTask) => createTask(newTask),
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setNewTaskDescription("");
         setTaskTimeEstimate(15);
-        queryClient.invalidateQueries(["tasks", category.id]);
+        queryClient.setQueryData<TaskModel[] | undefined>(
+          ["tasks", category.id],
+          (oldTasks) => oldTasks && [...oldTasks, data],
+        );
       },
       onError: () => {
         console.log(error);

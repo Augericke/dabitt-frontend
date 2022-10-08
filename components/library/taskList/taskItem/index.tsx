@@ -54,8 +54,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ category, task }) => {
   const updateMutation = useMutation(
     (updatedTask: UpdateTask) => updateTask(updatedTask),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["tasks", category.id]);
+      onSuccess: (data) => {
+        queryClient.setQueryData<TaskModel[] | undefined>(
+          ["tasks", category.id],
+          (oldTasks) =>
+            oldTasks &&
+            oldTasks.map((task) => (task.id !== data.id ? task : data)),
+        );
       },
       onError: () => {
         console.log(updateMutation.error);
@@ -66,8 +71,12 @@ const TaskItem: React.FC<TaskItemProps> = ({ category, task }) => {
   const deleteMutation = useMutation(
     (deletedTask: DeleteTask) => deleteTask(deletedTask),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["tasks", category.id]);
+      onSuccess: (data) => {
+        queryClient.setQueryData<TaskModel[] | undefined>(
+          ["tasks", category.id],
+          (oldTasks) =>
+            oldTasks && oldTasks.filter((task) => task.id !== data.id),
+        );
       },
       onError: () => {
         console.log(deleteMutation.error);
