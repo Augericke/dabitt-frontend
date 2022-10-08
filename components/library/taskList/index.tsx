@@ -40,10 +40,9 @@ const TaskList: React.FC<TaskListProps> = ({
                 return (
                   <TaskItem
                     key={task.id}
+                    selectedDate={selectedDate}
                     category={category}
                     task={task}
-                    categories={categories}
-                    setCategories={setCategories}
                   />
                 );
               })}

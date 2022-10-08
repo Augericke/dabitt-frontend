@@ -1,204 +1,41 @@
-import React, {
-  useRef,
-  useEffect,
-  useState,
-  SetStateAction,
-  Dispatch,
-} from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
 import { CategoryModel, TaskModel } from "../../../../types/task";
-import taskService from "../../../../utils/services/task";
+import taskService, { UpdateTask } from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
-import { add } from "date-fns";
+import { add, startOfDay } from "date-fns";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
-import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
 
 const styles = require("./taskItem.module.scss");
 
 type TaskItemProps = {
+  selectedDate: Date;
   category: CategoryModel;
-  categories: CategoryModel[] | null;
-  setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
   task: TaskModel;
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({
+  selectedDate,
   category,
-  setCategories,
   task,
 }) => {
-  // Modal
+  const queryClient = useQueryClient();
+
+  // Modal / Tick Box
   const [showModal, setShowModal] = useState(false);
+  const isTicked = task.completedAt != null;
 
   // Text Area
   const { borderColor } = getSelectableColorClass(styles, category.iconColor);
   const [taskDescription, setTaskDescription] = useState(task.description);
   const [checkSpelling, setCheckSpelling] = useState(false);
-
-  // Time Estimate
-  const [taskTimeEstimate, setTaskTimeEstimate] = useState(
-    task.estimateMinutes,
-  );
-
-  // Tick Box
-  const [isTicked, setIsTicked] = useState(task.completedAt != null);
-
-  // Avoid users adding line breaks
-  const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTaskDescription(event.target.value.replace(/\n/g, ""));
-  };
-
-  // Only update and trim whitespace if there is a task description / task description has changed
-  const onBlur = () => {
-    const newDescription =
-      taskDescription === "" ? task.description : taskDescription.trim();
-    if (newDescription && newDescription !== task.description) {
-      const updateData = {
-        description: taskDescription,
-      };
-
-      updateTask(updateData);
-      setCategories(
-        produce((draft) => {
-          if (draft) {
-            const index = draft?.findIndex(
-              (updatedCategory) => updatedCategory.id === category.id,
-            );
-            if (index !== -1) {
-              const taskIndex = draft[index].tasks.findIndex(
-                (updatedTask) => updatedTask.id === task.id,
-              );
-
-              if (taskIndex !== -1)
-                draft[index].tasks[taskIndex].description = taskDescription;
-            }
-          }
-        }),
-      );
-    }
-
-    setTaskDescription(newDescription);
-    setCheckSpelling(false);
-  };
-
-  const handleTickBox = () => {
-    let completedAt: Date | null = null;
-    if (!isTicked) {
-      completedAt = new Date();
-    }
-
-    setIsTicked(!isTicked);
-    updateTask({ completedAt: completedAt });
-    setCategories(
-      produce((draft) => {
-        if (draft) {
-          const index = draft?.findIndex(
-            (updatedCategory) => updatedCategory.id === category.id,
-          );
-          if (index !== -1) {
-            const taskIndex = draft[index].tasks.findIndex(
-              (updatedTask) => updatedTask.id === task.id,
-            );
-
-            if (taskIndex !== -1)
-              draft[index].tasks[taskIndex].completedAt = completedAt;
-          }
-        }
-      }),
-    );
-  };
-
-  const handleTimeChange = (newEstimate: number) => {
-    const updateData = {
-      estimateMinutes: newEstimate,
-    };
-
-    updateTask(updateData);
-    setTaskTimeEstimate(newEstimate);
-    setCategories(
-      produce((draft) => {
-        if (draft) {
-          const index = draft?.findIndex(
-            (updatedCategory) => updatedCategory.id === category.id,
-          );
-          if (index !== -1) {
-            const taskIndex = draft[index].tasks.findIndex(
-              (updatedTask) => updatedTask.id === task.id,
-            );
-
-            if (taskIndex !== -1)
-              draft[index].tasks[taskIndex].estimateMinutes = newEstimate;
-          }
-        }
-      }),
-    );
-  };
-
-  const handleCanKick = () => {
-    const tomorrow = add(new Date(), { days: 1 });
-    const updateData = {
-      startAt: tomorrow,
-    };
-
-    updateTask(updateData);
-    // Remove from categories since displayed tasks is dependent on time selection
-    setCategories(
-      produce((draft) => {
-        if (draft) {
-          const index = draft?.findIndex(
-            (updatedCategory) => updatedCategory.id === category.id,
-          );
-          if (index !== -1) {
-            const taskIndex = draft[index].tasks.findIndex(
-              (updatedTask) => updatedTask.id === task.id,
-            );
-
-            if (taskIndex !== -1) draft[index].tasks.splice(taskIndex, 1);
-          }
-        }
-      }),
-    );
-  };
-
-  const updateTask = async (updateData: {}) => {
-    try {
-      if (taskDescription) {
-        await taskService.update(task.id, updateData);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const deleteTask = async () => {
-    try {
-      await taskService.destroy(task.id);
-      setCategories(
-        produce((draft) => {
-          if (draft) {
-            const index = draft?.findIndex(
-              (updatedCategory) => updatedCategory.id === category.id,
-            );
-            if (index !== -1) {
-              const taskIndex = draft[index].tasks.findIndex(
-                (updatedTask) => updatedTask.id === task.id,
-              );
-
-              if (taskIndex !== -1) draft[index].tasks.splice(taskIndex, 1);
-            }
-          }
-        }),
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   // Resize textArea based on description length
   const textRef = useRef<any>();
@@ -214,12 +51,90 @@ const TaskItem: React.FC<TaskItemProps> = ({
     }
   }, [isFontListLoaded, taskDescription, width, height]);
 
+  const updateMutation = useMutation(
+    (updatedTask: UpdateTask) => updateTask(updatedTask),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([
+          "category-tasks",
+          startOfDay(selectedDate),
+        ]);
+      },
+      onError: () => {
+        console.log(updateMutation.error);
+      },
+    },
+  );
+
+  const deleteMutation = useMutation((id: string) => deleteTask(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries([
+        "category-tasks",
+        startOfDay(selectedDate),
+      ]);
+    },
+    onError: () => {
+      console.log(deleteMutation.error);
+    },
+  });
+
+  // Avoid users adding line breaks
+  const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTaskDescription(event.target.value.replace(/\n/g, ""));
+  };
+
+  // Only update and trim whitespace if there is a task description / task description has changed
+  const onBlur = () => {
+    const newDescription =
+      taskDescription === "" ? task.description : taskDescription.trim();
+    if (newDescription && newDescription !== task.description) {
+      updateMutation.mutate({
+        id: task.id,
+        data: { description: taskDescription },
+      });
+    }
+
+    setTaskDescription(newDescription);
+    setCheckSpelling(false);
+  };
+
+  const onTick = () => {
+    let completedAt: Date | null = null;
+    if (!isTicked) {
+      completedAt = new Date();
+    }
+
+    updateMutation.mutate({ id: task.id, data: { completedAt } });
+  };
+
+  const onTimeChange = (newEstimate: number) => {
+    updateMutation.mutate({
+      id: task.id,
+      data: { estimateMinutes: newEstimate },
+    });
+  };
+
+  const onCanKick = () => {
+    const tomorrow = add(new Date(), { days: 1 });
+    updateMutation.mutate({ id: task.id, data: { startAt: tomorrow } });
+  };
+
+  const updateTask = async (updateData: UpdateTask) => {
+    const updatedTask = await taskService.update(updateData);
+    return updatedTask;
+  };
+
+  const deleteTask = async (id: string) => {
+    const deletedTask = await taskService.destroy(id);
+    return deletedTask;
+  };
+
   return (
     <>
       <li className={styles.taskItem}>
         <TickBox
           isTicked={isTicked}
-          onClick={handleTickBox}
+          onClick={onTick}
           categoryColor={category.iconColor}
         />
         <textarea
@@ -240,16 +155,16 @@ const TaskItem: React.FC<TaskItemProps> = ({
             iconType="clock"
             iconText={
               <span className={styles.estimateLabel}>
-                {displayHourMinutes(taskTimeEstimate)}
+                {displayHourMinutes(task.estimateMinutes)}
               </span>
             }
-            menuItems={getTimeEstimateMenuOptions(handleTimeChange)}
+            menuItems={getTimeEstimateMenuOptions(onTimeChange)}
           />
         </div>
         <span className={styles.popoverContainer}>
           <Popover
             customMenuClass={styles.customTaskMenu}
-            menuItems={getMenuItems(textRef, handleCanKick, () => {
+            menuItems={getMenuItems(textRef, onCanKick, () => {
               setShowModal(true);
             })}
           />
@@ -261,7 +176,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
         onClose={() => {
           setShowModal(false);
         }}
-        onDelete={() => deleteTask()}
+        onDelete={() => deleteMutation.mutate(task.id)}
       />
     </>
   );

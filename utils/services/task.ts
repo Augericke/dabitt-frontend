@@ -7,12 +7,21 @@ export interface CreateTask {
   estimateMinutes?: number;
 }
 
+export interface UpdateTask {
+  id: string;
+  data: {
+    description?: string;
+    completedAt?: Date | null;
+    startAt?: Date | null;
+  };
+}
+
 const create = async (data: CreateTask) => {
   const response = await api.post<TaskModel>("/task", data);
   return response.data;
 };
 
-const update = async (id: string, data: { completedAt?: Date | null }) => {
+const update = async ({ id, data }: UpdateTask) => {
   const response = await api.put(`/task/${id}`, data);
   return response.data;
 };
