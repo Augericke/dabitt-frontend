@@ -1,13 +1,12 @@
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { BsPlusCircle } from "react-icons/bs";
-import { CategoryModel } from "../../../../types/task";
+import { CategoryModel } from "../../../../types/category";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import taskService, { CreateTask } from "../../../../utils/services/task";
 import Popover from "../../popover";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
-import { startOfDay } from "date-fns";
 
 const styles = require("./taskForm.module.scss");
 
@@ -31,10 +30,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
       onSuccess: () => {
         setNewTaskDescription("");
         setTaskTimeEstimate(15);
-        queryClient.invalidateQueries([
-          "category-tasks",
-          startOfDay(selectedDate),
-        ]);
+        queryClient.invalidateQueries(["tasks", category.id]);
       },
       onError: () => {
         console.log(error);
@@ -66,8 +62,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
         categoryId: category.id,
         description: newTaskDescription,
         estimateMinutes: taskTimeEstimate,
+        startAt: selectedDate,
       };
-      mutate(newTaskData);
+      mutate({ categoryId: category.id, data: newTaskData });
     }
   };
 

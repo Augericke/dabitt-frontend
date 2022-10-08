@@ -1,18 +1,11 @@
-export type TaskModel = {
+export interface TaskModel {
   id: string;
   description: string;
   createdAt: Date;
   completedAt: Date | null;
   startAt: Date | null;
   estimateMinutes: number;
-};
-
-export type CategoryModel = {
-  id: string;
-  name: string;
-  tasks: TaskModel[];
-  iconColor: IconColors;
-};
+}
 
 export const colorList = [
   "default",

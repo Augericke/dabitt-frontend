@@ -3,11 +3,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
-import { CategoryModel, TaskModel } from "../../../../types/task";
-import taskService, { UpdateTask } from "../../../../utils/services/task";
+import { CategoryModel } from "../../../../types/category";
+import { TaskModel } from "../../../../types/task";
+import taskService, {
+  DeleteTask,
+  UpdateTask,
+} from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
-import { add, startOfDay } from "date-fns";
+import { add } from "date-fns";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
@@ -17,16 +21,11 @@ import { onEnterDownBlur } from "../../../../utils/formControllers";
 const styles = require("./taskItem.module.scss");
 
 type TaskItemProps = {
-  selectedDate: Date;
   category: CategoryModel;
   task: TaskModel;
 };
 
-const TaskItem: React.FC<TaskItemProps> = ({
-  selectedDate,
-  category,
-  task,
-}) => {
+const TaskItem: React.FC<TaskItemProps> = ({ category, task }) => {
   const queryClient = useQueryClient();
 
   // Modal / Tick Box
@@ -56,10 +55,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
     (updatedTask: UpdateTask) => updateTask(updatedTask),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([
-          "category-tasks",
-          startOfDay(selectedDate),
-        ]);
+        queryClient.invalidateQueries(["tasks", category.id]);
       },
       onError: () => {
         console.log(updateMutation.error);
@@ -67,17 +63,17 @@ const TaskItem: React.FC<TaskItemProps> = ({
     },
   );
 
-  const deleteMutation = useMutation((id: string) => deleteTask(id), {
-    onSuccess: () => {
-      queryClient.invalidateQueries([
-        "category-tasks",
-        startOfDay(selectedDate),
-      ]);
+  const deleteMutation = useMutation(
+    (deletedTask: DeleteTask) => deleteTask(deletedTask),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["tasks", category.id]);
+      },
+      onError: () => {
+        console.log(deleteMutation.error);
+      },
     },
-    onError: () => {
-      console.log(deleteMutation.error);
-    },
-  });
+  );
 
   // Avoid users adding line breaks
   const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -90,7 +86,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
       taskDescription === "" ? task.description : taskDescription.trim();
     if (newDescription && newDescription !== task.description) {
       updateMutation.mutate({
-        id: task.id,
+        categoryId: category.id,
+        taskId: task.id,
         data: { description: taskDescription },
       });
     }
@@ -105,19 +102,28 @@ const TaskItem: React.FC<TaskItemProps> = ({
       completedAt = new Date();
     }
 
-    updateMutation.mutate({ id: task.id, data: { completedAt } });
+    updateMutation.mutate({
+      categoryId: category.id,
+      taskId: task.id,
+      data: { completedAt },
+    });
   };
 
   const onTimeChange = (newEstimate: number) => {
     updateMutation.mutate({
-      id: task.id,
+      categoryId: category.id,
+      taskId: task.id,
       data: { estimateMinutes: newEstimate },
     });
   };
 
   const onCanKick = () => {
     const tomorrow = add(new Date(), { days: 1 });
-    updateMutation.mutate({ id: task.id, data: { startAt: tomorrow } });
+    updateMutation.mutate({
+      categoryId: category.id,
+      taskId: task.id,
+      data: { startAt: tomorrow },
+    });
   };
 
   const updateTask = async (updateData: UpdateTask) => {
@@ -125,8 +131,8 @@ const TaskItem: React.FC<TaskItemProps> = ({
     return updatedTask;
   };
 
-  const deleteTask = async (id: string) => {
-    const deletedTask = await taskService.destroy(id);
+  const deleteTask = async ({ categoryId, taskId }: DeleteTask) => {
+    const deletedTask = await taskService.destroy({ categoryId, taskId });
     return deletedTask;
   };
 
@@ -177,7 +183,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
         onClose={() => {
           setShowModal(false);
         }}
-        onDelete={() => deleteMutation.mutate(task.id)}
+        onDelete={() =>
+          deleteMutation.mutate({ categoryId: category.id, taskId: task.id })
+        }
       />
     </>
   );

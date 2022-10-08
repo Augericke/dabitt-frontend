@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import categoryService, {
-  UpdateCategoryTask,
+  UpdateCategory,
 } from "../../../../utils/services/category";
-import { CategoryModel, IconColors } from "../../../../types/task";
+import { CategoryModel } from "../../../../types/category";
+import { IconColors } from "../../../../types/task";
 import Popover from "../../popover";
 import { getMenuItems } from "./categoryMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
@@ -11,19 +12,18 @@ import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenu
 import useFontFaceObserver from "use-font-face-observer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
-import { startOfDay } from "date-fns";
 import { onEnterDownBlur } from "../../../../utils/formControllers";
 
 const styles = require("./categoryHeader.module.scss");
 
 type CategoryHeaderProps = {
-  selectedDate: Date;
   category: CategoryModel;
+  numTasks: number;
 };
 
 const CategoryHeader: React.FC<CategoryHeaderProps> = ({
-  selectedDate,
   category,
+  numTasks,
 }) => {
   const queryClient = useQueryClient();
   const { backgroundColor, borderColor } = getSelectableColorClass(
@@ -47,13 +47,10 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   }, [isFontListLoaded, categoryName, width]);
 
   const updateMutation = useMutation(
-    (updatedCategory: UpdateCategoryTask) => updateCategory(updatedCategory),
+    (updatedCategory: UpdateCategory) => updateCategory(updatedCategory),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries([
-          "category-tasks",
-          startOfDay(selectedDate),
-        ]);
+        queryClient.invalidateQueries(["categories"]);
       },
       onError: () => {
         console.log(updateMutation.error);
@@ -63,17 +60,14 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
 
   const deleteMutation = useMutation((id: string) => deleteCategory(id), {
     onSuccess: () => {
-      queryClient.invalidateQueries([
-        "category-tasks",
-        startOfDay(selectedDate),
-      ]);
+      queryClient.invalidateQueries(["categories"]);
     },
     onError: () => {
       console.log(deleteMutation.error);
     },
   });
 
-  const updateCategory = async (updateData: UpdateCategoryTask) => {
+  const updateCategory = async (updateData: UpdateCategory) => {
     const updatedCategory = await categoryService.update(updateData);
     return updatedCategory;
   };
@@ -119,7 +113,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             iconType="none"
             iconText={
               <span className={`${styles.categoryCount} ${backgroundColor}`}>
-                {category.tasks.length}
+                {numTasks}
               </span>
             }
           />

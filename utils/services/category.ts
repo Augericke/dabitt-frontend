@@ -1,18 +1,12 @@
 import { api } from "../environmentManager";
-import { CategoryModel, IconColors } from "../../types/task";
+import { IconColors } from "../../types/task";
+import { CategoryModel } from "../../types/category";
 
-export interface CreateCategoryTask {
+export interface CreateCategory {
   name: string;
   iconColor?: IconColors;
 }
-export interface RequestCategoryTask {
-  startTime: string;
-  endTime: string;
-  isCurrent?: 1 | 0;
-  isFuture?: 1 | 0;
-}
-
-export interface UpdateCategoryTask {
+export interface UpdateCategory {
   id: string;
   data: {
     name?: string;
@@ -20,29 +14,17 @@ export interface UpdateCategoryTask {
   };
 }
 
-const create = async (data: CreateCategoryTask) => {
+const create = async (data: CreateCategory) => {
   const response = await api.post<CategoryModel>("/category", data);
   return response.data;
 };
 
-const read = async ({
-  startTime,
-  endTime,
-  isCurrent,
-  isFuture,
-}: RequestCategoryTask) => {
-  const currentString = isCurrent ? `&isCurrent=${isCurrent}` : "";
-  const futureString = isFuture ? `&isFuture=${isFuture}` : "";
-  const { data } = await api.get<CategoryModel[]>(
-    `/category/task/?startTime=${startTime}&endTime=${endTime}` +
-      currentString +
-      futureString,
-  );
-
+const read = async (id?: string) => {
+  const { data } = await api.get<CategoryModel[]>(`/category/${id || ""}`);
   return data;
 };
 
-const update = async ({ id, data }: UpdateCategoryTask) => {
+const update = async ({ id, data }: UpdateCategory) => {
   const response = await api.put(`/category/${id}`, data);
   return response.data;
 };

@@ -6,8 +6,6 @@ import {
 } from "@nivo/calendar";
 import variable from "../../../../styles/_selectableColors.module.scss";
 
-console.log();
-
 const styles = require("./calendarMap.module.scss");
 
 type CalenderMapProps = {};

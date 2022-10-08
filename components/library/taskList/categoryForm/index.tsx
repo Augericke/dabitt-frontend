@@ -3,20 +3,17 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BsPlusCircle } from "react-icons/bs";
 import { colorList, IconColors } from "../../../../types/task";
 import categoryService, {
-  CreateCategoryTask,
+  CreateCategory,
 } from "../../../../utils/services/category";
 import Popover from "../../popover";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
-import { startOfDay } from "date-fns";
 
 const styles = require("./categoryForm.module.scss");
 
-type CategoryFormProps = {
-  selectedDate: Date;
-};
+type CategoryFormProps = {};
 
-const CategoryForm: React.FC<CategoryFormProps> = ({ selectedDate }) => {
+const CategoryForm: React.FC<CategoryFormProps> = () => {
   const queryClient = useQueryClient();
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryColor, setNewCategoryColor] = useState<IconColors>(
@@ -28,14 +25,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ selectedDate }) => {
   );
 
   const { mutate, isLoading, error } = useMutation(
-    (newCategory: CreateCategoryTask) => createCategory(newCategory),
+    (newCategory: CreateCategory) => createCategory(newCategory),
     {
       onSuccess: () => {
         setNewCategoryName("");
-        queryClient.invalidateQueries([
-          "category-tasks",
-          startOfDay(selectedDate),
-        ]);
+        queryClient.invalidateQueries(["categories"]);
       },
       onError: () => {
         console.log(error);
@@ -43,7 +37,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ selectedDate }) => {
     },
   );
 
-  const createCategory = async (data: CreateCategoryTask) => {
+  const createCategory = async (data: CreateCategory) => {
     const addedCategory = await categoryService.create(data);
     return addedCategory;
   };
