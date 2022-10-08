@@ -12,6 +12,7 @@ import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
+import { onEnterDownBlur } from "../../../../utils/formControlers";
 
 const styles = require("./taskItem.module.scss");
 
@@ -145,7 +146,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           spellCheck={checkSpelling}
           value={taskDescription}
           onChange={onChangeHandler}
-          onKeyDown={onEnterSubmit}
+          onKeyDown={onEnterDownBlur}
           onFocus={() => setCheckSpelling(true)}
           onBlur={onBlur}
           maxLength={140}
@@ -183,10 +184,3 @@ const TaskItem: React.FC<TaskItemProps> = ({
 };
 
 export default TaskItem;
-
-// Force loss of focus on enter (triggers updateTask)
-const onEnterSubmit = (event: any) => {
-  if (event.key === "Enter" && event.shiftKey == false) {
-    event.target.blur();
-  }
-};

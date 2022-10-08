@@ -12,6 +12,7 @@ import useFontFaceObserver from "use-font-face-observer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
 import { startOfDay } from "date-fns";
+import { onEnterDownBlur } from "../../../../utils/formControlers";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -107,7 +108,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             className={`${styles.categoryInput} ${borderColor}`}
             value={categoryName}
             onChange={onChange}
-            onKeyDown={onEnterSubmit}
+            onKeyDown={onEnterDownBlur}
             onBlur={onBlur}
             maxLength={25}
           />
@@ -142,10 +143,3 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
 };
 
 export default CategoryHeader;
-
-// Force loss of focus on enter (triggers updateCategory)
-const onEnterSubmit = (event: any) => {
-  if (event.key === "Enter" && event.shiftKey == false) {
-    event.target.blur();
-  }
-};
