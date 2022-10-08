@@ -12,7 +12,7 @@ import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
-import { onEnterDownBlur } from "../../../../utils/formControlers";
+import { onEnterDownBlur } from "../../../../utils/formControllers";
 
 const styles = require("./taskItem.module.scss");
 

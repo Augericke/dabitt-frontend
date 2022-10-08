@@ -12,7 +12,7 @@ import useFontFaceObserver from "use-font-face-observer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
 import { startOfDay } from "date-fns";
-import { onEnterDownBlur } from "../../../../utils/formControlers";
+import { onEnterDownBlur } from "../../../../utils/formControllers";
 
 const styles = require("./categoryHeader.module.scss");
 
