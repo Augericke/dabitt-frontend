@@ -1,5 +1,6 @@
 import { api } from "../environmentManager";
 import { TaskModel } from "../../types/task";
+import { getIsCurrent, getIsFuture, getUTCDayRange } from "../dateComputer";
 
 export interface DeleteTask {
   categoryId: string;
@@ -34,10 +35,18 @@ const create = async (newTask: CreateTask) => {
   return response.data;
 };
 
-const read = async (categoryId: string, taskId?: string) => {
-  const { data } = await api.get<TaskModel[]>(
-    `/category/${categoryId}/task/${taskId || ""}`,
-  );
+const read = async (categoryId: string, date: Date) => {
+  const { startTime, endTime } = getUTCDayRange(date);
+  const displayType = getIsCurrent(date)
+    ? "current"
+    : getIsFuture(date)
+    ? "future"
+    : "past";
+
+  const basePath = `/category/${categoryId}/task`;
+  const queryPath = `?startTime=${startTime}&endTime=${endTime}&displayType=${displayType}`;
+
+  const { data } = await api.get<TaskModel[]>(basePath + queryPath);
   return data;
 };
 

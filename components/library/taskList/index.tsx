@@ -4,7 +4,7 @@ import TaskItem from "./taskItem";
 import TaskForm from "./taskForm";
 import { TaskModel } from "../../../types/task";
 import { CategoryModel } from "../../../types/category";
-import { useTask } from "../../../utils/hooks/query/useTasks";
+import { useTask } from "../../../utils/hooks/query/useTask";
 
 const styles = require("./taskList.module.scss");
 
@@ -14,7 +14,7 @@ type TaskListProps = {
 };
 
 const TaskList: React.FC<TaskListProps> = ({ selectedDate, category }) => {
-  const tasks = useTask(category.id);
+  const tasks = useTask(category.id, selectedDate);
 
   return (
     <>

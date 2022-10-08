@@ -1,4 +1,4 @@
-import React, { SetStateAction, Dispatch, useState, useEffect } from "react";
+import React, { useState } from "react";
 import LimitedCalender from "../../library/limitedCalender";
 import TaskList from "../../library/taskList";
 import CategoryForm from "../../library/taskList/categoryForm";
@@ -7,21 +7,17 @@ import ProgressBar, {
 } from "../../library/charts/progressBar";
 import _ from "lodash";
 import { CategoryModel } from "../../../types/category";
-import { ca } from "date-fns/locale";
 
 const styles = require("./tasks.module.scss");
 
 type TasksViewProps = {
   categories: CategoryModel[] | null;
-  selectedDate: Date;
-  setSelectedDate: Dispatch<SetStateAction<Date>>;
 };
 
-const TasksView: React.FC<TasksViewProps> = ({
-  categories,
-  selectedDate,
-  setSelectedDate,
-}) => {
+const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  console.log(selectedDate);
+
   // const [chartData, setChartData] = useState<ProgressBarDataType[]>([]);
 
   // useEffect(() => {
@@ -54,10 +50,10 @@ const TasksView: React.FC<TasksViewProps> = ({
 
   return (
     <div className={styles.placeHolderContainer}>
-      {/* <LimitedCalender
+      <LimitedCalender
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
-      /> */}
+      />
       {categories ? (
         <>
           {/* <ProgressBar chartData={chartData} /> */}
