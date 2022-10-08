@@ -33,29 +33,12 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskTimeEstimate, setTaskTimeEstimate] = useState(15);
 
-  const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewTaskDescription(event.target.value.replace(/\n/g, ""));
-  };
-
-  const taskEnterSubmit = (event: any) => {
-    if (event.key === "Enter" && event.shiftKey == false) {
-      event.preventDefault();
-      return onSubmit(event);
-    }
-  };
-
-  const createTask = async (data: CreateTask) => {
-    const addedTask = await taskService.create(data);
-    return addedTask;
-  };
-
   const { mutate, isLoading, error } = useMutation(
     (newTask: CreateTask) => createTask(newTask),
     {
       onSuccess: () => {
         setNewTaskDescription("");
         setTaskTimeEstimate(15);
-        console.log(selectedDate);
         queryClient.invalidateQueries([
           "category-tasks",
           startOfDay(selectedDate),
@@ -66,6 +49,23 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
       },
     },
   );
+
+  // Resize textArea based on description length
+  const textRef = useRef<any>();
+  useEffect(() => {
+    textRef.current.style.height = "0px";
+    const scrollHeight = textRef.current.scrollHeight;
+    textRef.current.style.height = `${scrollHeight}px`;
+  }, [newTaskDescription]);
+
+  const createTask = async (data: CreateTask) => {
+    const addedTask = await taskService.create(data);
+    return addedTask;
+  };
+
+  const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNewTaskDescription(event.target.value.replace(/\n/g, ""));
+  };
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,13 +79,12 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
     }
   };
 
-  // Resize textArea based on description length
-  const textRef = useRef<any>();
-  useEffect(() => {
-    textRef.current.style.height = "0px";
-    const scrollHeight = textRef.current.scrollHeight;
-    textRef.current.style.height = `${scrollHeight}px`;
-  }, [newTaskDescription]);
+  const taskEnterSubmit = (event: any) => {
+    if (event.key === "Enter" && event.shiftKey == false) {
+      event.preventDefault();
+      return onSubmit(event);
+    }
+  };
 
   return (
     <form className={styles.taskForm} onSubmit={onSubmit}>
