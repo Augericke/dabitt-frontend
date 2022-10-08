@@ -8,6 +8,7 @@ import categoryService, {
 import Popover from "../../popover";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
+import { CategoryModel } from "../../../../types/category";
 
 const styles = require("./categoryForm.module.scss");
 
@@ -27,9 +28,12 @@ const CategoryForm: React.FC<CategoryFormProps> = () => {
   const { mutate, isLoading, error } = useMutation(
     (newCategory: CreateCategory) => createCategory(newCategory),
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setNewCategoryName("");
-        queryClient.invalidateQueries(["categories"]);
+        queryClient.setQueryData<CategoryModel[] | undefined>(
+          ["categories"],
+          (oldCategories) => oldCategories && [...oldCategories, data],
+        );
       },
       onError: () => {
         console.log(error);

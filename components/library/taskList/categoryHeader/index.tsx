@@ -49,8 +49,15 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   const updateMutation = useMutation(
     (updatedCategory: UpdateCategory) => updateCategory(updatedCategory),
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries(["categories"]);
+      onSuccess: (data) => {
+        queryClient.setQueryData<CategoryModel[]>(
+          ["categories"],
+          (oldCategories) =>
+            oldCategories &&
+            oldCategories.map((category) =>
+              category.id !== data.id ? category : data,
+            ),
+        );
       },
       onError: () => {
         console.log(updateMutation.error);
@@ -59,8 +66,14 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   );
 
   const deleteMutation = useMutation((id: string) => deleteCategory(id), {
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries(["categories"]);
+      queryClient.setQueryData<CategoryModel[]>(
+        ["categories"],
+        (oldCategories) =>
+          oldCategories &&
+          oldCategories.filter((category) => category.id !== data.id),
+      );
     },
     onError: () => {
       console.log(deleteMutation.error);
