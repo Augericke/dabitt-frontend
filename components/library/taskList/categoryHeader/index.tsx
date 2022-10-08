@@ -1,35 +1,30 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import categoryService from "../../../../utils/services/category";
+import React, { useEffect, useRef, useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import categoryService, {
+  UpdateCategoryTask,
+} from "../../../../utils/services/category";
 import { CategoryModel, IconColors } from "../../../../types/task";
 import Popover from "../../popover";
 import { getMenuItems } from "./categoryMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import useFontFaceObserver from "use-font-face-observer";
-import produce from "immer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
+import { startOfDay } from "date-fns";
 
 const styles = require("./categoryHeader.module.scss");
 
 type CategoryHeaderProps = {
+  selectedDate: Date;
   category: CategoryModel;
-  categories: CategoryModel[] | null;
-  setCategories: Dispatch<SetStateAction<CategoryModel[] | null>>;
 };
 
 const CategoryHeader: React.FC<CategoryHeaderProps> = ({
+  selectedDate,
   category,
-  categories,
-  setCategories,
 }) => {
+  const queryClient = useQueryClient();
   const { backgroundColor, borderColor } = getSelectableColorClass(
     styles,
     category.iconColor,
@@ -50,73 +45,56 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     }
   }, [isFontListLoaded, categoryName, width]);
 
-  // Get Number of Tasks Under Category
-  let taskCount = 0;
-  if (categories) {
-    const currentCategory = categories.find((cat) => cat.id === category.id);
-    if (currentCategory) {
-      taskCount = currentCategory.tasks.length;
-    }
-  }
+  const updateMutation = useMutation(
+    (updatedCategory: UpdateCategoryTask) => updateCategory(updatedCategory),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([
+          "category-tasks",
+          startOfDay(selectedDate),
+        ]);
+      },
+      onError: () => {
+        console.log(updateMutation.error);
+      },
+    },
+  );
 
-  const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const deleteMutation = useMutation((id: string) => deleteCategory(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries([
+        "category-tasks",
+        startOfDay(selectedDate),
+      ]);
+    },
+    onError: () => {
+      console.log(deleteMutation.error);
+    },
+  });
+
+  const updateCategory = async (updateData: UpdateCategoryTask) => {
+    const updatedCategory = await categoryService.update(updateData);
+    return updatedCategory;
+  };
+
+  const deleteCategory = async (id: string) => {
+    const deletedCategory = await categoryService.destroy(id);
+    return deletedCategory;
+  };
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(event.target.value);
   };
 
-  const onColorChangeHandler = (color: IconColors) => {
-    updateCategory({ iconColor: color });
-    setCategories(
-      produce((draft) => {
-        if (draft) {
-          const index = draft?.findIndex(
-            (updatedCategory) => updatedCategory.id === category.id,
-          );
-          if (index !== -1) draft[index].iconColor = color;
-        }
-      }),
-    );
+  const onColorChange = (color: IconColors) => {
+    updateMutation.mutate({ id: category.id, data: { iconColor: color } });
   };
 
   const onBlur = () => {
     if (categoryName !== category.name) {
       const newName = categoryName === "" ? category.name : categoryName.trim();
       setCategoryName(newName);
-      updateCategory({ name: newName });
-      setCategories(
-        produce((draft) => {
-          if (draft) {
-            const index = draft?.findIndex(
-              (updatedCategory) => updatedCategory.id === category.id,
-            );
-            if (index !== -1) draft[index].name = newName;
-          }
-        }),
-      );
-    }
-  };
-
-  const updateCategory = useCallback(
-    async (body: { name?: string; iconColor?: IconColors }) => {
-      try {
-        await categoryService.update(category.id, body);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    [category.id],
-  );
-
-  const deleteCategory = async () => {
-    try {
-      if (categories) {
-        const updatedCategories = categories.filter(
-          (categories) => categories.id != category.id,
-        );
-        await categoryService.destroy(category.id);
-        setCategories(updatedCategories);
-      }
-    } catch (error) {
-      console.error(error);
+      updateMutation.mutate({ id: category.id, data: { name: newName } });
     }
   };
 
@@ -128,7 +106,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             ref={textRef}
             className={`${styles.categoryInput} ${borderColor}`}
             value={categoryName}
-            onChange={onChangeHandler}
+            onChange={onChange}
             onKeyDown={onEnterSubmit}
             onBlur={onBlur}
             maxLength={25}
@@ -136,11 +114,11 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           <Popover
             customButtonClass={styles.customPopoverClass}
             customMenuClass={styles.customMenuClass}
-            menuItems={getSelectableColorMenuOptions(onColorChangeHandler)}
+            menuItems={getSelectableColorMenuOptions(onColorChange)}
             iconType="none"
             iconText={
               <span className={`${styles.categoryCount} ${backgroundColor}`}>
-                {taskCount}
+                {category.tasks.length}
               </span>
             }
           />
@@ -157,7 +135,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
         onClose={() => {
           setShowDeleteModal(false);
         }}
-        onDelete={() => deleteCategory()}
+        onDelete={() => deleteMutation.mutate(category.id)}
       />
     </>
   );

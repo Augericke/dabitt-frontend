@@ -31,11 +31,7 @@ const TaskList: React.FC<TaskListProps> = ({
   console.log(selectedDate);
   return (
     <section className={styles.categoryContainer}>
-      <CategoryHeader
-        category={category}
-        categories={categories}
-        setCategories={setCategories}
-      />
+      <CategoryHeader selectedDate={selectedDate} category={category} />
       <div className={styles.taskListContainer}>
         <ul className={styles.taskList}>
           {tasks && (

@@ -1,11 +1,4 @@
-import React, {
-  Dispatch,
-  FormEvent,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel } from "../../../../types/task";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -14,7 +7,6 @@ import Popover from "../../popover";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
-import produce from "immer";
 import { startOfDay } from "date-fns";
 
 const styles = require("./taskForm.module.scss");

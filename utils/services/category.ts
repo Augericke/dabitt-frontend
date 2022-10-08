@@ -1,7 +1,7 @@
 import { api } from "../environmentManager";
 import { CategoryModel, IconColors } from "../../types/task";
 
-export interface PostCategoryTask {
+export interface CreateCategoryTask {
   name: string;
   iconColor?: IconColors;
 }
@@ -12,7 +12,15 @@ export interface RequestCategoryTask {
   isFuture?: 1 | 0;
 }
 
-const create = async (data: PostCategoryTask) => {
+export interface UpdateCategoryTask {
+  id: string;
+  data: {
+    name?: string;
+    iconColor?: IconColors;
+  };
+}
+
+const create = async (data: CreateCategoryTask) => {
   const response = await api.post<CategoryModel>("/category", data);
   return response.data;
 };
@@ -34,10 +42,7 @@ const read = async ({
   return data;
 };
 
-const update = async (
-  id: string,
-  data: { name?: string; iconColor?: IconColors },
-) => {
+const update = async ({ id, data }: UpdateCategoryTask) => {
   const response = await api.put(`/category/${id}`, data);
   return response.data;
 };

@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BsPlusCircle } from "react-icons/bs";
 import { colorList, IconColors } from "../../../../types/task";
 import categoryService, {
-  PostCategoryTask,
+  CreateCategoryTask,
 } from "../../../../utils/services/category";
 import Popover from "../../popover";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
@@ -28,11 +28,14 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ selectedDate }) => {
   );
 
   const { mutate, isLoading, error } = useMutation(
-    (newCategory: PostCategoryTask) => createCategory(newCategory),
+    (newCategory: CreateCategoryTask) => createCategory(newCategory),
     {
       onSuccess: () => {
         setNewCategoryName("");
-        queryClient.invalidateQueries(["category-tasks", selectedDate]);
+        queryClient.invalidateQueries([
+          "category-tasks",
+          startOfDay(selectedDate),
+        ]);
       },
       onError: () => {
         console.log(error);
@@ -40,7 +43,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ selectedDate }) => {
     },
   );
 
-  const createCategory = async (data: PostCategoryTask) => {
+  const createCategory = async (data: CreateCategoryTask) => {
     const addedCategory = await categoryService.create(data);
     return addedCategory;
   };
