@@ -75,6 +75,29 @@ const TaskItem: React.FC<TaskItemProps> = ({
     },
   );
 
+  const canKickMutation = useMutation(
+    (updatedTask: UpdateTask) => updateTask(updatedTask),
+    {
+      onSuccess: (data) => {
+        // Remove item from selected day cache
+        queryClient.setQueryData<TaskModel[] | undefined>(
+          ["tasks", category.id, selectedDate],
+          (oldTasks) =>
+            oldTasks && oldTasks.filter((oldTask) => oldTask.id != task.id),
+        );
+
+        // Add item to next days cache
+        queryClient.setQueryData<TaskModel[] | undefined>(
+          ["tasks", category.id, add(selectedDate, { days: 1 })],
+          (oldTasks) => oldTasks && [...oldTasks, data],
+        );
+      },
+      onError: () => {
+        console.log(updateMutation.error);
+      },
+    },
+  );
+
   const deleteMutation = useMutation(
     (deletedTask: DeleteTask) => deleteTask(deletedTask),
     {
@@ -135,7 +158,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   const onCanKick = () => {
     const tomorrow = add(new Date(), { days: 1 });
-    updateMutation.mutate({
+    canKickMutation.mutate({
       categoryId: category.id,
       taskId: task.id,
       data: { startAt: tomorrow },
