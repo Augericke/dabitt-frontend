@@ -8,6 +8,7 @@ import { getSelectableColorClass } from "../../../../utils/selectableColorClass"
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
 import { TaskModel } from "../../../../types/task";
+import WordCount from "../../wordCount";
 
 const styles = require("./taskForm.module.scss");
 
@@ -24,6 +25,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
   );
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskTimeEstimate, setTaskTimeEstimate] = useState(15);
+  const descriptionLimit = 140;
 
   const { mutate, isLoading, error } = useMutation(
     (newTask: CreateTask) => createTask(newTask),
@@ -103,25 +105,29 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
           value={newTaskDescription}
           onChange={handleDescription}
           onKeyDown={taskEnterSubmit}
-          maxLength={140}
+          maxLength={descriptionLimit}
         />
-        <div
-          className={
-            newTaskDescription
-              ? styles.taskTimeEstimateContainer
-              : styles.hideElement
-          }
-        >
-          <Popover
-            iconType="clock"
-            iconText={
-              <span className={styles.estimateLabel}>
-                {displayHourMinutes(taskTimeEstimate)}
-              </span>
-            }
-            menuItems={getTimeEstimateMenuOptions(setTaskTimeEstimate)}
-          />
-        </div>
+        {newTaskDescription && (
+          <>
+            <WordCount
+              content={newTaskDescription}
+              characterLimit={descriptionLimit}
+              color={category.iconColor}
+              customClass={styles.customWordCount}
+            />
+            <div className={styles.taskTimeEstimateContainer}>
+              <Popover
+                iconType="clock"
+                iconText={
+                  <span className={styles.estimateLabel}>
+                    {displayHourMinutes(taskTimeEstimate)}
+                  </span>
+                }
+                menuItems={getTimeEstimateMenuOptions(setTaskTimeEstimate)}
+              />
+            </div>
+          </>
+        )}
       </div>
     </form>
   );

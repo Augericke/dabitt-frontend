@@ -17,6 +17,7 @@ import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions"
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
 import { onEnterDownBlur } from "../../../../utils/formControllers";
+import WordCount from "../../wordCount";
 
 const styles = require("./taskItem.module.scss");
 
@@ -35,7 +36,8 @@ const TaskItem: React.FC<TaskItemProps> = ({ category, task }) => {
   // Text Area
   const { borderColor } = getSelectableColorClass(styles, category.iconColor);
   const [taskDescription, setTaskDescription] = useState(task.description);
-  const [checkSpelling, setCheckSpelling] = useState(false);
+  const descriptionLimit = 140;
+  const [inFocus, setInFocus] = useState(false);
 
   // Resize textArea based on description length
   const textRef = useRef<any>();
@@ -102,7 +104,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ category, task }) => {
     }
 
     setTaskDescription(newDescription);
-    setCheckSpelling(false);
+    setInFocus(false);
   };
 
   const onTick = () => {
@@ -153,19 +155,31 @@ const TaskItem: React.FC<TaskItemProps> = ({ category, task }) => {
           onClick={onTick}
           categoryColor={category.iconColor}
         />
-        <textarea
-          ref={textRef}
-          id="textarea"
-          className={`${styles.taskInput} ${borderColor}`}
-          placeholder="add task"
-          spellCheck={checkSpelling}
-          value={taskDescription}
-          onChange={onChangeHandler}
-          onKeyDown={onEnterDownBlur}
-          onFocus={() => setCheckSpelling(true)}
-          onBlur={onBlur}
-          maxLength={140}
-        />
+        <div className={styles.taskInputContainer}>
+          <textarea
+            ref={textRef}
+            id="textarea"
+            className={`${styles.taskInput} ${borderColor}`}
+            placeholder="add task"
+            spellCheck={inFocus}
+            value={taskDescription}
+            onChange={onChangeHandler}
+            onKeyDown={onEnterDownBlur}
+            onFocus={() => setInFocus(true)}
+            onBlur={onBlur}
+            maxLength={descriptionLimit}
+          />
+          {inFocus && (
+            <>
+              <WordCount
+                content={taskDescription}
+                characterLimit={descriptionLimit}
+                color={category.iconColor}
+                customClass={styles.customWordCount}
+              />
+            </>
+          )}
+        </div>
         <div className={styles.taskTimeEstimateContainer}>
           <Popover
             iconType="clock"

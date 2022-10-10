@@ -13,6 +13,7 @@ import useFontFaceObserver from "use-font-face-observer";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
 import { onEnterDownBlur } from "../../../../utils/formControllers";
+import WordCount from "../../wordCount";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -31,12 +32,14 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     category.iconColor,
   );
   const [categoryName, setCategoryName] = useState(category.name);
+  const [showWordCount, setShowWordCount] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Expand text input horizontally with input
   const textRef = useRef<any>();
   const { width } = useWindowSize(); // ensure proper resize on screen change
   const isFontListLoaded = useFontFaceObserver([{ family: `Poppins` }]);
+  const headerLimit = 25;
 
   useEffect(() => {
     if (isFontListLoaded) {
@@ -99,6 +102,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   };
 
   const onBlur = () => {
+    setShowWordCount(false);
     if (categoryName !== category.name) {
       const newName = categoryName === "" ? category.name : categoryName.trim();
       setCategoryName(newName);
@@ -117,8 +121,18 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             onChange={onChange}
             onKeyDown={onEnterDownBlur}
             onBlur={onBlur}
-            maxLength={25}
+            onFocus={() => setShowWordCount(true)}
+            maxLength={headerLimit}
           />
+          {showWordCount && (
+            <WordCount
+              content={categoryName}
+              characterLimit={headerLimit}
+              color={category.iconColor}
+              customClass={styles.customWordCount}
+            />
+          )}
+
           <Popover
             customButtonClass={styles.customPopoverClass}
             customMenuClass={styles.customMenuClass}

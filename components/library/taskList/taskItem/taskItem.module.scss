@@ -17,45 +17,52 @@
     margin-bottom: 5px;
   }
 
-  .taskInput {
-    font-weight: 100;
-    font-size: 18px;
-    background: none;
+  .taskInputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     width: 100%;
-    padding: 0;
-    resize: none;
-    word-wrap: break-word;
-    transition: border 100ms, margin 400ms, font-size 400ms;
 
-    @media only screen and (max-width: 992px) {
-      font-size: 16px;
-    }
+    .taskInput {
+      font-weight: 100;
+      font-size: 18px;
+      background: none;
+      width: 100%;
+      padding: 0;
+      resize: none;
+      word-wrap: break-word;
+      transition: border 100ms, margin 400ms;
 
-    @media only screen and (max-width: 768px) {
-      font-size: 14px;
-    }
+      @media only screen and (max-width: 992px) {
+        font-size: 16px;
+      }
 
-    @media only screen and (max-width: 576px) {
-      font-size: 12px;
-    }
+      @media only screen and (max-width: 768px) {
+        font-size: 14px;
+      }
 
-    // Hide Scroll Bar
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    &::-webkit-scrollbar {
-      display: none;
-    }
+      @media only screen and (max-width: 576px) {
+        font-size: 12px;
+      }
 
-    &:focus {
-      outline: none;
-      margin-top: 5px;
-      margin-bottom: 5px;
-      border-width: 1px;
-      border-top: 0px;
-      border-left: 0px;
-      border-right: 0px;
-      border-style: solid;
-      border-radius: 1px;
+      // Hide Scroll Bar
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &:focus {
+        outline: none;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        border-width: 1px;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        border-style: solid;
+        border-radius: 1px;
+      }
     }
   }
 }
@@ -95,4 +102,13 @@
 .customTaskMenu {
   margin-right: 110px;
   margin-top: 5px;
+}
+
+.customWordCount {
+  font-size: 10px;
+  width: 20px;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 8px;
+  }
 }

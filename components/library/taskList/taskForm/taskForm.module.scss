@@ -45,7 +45,7 @@
 .inputsContainer {
   display: flex;
   align-items: center;
-  width: 70%;
+  width: 90%;
   gap: 15px;
 
   .taskInput {
@@ -134,4 +134,13 @@
 
 .hideElement {
   display: none;
+}
+
+.customWordCount {
+  font-size: 10px;
+  width: 20px;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 8px;
+  }
 }

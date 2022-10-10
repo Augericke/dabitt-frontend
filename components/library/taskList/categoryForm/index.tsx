@@ -9,6 +9,7 @@ import Popover from "../../popover";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { CategoryModel } from "../../../../types/category";
+import WordCount from "../../wordCount";
 
 const styles = require("./categoryForm.module.scss");
 
@@ -20,6 +21,7 @@ const CategoryForm: React.FC<CategoryFormProps> = () => {
   const [newCategoryColor, setNewCategoryColor] = useState<IconColors>(
     colorList[0],
   );
+  const headerLimit = 25;
   const { backgroundColor, borderColor, textColor } = getSelectableColorClass(
     styles,
     newCategoryColor,
@@ -84,22 +86,30 @@ const CategoryForm: React.FC<CategoryFormProps> = () => {
         placeholder="add category"
         value={newCategoryName}
         onChange={handleCategoryName}
-        maxLength={25}
+        maxLength={headerLimit}
       />
       {newCategoryName && (
-        <Popover
-          customButtonClass={styles.customPopoverClass}
-          customMenuClass={styles.customColorMenuClass}
-          menuItems={getSelectableColorMenuOptions((color: IconColors) =>
-            setNewCategoryColor(color),
-          )}
-          iconType="none"
-          iconText={
-            <span
-              className={`${styles.colorSelectorContainer} ${backgroundColor}`}
-            />
-          }
-        />
+        <>
+          <WordCount
+            content={newCategoryName}
+            characterLimit={headerLimit}
+            color={newCategoryColor}
+            customClass={styles.customWordCount}
+          />
+          <Popover
+            customButtonClass={styles.customPopoverClass}
+            customMenuClass={styles.customColorMenuClass}
+            menuItems={getSelectableColorMenuOptions((color: IconColors) =>
+              setNewCategoryColor(color),
+            )}
+            iconType="none"
+            iconText={
+              <span
+                className={`${styles.colorSelectorContainer} ${backgroundColor}`}
+              />
+            }
+          />
+        </>
       )}
     </form>
   );
