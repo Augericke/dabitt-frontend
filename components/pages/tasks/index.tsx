@@ -7,6 +7,7 @@ import ProgressBar, {
 } from "../../library/charts/progressBar";
 import _ from "lodash";
 import { CategoryModel } from "../../../types/category";
+import { getUTCDayRange } from "../../../utils/dateComputer";
 
 const styles = require("./tasks.module.scss");
 
@@ -15,8 +16,8 @@ type TasksViewProps = {
 };
 
 const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  console.log(selectedDate);
+  const { startTime } = getUTCDayRange(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date(startTime));
 
   // const [chartData, setChartData] = useState<ProgressBarDataType[]>([]);
 

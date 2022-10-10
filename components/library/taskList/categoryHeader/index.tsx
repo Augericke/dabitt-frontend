@@ -69,13 +69,12 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   );
 
   const deleteMutation = useMutation((id: string) => deleteCategory(id), {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(["categories"]);
+    onSuccess: () => {
       queryClient.setQueryData<CategoryModel[]>(
         ["categories"],
         (oldCategories) =>
           oldCategories &&
-          oldCategories.filter((category) => category.id !== data.id),
+          oldCategories.filter((oldCategory) => oldCategory.id !== category.id),
       );
     },
     onError: () => {

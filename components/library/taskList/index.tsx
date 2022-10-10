@@ -34,7 +34,12 @@ const TaskList: React.FC<TaskListProps> = ({ selectedDate, category }) => {
                 <>
                   {tasks.data.map((task: TaskModel) => {
                     return (
-                      <TaskItem key={task.id} category={category} task={task} />
+                      <TaskItem
+                        key={task.id}
+                        selectedDate={selectedDate}
+                        category={category}
+                        task={task}
+                      />
                     );
                   })}
                 </>

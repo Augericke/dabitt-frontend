@@ -22,11 +22,16 @@ import WordCount from "../../wordCount";
 const styles = require("./taskItem.module.scss");
 
 type TaskItemProps = {
+  selectedDate: Date;
   category: CategoryModel;
   task: TaskModel;
 };
 
-const TaskItem: React.FC<TaskItemProps> = ({ category, task }) => {
+const TaskItem: React.FC<TaskItemProps> = ({
+  selectedDate,
+  category,
+  task,
+}) => {
   const queryClient = useQueryClient();
 
   // Modal / Tick Box
@@ -58,7 +63,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ category, task }) => {
     {
       onSuccess: (data) => {
         queryClient.setQueryData<TaskModel[] | undefined>(
-          ["tasks", category.id],
+          ["tasks", category.id, selectedDate],
           (oldTasks) =>
             oldTasks &&
             oldTasks.map((task) => (task.id !== data.id ? task : data)),
@@ -73,11 +78,11 @@ const TaskItem: React.FC<TaskItemProps> = ({ category, task }) => {
   const deleteMutation = useMutation(
     (deletedTask: DeleteTask) => deleteTask(deletedTask),
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         queryClient.setQueryData<TaskModel[] | undefined>(
-          ["tasks", category.id],
+          ["tasks", category.id, selectedDate],
           (oldTasks) =>
-            oldTasks && oldTasks.filter((task) => task.id !== data.id),
+            oldTasks && oldTasks.filter((oldTask) => oldTask.id != task.id),
         );
       },
       onError: () => {

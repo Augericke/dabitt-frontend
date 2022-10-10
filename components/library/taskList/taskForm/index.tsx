@@ -34,7 +34,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
         setNewTaskDescription("");
         setTaskTimeEstimate(15);
         queryClient.setQueryData<TaskModel[] | undefined>(
-          ["tasks", category.id],
+          ["tasks", category.id, selectedDate],
           (oldTasks) => oldTasks && [...oldTasks, data],
         );
       },
