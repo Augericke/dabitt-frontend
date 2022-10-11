@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TaskModel } from "../../../types/task";
-import taskService, { UpdateTask } from "../../services/task";
+import { TaskModel } from "../../../../types/task";
+import taskService, { UpdateTask } from "../../../services/task";
 
 const updateTask = async (updateData: UpdateTask) => {
   const updatedTask = await taskService.update(updateData);

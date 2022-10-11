@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TaskModel } from "../../../types/task";
-import taskService, { DeleteTask, UpdateTask } from "../../services/task";
+import { TaskModel } from "../../../../types/task";
+import taskService, { DeleteTask, UpdateTask } from "../../../services/task";
 
 const deleteTask = async ({ categoryId, taskId }: DeleteTask) => {
   const deletedTask = await taskService.destroy({ categoryId, taskId });

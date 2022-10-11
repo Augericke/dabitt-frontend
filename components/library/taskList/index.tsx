@@ -4,7 +4,7 @@ import TaskItem from "./taskItem";
 import TaskForm from "./taskForm";
 import { TaskModel } from "../../../types/task";
 import { CategoryModel } from "../../../types/category";
-import { useTask } from "../../../utils/hooks/query/useTask";
+import { useTask } from "../../../utils/hooks/query/task/useTask";
 
 const styles = require("./taskList.module.scss");
 

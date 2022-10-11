@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import Layout from "../../components/layout";
 import TasksView from "../../components/pages/tasks";
-import { useCategory } from "../../utils/hooks/query/useCategory";
+import { useCategory } from "../../utils/hooks/query/category/useCategory";
 
 const TasksPage: NextPage = () => {
   const categories = useCategory();

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -13,7 +12,6 @@ const LandingView: React.FC<LandingViewProps> = (props: LandingViewProps) => {
     <section className={styles.sectionContainer}>
       <div className={styles.introContainer}>
         <hgroup>
-          {/* TODO: add on load animation */}
           <h1 className={styles.logo}>dabitt</h1>
           <p className={styles.tagline}>the opinionated daily habit app</p>
         </hgroup>

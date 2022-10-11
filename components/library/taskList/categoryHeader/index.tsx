@@ -10,8 +10,8 @@ import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
 import { onEnterDownBlur } from "../../../../utils/formControllers";
 import WordCount from "../../wordCount";
-import { useUpdateCategory } from "../../../../utils/hooks/query/useUpdateCategory";
-import { useDeleteCategory } from "../../../../utils/hooks/query/useDeleteCategory";
+import { useUpdateCategory } from "../../../../utils/hooks/query/category/useUpdateCategory";
+import { useDeleteCategory } from "../../../../utils/hooks/query/category/useDeleteCategory";
 
 const styles = require("./categoryHeader.module.scss");
 

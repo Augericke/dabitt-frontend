@@ -13,9 +13,9 @@ import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
 import { onEnterDownBlur } from "../../../../utils/formControllers";
 import WordCount from "../../wordCount";
-import { useUpdateTask } from "../../../../utils/hooks/query/useUpdateTask";
-import { useKickTask } from "../../../../utils/hooks/query/useKickTask";
-import { useDeleteTask } from "../../../../utils/hooks/query/useDeleteTask";
+import { useUpdateTask } from "../../../../utils/hooks/query/task/useUpdateTask";
+import { useKickTask } from "../../../../utils/hooks/query/task/useKickTask";
+import { useDeleteTask } from "../../../../utils/hooks/query/task/useDeleteTask";
 
 const styles = require("./taskItem.module.scss");
 
@@ -30,6 +30,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   category,
   task,
 }) => {
+  // Task Mutations
   const updateTask = useUpdateTask(category.id, selectedDate);
   const kickTask = useKickTask(category.id, task.id, selectedDate);
   const deleteTask = useDeleteTask(category.id, task.id, selectedDate);

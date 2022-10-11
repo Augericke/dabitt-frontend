@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { TaskModel } from "../../../types/task";
-import taskService from "../../services/task";
+import { TaskModel } from "../../../../types/task";
+import taskService from "../../../services/task";
 
 export function useTask(categoryId: string, date: Date) {
   const queryKey = ["tasks", categoryId, date];

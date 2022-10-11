@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import categoryService, { UpdateCategory } from "../../services/category";
-import { CategoryModel } from "../../../types/category";
+import categoryService, { UpdateCategory } from "../../../services/category";
+import { CategoryModel } from "../../../../types/category";
 
 const updateCategory = async (updateData: UpdateCategory) => {
   const updatedCategory = await categoryService.update(updateData);

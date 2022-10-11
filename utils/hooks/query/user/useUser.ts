@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import userService from "../../services/user";
-import { UserModel } from "../../../types/user";
+import userService from "../../../services/user";
+import { UserModel } from "../../../../types/user";
 
 export function useUser() {
   const queryKey = ["user"];

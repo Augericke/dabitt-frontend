@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import categoryService from "../../services/category";
-import { CategoryModel } from "../../../types/category";
+import categoryService from "../../../services/category";
+import { CategoryModel } from "../../../../types/category";
 
 const deleteCategory = async (id: string) => {
   const deletedCategory = await categoryService.destroy(id);

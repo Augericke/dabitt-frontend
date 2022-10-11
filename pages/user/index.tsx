@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import Layout from "../../components/layout";
 import UserView from "../../components/pages/user";
-import { useUser } from "../../utils/hooks/query/useUser";
+import { useUser } from "../../utils/hooks/query/user/useUser";
 
 const UserPage: NextPage = () => {
   const user = useUser();

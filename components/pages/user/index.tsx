@@ -3,7 +3,7 @@ import { UserModel } from "../../../types/user";
 import { formatDate } from "../../../utils/dateComputer";
 import ThemeSelector from "../../library/themeSelector";
 import { onEnterDownBlur } from "../../../utils/formControllers";
-import { useUpdateUser } from "../../../utils/hooks/query/useUpdateUser";
+import { useUpdateUser } from "../../../utils/hooks/query/user/useUpdateUser";
 
 type UserViewProps = {
   user: UserModel;

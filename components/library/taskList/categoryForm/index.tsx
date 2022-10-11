@@ -1,22 +1,19 @@
 import React, { useState, FormEvent } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { BsPlusCircle } from "react-icons/bs";
 import { colorList, IconColors } from "../../../../types/task";
-import categoryService, {
-  CreateCategory,
-} from "../../../../utils/services/category";
 import Popover from "../../popover";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
-import { CategoryModel } from "../../../../types/category";
 import WordCount from "../../wordCount";
+import { useCreateCategory } from "../../../../utils/hooks/query/category/useCreateCategory";
 
 const styles = require("./categoryForm.module.scss");
 
 type CategoryFormProps = {};
 
 const CategoryForm: React.FC<CategoryFormProps> = () => {
-  const queryClient = useQueryClient();
+  const createCategory = useCreateCategory();
+
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryColor, setNewCategoryColor] = useState<IconColors>(
     colorList[0],
@@ -26,27 +23,6 @@ const CategoryForm: React.FC<CategoryFormProps> = () => {
     styles,
     newCategoryColor,
   );
-
-  const { mutate, isLoading, error } = useMutation(
-    (newCategory: CreateCategory) => createCategory(newCategory),
-    {
-      onSuccess: (data) => {
-        setNewCategoryName("");
-        queryClient.setQueryData<CategoryModel[] | undefined>(
-          ["categories"],
-          (oldCategories) => oldCategories && [...oldCategories, data],
-        );
-      },
-      onError: () => {
-        console.log(error);
-      },
-    },
-  );
-
-  const createCategory = async (data: CreateCategory) => {
-    const addedCategory = await categoryService.create(data);
-    return addedCategory;
-  };
 
   const handleCategoryName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewCategoryName(event.target.value);
@@ -59,7 +35,9 @@ const CategoryForm: React.FC<CategoryFormProps> = () => {
         name: newCategoryName,
         iconColor: newCategoryColor,
       };
-      mutate(newCategoryData);
+
+      createCategory.mutate(newCategoryData);
+      setNewCategoryName("");
     }
   };
 

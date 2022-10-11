@@ -1,11 +1,21 @@
 import { api } from "../environmentManager";
-import { UserModel } from "../../types/user";
+import { ThemeColors, UserModel } from "../../types/user";
 
-export interface UpdateUser {
-  username?: string;
-  preferedTheme?: string;
+export interface CreateUser {
+  username: string;
+  preferedTheme?: ThemeColors;
   completedSetup?: boolean;
 }
+export interface UpdateUser {
+  username?: string;
+  preferedTheme?: ThemeColors;
+  completedSetup?: boolean;
+}
+
+const create = async (data: CreateUser) => {
+  const response = await api.post<UserModel>("/user", data);
+  return response.data;
+};
 
 const read = async () => {
   const { data } = await api.get<UserModel>("/user");
@@ -17,6 +27,6 @@ const update = async (props: UpdateUser) => {
   return response.data;
 };
 
-const userService = { read, update };
+const userService = { create, read, update };
 
 export default userService;

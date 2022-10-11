@@ -1,45 +1,20 @@
-/* eslint-disable @next/next/no-html-link-for-pages */
 import React from "react";
 import Router from "next/router";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useTheme } from "next-themes";
-import { api } from "../../../utils/environmentManager";
 import ThemeSelector from "../../library/themeSelector";
+import { useUpdateUser } from "../../../utils/hooks/query/user/useUpdateUser";
 
 const styles = require("./setup.module.scss");
 
 type SetupViewProps = {};
 
 const SetupView: React.FC<SetupViewProps> = (props: SetupViewProps) => {
-  const { user, isLoading, getAccessTokenSilently } = useAuth0();
-  const { theme } = useTheme();
+  const updateUser = useUpdateUser();
 
   const handleSubmit = async () => {
-    try {
-      if (!isLoading && user) {
-        const token = await getAccessTokenSilently({
-          audience: "API/dabitt",
-          scope: "",
-        });
-
-        const dataConfig = {
-          id: user.sub!.replace("|", "-"),
-          completedSetup: true,
-          preferedTheme: theme,
-        };
-
-        const headerConfig = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
-
-        await api.put(`/user`, dataConfig, headerConfig);
-        Router.push("/tasks");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    updateUser.mutate({
+      completedSetup: true,
+    });
+    Router.push("/tasks");
   };
 
   return (

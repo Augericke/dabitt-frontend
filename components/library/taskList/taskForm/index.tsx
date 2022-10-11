@@ -1,14 +1,12 @@
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { BsPlusCircle } from "react-icons/bs";
 import { CategoryModel } from "../../../../types/category";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import taskService, { CreateTask } from "../../../../utils/services/task";
 import Popover from "../../popover";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
-import { TaskModel } from "../../../../types/task";
 import WordCount from "../../wordCount";
+import { useCreateTask } from "../../../../utils/hooks/query/task/useCreateTask";
 
 const styles = require("./taskForm.module.scss");
 
@@ -18,7 +16,7 @@ type TaskFormProps = {
 };
 
 const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
-  const queryClient = useQueryClient();
+  const createTask = useCreateTask(category.id, selectedDate);
   const { textColor, outlineColor } = getSelectableColorClass(
     styles,
     category.iconColor,
@@ -27,23 +25,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
   const [taskTimeEstimate, setTaskTimeEstimate] = useState(15);
   const descriptionLimit = 140;
 
-  const { mutate, isLoading, error } = useMutation(
-    (newTask: CreateTask) => createTask(newTask),
-    {
-      onSuccess: (data) => {
-        setNewTaskDescription("");
-        setTaskTimeEstimate(15);
-        queryClient.setQueryData<TaskModel[] | undefined>(
-          ["tasks", category.id, selectedDate],
-          (oldTasks) => oldTasks && [...oldTasks, data],
-        );
-      },
-      onError: () => {
-        console.log(error);
-      },
-    },
-  );
-
   // Resize textArea based on description length
   const textRef = useRef<any>();
   useEffect(() => {
@@ -51,11 +32,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
     const scrollHeight = textRef.current.scrollHeight;
     textRef.current.style.height = `${scrollHeight}px`;
   }, [newTaskDescription]);
-
-  const createTask = async (data: CreateTask) => {
-    const addedTask = await taskService.create(data);
-    return addedTask;
-  };
 
   const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTaskDescription(event.target.value.replace(/\n/g, ""));
@@ -70,7 +46,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
         estimateMinutes: taskTimeEstimate,
         startAt: selectedDate,
       };
-      mutate({ categoryId: category.id, data: newTaskData });
+
+      createTask.mutate({ categoryId: category.id, data: newTaskData });
+      setNewTaskDescription("");
+      setTaskTimeEstimate(15);
     }
   };
 

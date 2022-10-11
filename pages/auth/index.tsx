@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Router from "next/router";
 import { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { api } from "../../utils/environmentManager";
 import { UserModel } from "../../types/user";
 
@@ -46,4 +46,4 @@ const Auth: NextPage = () => {
   return <></>;
 };
 
-export default Auth;
+export default withAuthenticationRequired(Auth);

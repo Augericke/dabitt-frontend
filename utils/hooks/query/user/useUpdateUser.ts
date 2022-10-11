@@ -1,5 +1,5 @@
-import userService, { UpdateUser } from "../../services/user";
-import { UserModel } from "../../../types/user";
+import userService, { UpdateUser } from "../../../services/user";
+import { UserModel } from "../../../../types/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const updateUser = async (updateData: UpdateUser) => {
