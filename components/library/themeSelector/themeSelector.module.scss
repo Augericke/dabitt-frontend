@@ -1,8 +1,13 @@
 .cubeContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 100px);
   justify-content: center;
-  gap: 50px;
+  grid-gap: 50px;
   width: 100%;
+
+  @media only screen and (max-width: 576px) {
+    grid-gap: 30px;
+  }
 
   .themeContainer {
     display: flex;
@@ -10,6 +15,7 @@
     align-items: center;
     gap: 10px;
     cursor: pointer;
+    flex-grow: 1;
 
     &:hover .themeCube {
       border-radius: 50%;
@@ -27,19 +33,39 @@
       color: var(--text-color);
       text-transform: lowercase;
       transition: color 400ms;
+
+      &Selected {
+        @extend .themeTitle;
+        font-weight: 400;
+        color: var(--icon-color);
+      }
     }
 
     .themeCube {
       width: 100px;
-
       display: flex;
       flex-direction: column;
       overflow: hidden;
       transition: all 400ms;
 
+      @media only screen and (max-width: 576px) {
+        width: 75px;
+      }
+
+      &Selected {
+        @extend .themeCube;
+        border-radius: 50%;
+        transform: translateY(-5px);
+      }
+
       .cubePart {
         height: 33px;
         width: 100px;
+
+        @media only screen and (max-width: 576px) {
+          height: 25px;
+          width: 75px;
+        }
       }
     }
   }

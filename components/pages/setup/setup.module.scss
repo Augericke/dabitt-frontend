@@ -42,7 +42,11 @@
 .themeContainer {
   display: flex;
   justify-content: center;
-  width: 100%;
+  width: 700px;
+
+  @media only screen and (max-width: 1200px) {
+    width: 100%;
+  }
 }
 
 .submitButton {

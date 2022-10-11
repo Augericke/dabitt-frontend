@@ -23,30 +23,41 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = (
 
   return (
     <div className={styles.cubeContainer}>
-      {themeList.map((theme) => {
+      {themeList.map((themeItem) => {
+        const isSelected = themeItem.name === theme;
         return (
           <div
-            key={theme.name}
+            key={themeItem.name}
             className={styles.themeContainer}
             onClick={() => {
-              setTheme(theme.name);
+              setTheme(themeItem.name);
             }}
           >
-            <div className={styles.themeCube}>
+            <div
+              className={
+                isSelected ? styles.themeCubeSelected : styles.themeCube
+              }
+            >
               <span
                 className={styles.cubePart}
-                style={{ backgroundColor: theme.data["icon-color"] }}
+                style={{ backgroundColor: themeItem.data["icon-color"] }}
               />
               <span
                 className={styles.cubePart}
-                style={{ backgroundColor: theme.data["foreground-color"] }}
+                style={{ backgroundColor: themeItem.data["foreground-color"] }}
               />
               <span
                 className={styles.cubePart}
-                style={{ backgroundColor: theme.data["background-color"] }}
+                style={{ backgroundColor: themeItem.data["background-color"] }}
               />
             </div>
-            <span className={styles.themeTitle}>{theme.name}</span>
+            <span
+              className={
+                isSelected ? styles.themeTitleSelected : styles.themeTitle
+              }
+            >
+              {themeItem.name}
+            </span>
           </div>
         );
       })}
