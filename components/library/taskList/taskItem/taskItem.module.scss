@@ -24,7 +24,7 @@
     width: 100%;
 
     .taskInput {
-      font-weight: 100;
+      font-weight: 200;
       font-size: 18px;
       background: none;
       width: 100%;
@@ -32,6 +32,7 @@
       resize: none;
       word-wrap: break-word;
       transition: border 100ms, margin 400ms;
+      color: var(--text-color);
 
       @media only screen and (max-width: 992px) {
         font-size: 16px;

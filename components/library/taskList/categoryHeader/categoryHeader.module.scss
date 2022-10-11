@@ -22,6 +22,7 @@
     font-size: 26px;
     max-width: 60vw;
     transition: padding 400ms, margin 400ms;
+    color: var(--text-color);
 
     @media only screen and (max-width: 768px) {
       font-size: 18px;
@@ -85,6 +86,7 @@
   font-size: 18px;
   text-align: center;
   transition: font-size 400ms;
+  color: white;
 
   @media only screen and (max-width: 768px) {
     font-size: 14px;
