@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   AiOutlineHome,
   AiOutlineBarChart,
   AiOutlineUser,
 } from "react-icons/ai";
+import { useOutsideClick } from "../../../utils/hooks/useOutsideClick";
 import MenuToggle from "../menuToggle.tsx";
 
 type NavBarProps = {};
@@ -17,8 +18,16 @@ const NavBar: React.FC<NavBarProps> = (props: NavBarProps) => {
     <AiOutlineBarChart key={"dashboard"} />,
     <AiOutlineUser key={"user"} />,
   ];
+
+  // Hide Menu when click outside of popover container
+  const wrapperRef = useRef(null);
+  useOutsideClick(wrapperRef, () => setMenuIsOpen(false));
+
   return (
-    <nav className={styles.navBarContainer}>
+    <nav
+      ref={menuIsOpen ? wrapperRef : null}
+      className={styles.navBarContainer}
+    >
       <ul className={styles.navList}>
         <li className={styles.navMenuToggle}>
           <MenuToggle isOpen={menuIsOpen} setIsOpen={setMenuIsOpen} />
