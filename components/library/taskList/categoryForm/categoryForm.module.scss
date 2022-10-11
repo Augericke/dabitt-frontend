@@ -74,22 +74,21 @@
       @extend .categoryInput;
       font-weight: 800;
       padding-left: 5px;
+      padding-bottom: 3px;
       border-width: 2px;
       border-style: solid;
-      border-radius: 1px;
+      border-top: none;
+      border-left: none;
+      border-right: none;
     }
 
     &:focus {
       outline: none;
       padding-left: 5px;
-      border-width: 2px;
-      border-style: solid;
-      border-radius: 1px;
     }
 
     &::placeholder {
       @extend .categoryInput;
-      display: flex;
       font-weight: 200;
       height: 30px;
       color: var(--subtle-color);

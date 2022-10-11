@@ -49,55 +49,66 @@
   width: 90%;
   gap: 15px;
 
-  .taskInput {
-    font-weight: 200;
-    font-size: 18px;
-    background: none;
+  .taskInputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     width: 100%;
-    resize: none;
-    padding: 0;
-    overflow-y: auto;
-    word-wrap: break-word;
-    transition: padding 400ms;
-    color: var(--text-color);
 
-    @media only screen and (max-width: 992px) {
-      font-size: 16px;
-    }
-
-    @media only screen and (max-width: 768px) {
-      font-size: 14px;
-    }
-
-    @media only screen and (max-width: 576px) {
-      font-size: 12px;
-    }
-
-    &Populated {
-      @extend .taskInput;
-      padding-left: 10px;
-      outline-width: 2px;
-      outline-style: solid;
-      border-radius: 2px;
-    }
-
-    // Hide Scroll Bar
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    &::-webkit-scrollbar {
-      display: none;
-    }
-
-    &::placeholder {
-      @extend .taskInput;
-      display: flex;
+    .taskInput {
       font-weight: 200;
-      height: 30px;
-      color: var(--subtle-color);
-    }
+      font-size: 18px;
+      background: none;
+      width: 100%;
+      resize: none;
+      padding: 0;
+      overflow-y: auto;
+      word-wrap: break-word;
+      transition: padding 400ms;
+      color: var(--text-color);
 
-    &:focus {
-      padding-left: 10px;
+      @media only screen and (max-width: 992px) {
+        font-size: 16px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        font-size: 14px;
+      }
+
+      @media only screen and (max-width: 576px) {
+        font-size: 12px;
+      }
+
+      &Populated {
+        @extend .taskInput;
+        padding-left: 5px;
+        padding-bottom: 2px;
+        border-width: 1px;
+        border-style: solid;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+      }
+
+      // Hide Scroll Bar
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      &::placeholder {
+        @extend .taskInput;
+        display: flex;
+        font-weight: 200;
+        height: 30px;
+        color: var(--subtle-color);
+      }
+
+      &:focus {
+        outline: none;
+        padding-left: 3px;
+      }
     }
   }
 

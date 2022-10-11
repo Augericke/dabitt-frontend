@@ -17,12 +17,13 @@ type TaskFormProps = {
 
 const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
   const createTask = useCreateTask(category.id, selectedDate);
-  const { textColor, outlineColor } = getSelectableColorClass(
+  const { textColor, borderColor, outlineColor } = getSelectableColorClass(
     styles,
     category.iconColor,
   );
   const [newTaskDescription, setNewTaskDescription] = useState("");
   const [taskTimeEstimate, setTaskTimeEstimate] = useState(15);
+  const [inFocus, setInFocus] = useState(false);
   const descriptionLimit = 140;
 
   // Resize textArea based on description length
@@ -75,37 +76,45 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
         </span>
       </button>
       <div className={styles.inputsContainer}>
-        <textarea
-          ref={textRef}
-          className={`${
-            newTaskDescription ? styles.taskInputPopulated : styles.taskInput
-          } ${outlineColor}`}
-          placeholder="add task"
-          value={newTaskDescription}
-          onChange={handleDescription}
-          onKeyDown={taskEnterSubmit}
-          maxLength={descriptionLimit}
-        />
-        {newTaskDescription && (
-          <>
-            <WordCount
-              content={newTaskDescription}
-              characterLimit={descriptionLimit}
-              color={category.iconColor}
-              customClass={styles.customWordCount}
-            />
-            <div className={styles.taskTimeEstimateContainer}>
-              <Popover
-                iconType="clock"
-                iconText={
-                  <span className={styles.estimateLabel}>
-                    {displayHourMinutes(taskTimeEstimate)}
-                  </span>
-                }
-                menuItems={getTimeEstimateMenuOptions(setTaskTimeEstimate)}
+        <div className={styles.taskInputContainer}>
+          <textarea
+            ref={textRef}
+            className={`${
+              newTaskDescription
+                ? `${styles.taskInputPopulated} ${borderColor}`
+                : `${styles.taskInput} ${borderColor}`
+            } ${outlineColor}`}
+            placeholder="add task"
+            value={newTaskDescription}
+            onChange={handleDescription}
+            onKeyDown={taskEnterSubmit}
+            onFocus={() => setInFocus(true)}
+            onBlur={() => setInFocus(false)}
+            maxLength={descriptionLimit}
+          />
+          {newTaskDescription && (
+            <>
+              <WordCount
+                content={newTaskDescription}
+                characterLimit={descriptionLimit}
+                color={category.iconColor}
+                customClass={styles.customWordCount}
               />
-            </div>
-          </>
+            </>
+          )}
+        </div>
+        {newTaskDescription && (
+          <div className={styles.taskTimeEstimateContainer}>
+            <Popover
+              iconType="clock"
+              iconText={
+                <span className={styles.estimateLabel}>
+                  {displayHourMinutes(taskTimeEstimate)}
+                </span>
+              }
+              menuItems={getTimeEstimateMenuOptions(setTaskTimeEstimate)}
+            />
+          </div>
         )}
       </div>
     </form>
