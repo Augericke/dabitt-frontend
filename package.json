@@ -13,6 +13,8 @@
     "@nivo/calendar": "^0.80.0",
     "@nivo/colors": "^0.80.0",
     "@nivo/tooltip": "^0.80.0",
+    "@tanstack/react-query": "^4.10.3",
+    "@tanstack/react-query-devtools": "^4.11.0",
     "axios": "^0.27.2",
     "date-fns": "^2.29.3",
     "framer-motion": "^7.3.6",
@@ -23,6 +25,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
+    "react-loading-skeleton": "^3.1.0",
     "sass": "^1.55.0",
     "use-font-face-observer": "^1.2.1"
   },
