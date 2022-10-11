@@ -1,6 +1,6 @@
-@use "./themes/light";
-@use "./themes/dark";
-@use "./themes/lobby";
+@use "./themes/light.module.scss";
+@use "./themes/dark.module.scss";
+@use "./themes/lobby.module.scss";
 
 :root {
   // default

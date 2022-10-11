@@ -1,6 +1,6 @@
-@use "../../../styles/themes/light";
-@use "../../../styles/themes/dark";
-@use "../../../styles/themes/lobby";
+@use "../../../styles/themes/light.module.scss";
+@use "../../../styles/themes/dark.module.scss";
+@use "../../../styles/themes/lobby.module.scss";
 @use "sass:math";
 
 .sectionContainer {
@@ -10,7 +10,7 @@
   justify-content: center;
   gap: 50px;
   min-height: 90vh;
-  margin: auto;
+  width: 100%;
 
   @media only screen and (max-width: 768px) {
     margin: 20px;
@@ -41,54 +41,8 @@
 
 .themeContainer {
   display: flex;
-  justify-content: space-evenly;
-  width: 80vw;
-
-  @media only screen and (max-width: 768px) {
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 25px;
-  }
-
-  .themeSelector {
-    cursor: pointer;
-    border: none;
-    background-color: transparent;
-    padding: 0;
-    font-weight: 100;
-
-    --cube-transform: translateY(-15px);
-
-    @media only screen and (max-width: 768px) {
-      display: flex;
-      align-items: center;
-      width: 200px;
-      gap: 25px;
-
-      --cube-transform: translateX(-15px);
-    }
-
-    &:hover .themeCube {
-      border-radius: 100px;
-    }
-
-    .themeTitle {
-      font-size: 26px;
-      font-weight: 100;
-      text-transform: lowercase;
-      text-align: center;
-
-      @media only screen and (max-width: 1200px) {
-        font-size: 21px;
-      }
-
-      &Selected {
-        @extend .themeTitle;
-        font-weight: 400;
-      }
-    }
-  }
+  justify-content: center;
+  width: 100%;
 }
 
 .submitButton {
@@ -107,105 +61,5 @@
   @media only screen and (max-width: 1200px) {
     font-size: 16px;
     width: 125px;
-  }
-}
-
-.themeCube {
-  $large-cube: 120px;
-  $medium-cube: 99px;
-
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  width: $large-cube;
-  border-width: 1px;
-  border-style: solid;
-  transition: all 600ms ease-out;
-
-  @media only screen and (max-width: 1200px) {
-    width: $medium-cube;
-  }
-
-  .cubeRow {
-    display: inline-block;
-    height: $large-cube/3;
-    width: $large-cube;
-
-    @media only screen and (max-width: 1200px) {
-      height: $medium-cube/3;
-      width: $medium-cube;
-    }
-  }
-
-  &Light {
-    @extend .themeCube;
-    border-color: light.$foreground-color;
-
-    &Selected {
-      @extend .themeCubeLight;
-      border-radius: 100px;
-      transform: var(--cube-transform);
-    }
-
-    .themeBackground {
-      @extend .cubeRow;
-      background-color: light.$background-color;
-    }
-    .themeForeground {
-      @extend .cubeRow;
-      background-color: light.$foreground-color;
-    }
-    .themeIcon {
-      @extend .cubeRow;
-      background-color: light.$icon-color;
-    }
-  }
-
-  &Dark {
-    @extend .themeCube;
-    border-color: dark.$foreground-color;
-
-    &Selected {
-      @extend .themeCubeDark;
-      border-radius: 100px;
-      transform: var(--cube-transform);
-    }
-
-    .themeBackground {
-      @extend .cubeRow;
-      background-color: dark.$background-color;
-    }
-    .themeForeground {
-      @extend .cubeRow;
-      background-color: dark.$foreground-color;
-    }
-    .themeIcon {
-      @extend .cubeRow;
-      background-color: dark.$icon-color;
-    }
-  }
-
-  &Lobby {
-    @extend .themeCube;
-    border-color: lobby.$foreground-color;
-
-    &Selected {
-      @extend .themeCubeLobby;
-      border-radius: 100px;
-      transform: var(--cube-transform);
-    }
-
-    .themeBackground {
-      @extend .cubeRow;
-      background-color: lobby.$background-color;
-    }
-    .themeForeground {
-      @extend .cubeRow;
-      background-color: lobby.$foreground-color;
-    }
-    .themeIcon {
-      @extend .cubeRow;
-      background-color: lobby.$icon-color;
-    }
   }
 }

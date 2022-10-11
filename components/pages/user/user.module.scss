@@ -1,0 +1,108 @@
+.userViewContainer {
+  width: 100%;
+
+  .settingsTitle {
+    font-weight: 800;
+    line-height: 10px;
+    background: none;
+    padding-top: 20px;
+    font-size: 34px;
+    max-width: 60vw;
+    transition: padding 400ms, margin 400ms;
+
+    @media only screen and (max-width: 768px) {
+      font-size: 31px;
+    }
+  }
+
+  .userSettingsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: var(--foreground-color);
+    border: 1px solid var(--subtle-color);
+    border-radius: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    min-height: 40vh;
+
+    @media only screen and (max-width: 992px) {
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .infoItemsContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 20px;
+      list-style: none;
+      padding: 0;
+
+      .infoItemName {
+        font-size: 18px;
+        font-weight: 200;
+        color: var(--subtle-color);
+        padding-left: 10px;
+      }
+
+      .infoItemValue {
+        @extend .infoItemName;
+        font-size: 16px;
+        color: var(--text-color);
+        background: none;
+      }
+    }
+  }
+}
+
+.cubeContainer {
+  display: flex;
+  gap: 25px;
+  width: 100%;
+
+  .themeContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+
+    &:hover .themeCube {
+      border-radius: 50%;
+      transform: translateY(-5px);
+    }
+
+    &:hover .themeTitle {
+      font-weight: 400;
+      color: var(--icon-color);
+    }
+
+    .themeTitle {
+      font-size: 16px;
+      font-weight: 100;
+      color: var(--text-color);
+      text-transform: lowercase;
+      transition: color 400ms;
+    }
+
+    .themeCube {
+      width: 100px;
+
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 400ms;
+
+      .cubePart {
+        height: 33px;
+        width: 100px;
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import Router from "next/router";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useTheme } from "next-themes";
 import { api } from "../../../utils/environmentManager";
+import ThemeSelector from "../../library/themeSelector";
 
 const styles = require("./setup.module.scss");
 
@@ -11,8 +12,7 @@ type SetupViewProps = {};
 
 const SetupView: React.FC<SetupViewProps> = (props: SetupViewProps) => {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
-  const { theme, setTheme } = useTheme();
-  const themes = ["Light", "Dark", "Lobby"];
+  const { theme } = useTheme();
 
   const handleSubmit = async () => {
     try {
@@ -51,51 +51,7 @@ const SetupView: React.FC<SetupViewProps> = (props: SetupViewProps) => {
         </p>
       </hgroup>
       <div className={styles.themeContainer}>
-        {themes.map((optionalTheme, index) => {
-          const isSelected = optionalTheme.toLowerCase() === theme;
-
-          let themeCube: string;
-          switch (optionalTheme) {
-            case "Light":
-              themeCube = isSelected
-                ? styles.themeCubeLightSelected
-                : styles.themeCubeLight;
-              break;
-            case "Dark":
-              themeCube = isSelected
-                ? styles.themeCubeDarkSelected
-                : styles.themeCubeDark;
-              break;
-            case "Lobby":
-              themeCube = isSelected
-                ? styles.themeCubeLobbySelected
-                : styles.themeCubeLobby;
-              break;
-            default:
-              themeCube = styles.themeCubeLight;
-          }
-
-          return (
-            <div
-              key={index}
-              className={styles.themeSelector}
-              onClick={() => setTheme(optionalTheme.toLowerCase())}
-            >
-              <div className={themeCube}>
-                <span className={styles.themeIcon} />
-                <span className={styles.themeForeground} />
-                <span className={styles.themeBackground} />
-              </div>
-              <h2
-                className={
-                  isSelected ? styles.themeTitleSelected : styles.themeTitle
-                }
-              >
-                {optionalTheme}
-              </h2>
-            </div>
-          );
-        })}
+        <ThemeSelector />
       </div>
       <div className={styles.submitButton} onClick={() => handleSubmit()}>
         submit

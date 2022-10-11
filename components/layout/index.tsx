@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import NavBar from "../library/navBar";
 
-// const styles = require("./layout.module.scss");
+const styles = require("./layout.module.scss");
 
 type LayoutProps = {
   children: React.ReactElement;
@@ -57,7 +57,9 @@ const Layout: React.FC<LayoutProps> = ({ children, pageMeta }) => {
       </Head>
       <div>
         <NavBar />
-        <main>{React.cloneElement(children)}</main>
+        <main className={styles.mainContentContainer}>
+          {React.cloneElement(children)}
+        </main>
       </div>
     </>
   );

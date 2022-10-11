@@ -50,7 +50,7 @@ const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
   // }, [categories]);
 
   return (
-    <div className={styles.placeHolderContainer}>
+    <>
       <LimitedCalender
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
@@ -72,7 +72,7 @@ const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
         <p>todo add looks like you have no categories section</p>
       )}
       <CategoryForm />
-    </div>
+    </>
   );
 };
 
