@@ -10,12 +10,12 @@ const TasksPage: NextPage = () => {
 
   return (
     <Layout>
-      {true ? (
+      {categories.isLoading ? (
         <TasksSkeleton />
       ) : categories.error ? (
         <p>looks like something went wrong</p>
       ) : (
-        <></> //<TasksView categories={categories.data} />
+        <TasksView categories={categories.data} />
       )}
     </Layout>
   );

@@ -12,7 +12,7 @@ import { getUTCDayRange } from "../../../utils/dateComputer";
 const styles = require("./tasks.module.scss");
 
 type TasksViewProps = {
-  categories: CategoryModel[] | null;
+  categories: CategoryModel[];
 };
 
 const TasksView: React.FC<TasksViewProps> = ({ categories }) => {

@@ -10,12 +10,12 @@ const UserPage: NextPage = () => {
 
   return (
     <Layout>
-      {true ? (
+      {user.isLoading ? (
         <UserSkeleton />
       ) : user.error ? (
         <p>looks like something went wrong</p>
       ) : (
-        <></> //<UserView user={user.data} />
+        <UserView user={user.data} />
       )}
     </Layout>
   );
