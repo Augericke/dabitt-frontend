@@ -1,6 +1,7 @@
 @use "./themes/light.module.scss";
 @use "./themes/dark.module.scss";
 @use "./themes/lobby.module.scss";
+@use "./themes/sea.module.scss";
 
 :root {
   // default
@@ -38,6 +39,15 @@
   --icon-color: #{lobby.$icon-color};
   --icon-color-rga: #{lobby.$icon-color-rga};
   --text-color: #{lobby.$text-color};
+}
+
+[data-theme="sea"] {
+  --background-color: #{sea.$background-color};
+  --foreground-color: #{sea.$foreground-color};
+  --subtle-color: #{sea.$subtle-color};
+  --icon-color: #{sea.$icon-color};
+  --icon-color-rga: #{sea.$icon-color-rga};
+  --text-color: #{sea.$text-color};
 }
 
 html,

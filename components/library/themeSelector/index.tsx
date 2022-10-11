@@ -2,6 +2,7 @@ import { useTheme } from "next-themes";
 import dark from "../../../styles/themes/_dark.module.scss";
 import light from "../../../styles/themes/_light.module.scss";
 import lobby from "../../../styles/themes/_lobby.module.scss";
+import sea from "../../../styles/themes/_sea.module.scss";
 
 type ThemeSelectorProps = {};
 
@@ -15,6 +16,7 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = (
     { name: "dark", data: dark },
     { name: "light", data: light },
     { name: "lobby", data: lobby },
+    { name: "sea", data: sea },
   ];
 
   return (
