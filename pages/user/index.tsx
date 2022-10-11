@@ -2,18 +2,19 @@ import type { NextPage } from "next";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import Layout from "../../components/layout";
 import UserView from "../../components/pages/user";
+import { useUser } from "../../utils/hooks/query/useUser";
 
 const UserPage: NextPage = () => {
-  // const categories = useCategory();
+  const user = useUser();
 
   return (
     <Layout>
-      {false ? (
+      {user.isLoading ? (
         <p>todo add skelton & error handling</p>
-      ) : false ? (
+      ) : user.error ? (
         <p>looks like something went wrong</p>
       ) : (
-        <UserView />
+        <UserView user={user.data} />
       )}
     </Layout>
   );
