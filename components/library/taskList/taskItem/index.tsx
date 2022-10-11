@@ -1,14 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { getMenuItems } from "./taskMenuOptions";
 import { CategoryModel } from "../../../../types/category";
 import { TaskModel } from "../../../../types/task";
-import taskService, {
-  DeleteTask,
-  UpdateTask,
-} from "../../../../utils/services/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
 import { add } from "date-fns";
@@ -18,6 +13,9 @@ import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
 import { onEnterDownBlur } from "../../../../utils/formControllers";
 import WordCount from "../../wordCount";
+import { useUpdateTask } from "../../../../utils/hooks/query/useUpdateTask";
+import { useKickTask } from "../../../../utils/hooks/query/useKickTask";
+import { useDeleteTask } from "../../../../utils/hooks/query/useDeleteTask";
 
 const styles = require("./taskItem.module.scss");
 
@@ -32,7 +30,9 @@ const TaskItem: React.FC<TaskItemProps> = ({
   category,
   task,
 }) => {
-  const queryClient = useQueryClient();
+  const updateTask = useUpdateTask(category.id, selectedDate);
+  const kickTask = useKickTask(category.id, task.id, selectedDate);
+  const deleteTask = useDeleteTask(category.id, task.id, selectedDate);
 
   // Modal / Tick Box
   const [showModal, setShowModal] = useState(false);
@@ -58,62 +58,6 @@ const TaskItem: React.FC<TaskItemProps> = ({
     }
   }, [isFontListLoaded, taskDescription, width, height]);
 
-  const updateMutation = useMutation(
-    (updatedTask: UpdateTask) => updateTask(updatedTask),
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData<TaskModel[] | undefined>(
-          ["tasks", category.id, selectedDate],
-          (oldTasks) =>
-            oldTasks &&
-            oldTasks.map((task) => (task.id !== data.id ? task : data)),
-        );
-      },
-      onError: () => {
-        console.log(updateMutation.error);
-      },
-    },
-  );
-
-  const canKickMutation = useMutation(
-    (updatedTask: UpdateTask) => updateTask(updatedTask),
-    {
-      onSuccess: (data) => {
-        // Remove item from selected day cache
-        queryClient.setQueryData<TaskModel[] | undefined>(
-          ["tasks", category.id, selectedDate],
-          (oldTasks) =>
-            oldTasks && oldTasks.filter((oldTask) => oldTask.id != task.id),
-        );
-
-        // Add item to next days cache
-        queryClient.setQueryData<TaskModel[] | undefined>(
-          ["tasks", category.id, add(selectedDate, { days: 1 })],
-          (oldTasks) => oldTasks && [...oldTasks, data],
-        );
-      },
-      onError: () => {
-        console.log(updateMutation.error);
-      },
-    },
-  );
-
-  const deleteMutation = useMutation(
-    (deletedTask: DeleteTask) => deleteTask(deletedTask),
-    {
-      onSuccess: () => {
-        queryClient.setQueryData<TaskModel[] | undefined>(
-          ["tasks", category.id, selectedDate],
-          (oldTasks) =>
-            oldTasks && oldTasks.filter((oldTask) => oldTask.id != task.id),
-        );
-      },
-      onError: () => {
-        console.log(deleteMutation.error);
-      },
-    },
-  );
-
   // Avoid users adding line breaks
   const onChangeHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTaskDescription(event.target.value.replace(/\n/g, ""));
@@ -124,7 +68,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
     const newDescription =
       taskDescription === "" ? task.description : taskDescription.trim();
     if (newDescription && newDescription !== task.description) {
-      updateMutation.mutate({
+      updateTask.mutate({
         categoryId: category.id,
         taskId: task.id,
         data: { description: taskDescription },
@@ -141,7 +85,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
       completedAt = new Date();
     }
 
-    updateMutation.mutate({
+    updateTask.mutate({
       categoryId: category.id,
       taskId: task.id,
       data: { completedAt },
@@ -149,7 +93,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   };
 
   const onTimeChange = (newEstimate: number) => {
-    updateMutation.mutate({
+    updateTask.mutate({
       categoryId: category.id,
       taskId: task.id,
       data: { estimateMinutes: newEstimate },
@@ -158,21 +102,11 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   const onCanKick = () => {
     const tomorrow = add(new Date(), { days: 1 });
-    canKickMutation.mutate({
+    kickTask.mutate({
       categoryId: category.id,
       taskId: task.id,
       data: { startAt: tomorrow },
     });
-  };
-
-  const updateTask = async (updateData: UpdateTask) => {
-    const updatedTask = await taskService.update(updateData);
-    return updatedTask;
-  };
-
-  const deleteTask = async ({ categoryId, taskId }: DeleteTask) => {
-    const deletedTask = await taskService.destroy({ categoryId, taskId });
-    return deletedTask;
   };
 
   return (
@@ -235,7 +169,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
           setShowModal(false);
         }}
         onDelete={() =>
-          deleteMutation.mutate({ categoryId: category.id, taskId: task.id })
+          deleteTask.mutate({ categoryId: category.id, taskId: task.id })
         }
       />
     </>

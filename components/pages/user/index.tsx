@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { UserModel } from "../../../types/user";
 import { formatDate } from "../../../utils/dateComputer";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import userService, { UpdateUser } from "../../../utils/services/user";
 import ThemeSelector from "../../library/themeSelector";
 import { onEnterDownBlur } from "../../../utils/formControllers";
 import { useUpdateUser } from "../../../utils/hooks/query/useUpdateUser";

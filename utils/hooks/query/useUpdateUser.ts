@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import userService, { UpdateUser } from "../../services/user";
 import { UserModel } from "../../../types/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";

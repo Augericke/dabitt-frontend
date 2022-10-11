@@ -1,8 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import categoryService, {
-  UpdateCategory,
-} from "../../../../utils/services/category";
 import { CategoryModel } from "../../../../types/category";
 import { IconColors } from "../../../../types/task";
 import Popover from "../../popover";
