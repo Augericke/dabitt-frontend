@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import Link from "next/link";
 import {
   AiOutlineHome,
   AiOutlineBarChart,
@@ -14,9 +15,9 @@ const styles = require("./navBar.module.scss");
 const NavBar: React.FC<NavBarProps> = (props: NavBarProps) => {
   const [menuIsOpen, setMenuIsOpen] = useState(true);
   const navOptions = [
-    <AiOutlineHome key={"tasks"} />,
-    <AiOutlineBarChart key={"dashboard"} />,
-    <AiOutlineUser key={"user"} />,
+    { icon: <AiOutlineHome />, href: "/tasks" },
+    { icon: <AiOutlineBarChart />, href: "/dashboard" },
+    { icon: <AiOutlineUser />, href: "/user" },
   ];
 
   // Hide Menu when click outside of popover container
@@ -29,16 +30,21 @@ const NavBar: React.FC<NavBarProps> = (props: NavBarProps) => {
       className={styles.navBarContainer}
     >
       <ul className={styles.navList}>
-        <li className={styles.navMenuToggle}>
+        <li
+          className={styles.navMenuToggle}
+          onClick={() => setMenuIsOpen(!menuIsOpen)}
+        >
           <MenuToggle isOpen={menuIsOpen} setIsOpen={setMenuIsOpen} />
         </li>
         {menuIsOpen && (
           <>
             {navOptions.map((option, index) => {
               return (
-                <li key={index} className={styles.navIcon}>
-                  {option}
-                </li>
+                <Link key={index} href={option.href}>
+                  <li className={styles.navIcon}>
+                    <a>{option.icon} </a>
+                  </li>
+                </Link>
               );
             })}
           </>
