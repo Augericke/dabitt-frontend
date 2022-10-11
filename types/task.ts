@@ -11,8 +11,6 @@ export const colorList = [
   "default",
   "default_secondary",
   "forest",
-  "coffee",
-  "blush",
   "tan",
   "space",
   "steel",

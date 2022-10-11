@@ -2,6 +2,7 @@
 @use "./themes/dark.module.scss";
 @use "./themes/lobby.module.scss";
 @use "./themes/sea.module.scss";
+@use "./themes/cappuccino.module.scss";
 
 :root {
   // default
@@ -48,6 +49,15 @@
   --icon-color: #{sea.$icon-color};
   --icon-color-rga: #{sea.$icon-color-rga};
   --text-color: #{sea.$text-color};
+}
+
+[data-theme="cappuccino"] {
+  --background-color: #{cappuccino.$background-color};
+  --foreground-color: #{cappuccino.$foreground-color};
+  --subtle-color: #{cappuccino.$subtle-color};
+  --icon-color: #{cappuccino.$icon-color};
+  --icon-color-rga: #{cappuccino.$icon-color-rga};
+  --text-color: #{cappuccino.$text-color};
 }
 
 html,

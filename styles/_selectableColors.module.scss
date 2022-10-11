@@ -1,8 +1,6 @@
 $category-color-default: var(--icon-color);
 $category-color-default-secondary: var(--subtle-color);
 $category-color-forest: #54655c;
-$category-color-coffee: #b78b6c;
-$category-color-blush: #9f6c66;
 $category-color-tan: #c9a069;
 $category-color-space: #322b41;
 $category-color-steel: #6d848a;
@@ -22,14 +20,6 @@ $category-color-pine-cone: #655554;
 
   &Forest {
     color: $category-color-forest;
-  }
-
-  &Coffee {
-    color: $category-color-coffee;
-  }
-
-  &Blush {
-    color: $category-color-blush;
   }
 
   &Tan {
@@ -66,14 +56,6 @@ $category-color-pine-cone: #655554;
 
   &Forest {
     #{$property}: $category-color-forest;
-  }
-
-  &Coffee {
-    #{$property}: $category-color-coffee;
-  }
-
-  &Blush {
-    #{$property}: $category-color-blush;
   }
 
   &Tan {
@@ -118,8 +100,6 @@ $category-color-pine-cone: #655554;
   category-color-default: $category-color-default;
   category-color-default-secondary: $category-color-default-secondary;
   category-color-forest: $category-color-forest;
-  category-color-coffee: $category-color-coffee;
-  category-color-blush: $category-color-blush;
   category-color-tan: $category-color-tan;
   category-color-space: $category-color-space;
   category-color-steel: $category-color-steel;

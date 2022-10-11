@@ -25,7 +25,9 @@ function MyApp({ Component, pageProps }: AppProps) {
         // onRedirectCallback={onRedirectCallback}
       >
         <AxiosProvider>
-          <ThemeProvider themes={["light", "dark", "coffee", "sea"]}>
+          <ThemeProvider
+            themes={["light", "dark", "coffee", "sea", "cappuccino"]}
+          >
             <Component {...pageProps} />
             <ReactQueryDevtools initialIsOpen={false} />
           </ThemeProvider>

@@ -3,6 +3,7 @@ import dark from "../../../styles/themes/_dark.module.scss";
 import light from "../../../styles/themes/_light.module.scss";
 import lobby from "../../../styles/themes/_lobby.module.scss";
 import sea from "../../../styles/themes/_sea.module.scss";
+import cappuccino from "../../../styles/themes/_cappuccino.module.scss";
 
 type ThemeSelectorProps = {};
 
@@ -17,6 +18,7 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = (
     { name: "light", data: light },
     { name: "lobby", data: lobby },
     { name: "sea", data: sea },
+    { name: "cappuccino", data: cappuccino },
   ];
 
   return (

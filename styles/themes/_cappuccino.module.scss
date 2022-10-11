@@ -1,0 +1,15 @@
+$background-color: #c9a069;
+$foreground-color: #b78b6c;
+$subtle-color: #956347;
+$icon-color: #402e32;
+$icon-color-rga: 101, 85, 84;
+$text-color: #ffeccb;
+
+:export {
+  background-color: $background-color;
+  foreground-color: $foreground-color;
+  icon-color: $icon-color;
+  icon-color-rga: $icon-color-rga;
+  text-color: $text-color;
+  subtle-color: $subtle-color;
+}
