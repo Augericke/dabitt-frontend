@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import NavBar from "../library/navBar";
 
 // const styles = require("./layout.module.scss");
 
@@ -55,6 +56,7 @@ const Layout: React.FC<LayoutProps> = ({ children, pageMeta }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div>
+        <NavBar />
         <main>{React.cloneElement(children)}</main>
       </div>
     </>

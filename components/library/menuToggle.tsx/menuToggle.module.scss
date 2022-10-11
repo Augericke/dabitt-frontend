@@ -1,0 +1,11 @@
+.buttonContainer {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.path {
+  stroke: var(--icon-color);
+}
