@@ -14,6 +14,8 @@ import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
 import { onEnterDownBlur } from "../../../../utils/formControllers";
 import WordCount from "../../wordCount";
+import { useUpdateCategory } from "../../../../utils/hooks/query/useUpdateCategory";
+import { useDeleteCategory } from "../../../../utils/hooks/query/useDeleteCategory";
 
 const styles = require("./categoryHeader.module.scss");
 
@@ -26,7 +28,9 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   category,
   numTasks,
 }) => {
-  const queryClient = useQueryClient();
+  const deleteCategory = useDeleteCategory(category.id);
+  const updateCategory = useUpdateCategory();
+
   const { backgroundColor, borderColor } = getSelectableColorClass(
     styles,
     category.iconColor,
@@ -49,55 +53,12 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     }
   }, [isFontListLoaded, categoryName, width]);
 
-  const updateMutation = useMutation(
-    (updatedCategory: UpdateCategory) => updateCategory(updatedCategory),
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData<CategoryModel[]>(
-          ["categories"],
-          (oldCategories) =>
-            oldCategories &&
-            oldCategories.map((category) =>
-              category.id !== data.id ? category : data,
-            ),
-        );
-      },
-      onError: () => {
-        console.log(updateMutation.error);
-      },
-    },
-  );
-
-  const deleteMutation = useMutation((id: string) => deleteCategory(id), {
-    onSuccess: () => {
-      queryClient.setQueryData<CategoryModel[]>(
-        ["categories"],
-        (oldCategories) =>
-          oldCategories &&
-          oldCategories.filter((oldCategory) => oldCategory.id !== category.id),
-      );
-    },
-    onError: () => {
-      console.log(deleteMutation.error);
-    },
-  });
-
-  const updateCategory = async (updateData: UpdateCategory) => {
-    const updatedCategory = await categoryService.update(updateData);
-    return updatedCategory;
-  };
-
-  const deleteCategory = async (id: string) => {
-    const deletedCategory = await categoryService.destroy(id);
-    return deletedCategory;
-  };
-
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryName(event.target.value);
   };
 
   const onColorChange = (color: IconColors) => {
-    updateMutation.mutate({ id: category.id, data: { iconColor: color } });
+    updateCategory.mutate({ id: category.id, data: { iconColor: color } });
   };
 
   const onBlur = () => {
@@ -105,7 +66,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
     if (categoryName !== category.name) {
       const newName = categoryName === "" ? category.name : categoryName.trim();
       setCategoryName(newName);
-      updateMutation.mutate({ id: category.id, data: { name: newName } });
+      updateCategory.mutate({ id: category.id, data: { name: newName } });
     }
   };
 
@@ -156,7 +117,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
         onClose={() => {
           setShowDeleteModal(false);
         }}
-        onDelete={() => deleteMutation.mutate(category.id)}
+        onDelete={() => deleteCategory.mutate(category.id)}
       />
     </>
   );
