@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import userService, { UpdateUser } from "../../../utils/services/user";
 import ThemeSelector from "../../library/themeSelector";
 import { onEnterDownBlur } from "../../../utils/formControllers";
+import { useUpdateUser } from "../../../utils/hooks/query/useUpdateUser";
 
 type UserViewProps = {
   user: UserModel;
@@ -13,27 +14,10 @@ type UserViewProps = {
 const styles = require("./user.module.scss");
 
 const UserView: React.FC<UserViewProps> = ({ user }) => {
-  const queryClient = useQueryClient();
+  const updateUser = useUpdateUser();
 
   const [username, setUsername] = useState(user.username);
   const joinedAt = formatDate(user.createdAt, "MMM e, yyyy");
-
-  const updateMutation = useMutation(
-    (updatedUser: UpdateUser) => updateUser(updatedUser),
-    {
-      onSuccess: (data) => {
-        queryClient.setQueryData<UserModel>(["user"], data);
-      },
-      onError: () => {
-        console.log(updateMutation.error);
-      },
-    },
-  );
-
-  const updateUser = async (updateData: UpdateUser) => {
-    const updatedUser = await userService.update(updateData);
-    return updatedUser;
-  };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -44,7 +28,7 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
       const newUsername = username === "" ? user.username : username.trim();
       setUsername(newUsername);
 
-      updateMutation.mutate({ username: newUsername });
+      updateUser.mutate({ username: newUsername });
     }
   };
 
