@@ -27,6 +27,11 @@ const update = async (props: UpdateUser) => {
   return response.data;
 };
 
-const userService = { create, read, update };
+const destroy = async () => {
+  const response = await api.delete(`/user`);
+  return response.data;
+};
+
+const userService = { create, read, update, destroy };
 
 export default userService;
