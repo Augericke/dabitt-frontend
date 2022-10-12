@@ -68,7 +68,7 @@
       text-align: center;
       font-size: 14px;
       color: var(--text-color);
-      background-color: var(--subtle-color);
+      background-color: var(--background-color);
       border-radius: var(--button-border-radius);
       border: none;
       padding: 10px;
@@ -91,7 +91,7 @@
 
       &Danger {
         @extend .button;
-        background-color: var(--icon-color);
+        background-color: var(--background-color);
       }
     }
   }

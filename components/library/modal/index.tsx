@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
+import ShowOnViewport from "../animation/showOnViewport";
 
 const styles = require("./modal.module.scss");
 
@@ -31,12 +32,14 @@ const Modal: React.FC<ModalProps> = ({ isVisible, content, onClose }) => {
             }
           }}
         >
-          <div className={styles.modalContent}>
-            <div className={styles.closeContainer}>
-              <IoMdClose className={styles.closeIcon} onClick={onClose} />
-            </div>
-            {content}
-          </div>
+          <ShowOnViewport customClass={styles.modalContent}>
+            <>
+              <div className={styles.closeContainer}>
+                <IoMdClose className={styles.closeIcon} onClick={onClose} />
+              </div>
+              {content}
+            </>
+          </ShowOnViewport>
         </div>
       )}
     </>

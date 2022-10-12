@@ -8,6 +8,7 @@ import Popover from "../../library/popover";
 import { getUserMenuOptions } from "./userMenuOptions";
 import DeleteModal from "../../library/modal/deleteModal";
 import { useDeleteUser } from "../../../utils/hooks/query/user/useDeleteUser";
+import ShowOnViewport from "../../library/animation/showOnViewport";
 
 type UserViewProps = {
   user: UserModel;
@@ -37,39 +38,41 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
 
   return (
     <>
-      <section className={styles.userViewContainer}>
-        <h1 className={styles.settingsTitle}>settings</h1>
-        <div className={styles.userSettingsContainer}>
-          <div className={styles.userInfoHeader}>
-            <h2 className={styles.userTitle}>user</h2>
-            <Popover
-              customMenuClass={styles.customMenuClass}
-              menuItems={getUserMenuOptions(() => setShowDeleteModal(true))}
-              iconType="gear"
-            />
-          </div>
-          <ul className={styles.infoItemsContainer}>
-            <li className={styles.infoItemName}>
-              username
-              <input
-                className={styles.infoItemInput}
-                value={username}
-                onKeyDown={onEnterDownBlur}
-                onChange={onChange}
-                onBlur={onBlur}
+      <ShowOnViewport customClass={styles.userViewContainer}>
+        <>
+          <h1 className={styles.settingsTitle}>settings</h1>
+          <div className={styles.userSettingsContainer}>
+            <div className={styles.userInfoHeader}>
+              <h2 className={styles.userTitle}>user</h2>
+              <Popover
+                customMenuClass={styles.customMenuClass}
+                menuItems={getUserMenuOptions(() => setShowDeleteModal(true))}
+                iconType="gear"
               />
-            </li>
-            <li className={styles.infoItemName}>
-              member since
-              <span className={styles.infoItemValue}>{joinedAt}</span>
-            </li>
-          </ul>
-          <h2 className={styles.settingsSubtitle}>themes</h2>
-          <div className={styles.themeSectionContainer}>
-            <ThemeSelector />
+            </div>
+            <ul className={styles.infoItemsContainer}>
+              <li className={styles.infoItemName}>
+                username
+                <input
+                  className={styles.infoItemInput}
+                  value={username}
+                  onKeyDown={onEnterDownBlur}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
+              </li>
+              <li className={styles.infoItemName}>
+                member since
+                <span className={styles.infoItemValue}>{joinedAt}</span>
+              </li>
+            </ul>
+            <h2 className={styles.settingsSubtitle}>themes</h2>
+            <div className={styles.themeSectionContainer}>
+              <ThemeSelector />
+            </div>
           </div>
-        </div>
-      </section>
+        </>
+      </ShowOnViewport>
       <DeleteModal
         isVisible={showDeleteModal}
         content="All data will be lost - are you sure you want to delete your account? "
