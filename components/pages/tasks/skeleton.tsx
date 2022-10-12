@@ -6,10 +6,10 @@ const styles = require("../user/user.module.scss");
 
 import "react-loading-skeleton/dist/skeleton.css";
 
-type UserSkeletonProps = {};
+type TasksSkeletonProps = {};
 
-const TasksSkeleton: React.FC<UserSkeletonProps> = (
-  props: UserSkeletonProps,
+const TasksSkeleton: React.FC<TasksSkeletonProps> = (
+  props: TasksSkeletonProps,
 ) => {
   return (
     <SkeletonTheme

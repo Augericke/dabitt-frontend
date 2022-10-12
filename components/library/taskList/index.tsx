@@ -5,6 +5,7 @@ import TaskForm from "./taskForm";
 import { TaskModel } from "../../../types/task";
 import { CategoryModel } from "../../../types/category";
 import { useTask } from "../../../utils/hooks/query/task/useTask";
+import TaskListSkeleton from "./skeleton";
 
 const styles = require("./taskList.module.scss");
 
@@ -19,7 +20,7 @@ const TaskList: React.FC<TaskListProps> = ({ selectedDate, category }) => {
   return (
     <>
       {tasks.isLoading ? (
-        <p>todo add skelton & error handling</p>
+        <TaskListSkeleton />
       ) : tasks.error ? (
         <p>looks like something went wrong</p>
       ) : (
