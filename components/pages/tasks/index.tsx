@@ -8,6 +8,8 @@ import ProgressBar, {
 import _ from "lodash";
 import { CategoryModel } from "../../../types/category";
 import { getUTCDayRange } from "../../../utils/dateComputer";
+import { useQueries } from "@tanstack/react-query";
+import { TaskModel } from "../../../types/task";
 
 const styles = require("./tasks.module.scss");
 
@@ -19,35 +21,45 @@ const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
   const { startTime } = getUTCDayRange(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date(startTime));
 
-  // const [chartData, setChartData] = useState<ProgressBarDataType[]>([]);
+  const taskQueries = useQueries<TaskModel[]>({
+    queries: categories.map((category) => {
+      return { queryKey: ["tasks", category.id, selectedDate] };
+    }),
+  });
 
-  // useEffect(() => {
-  //   if (categories) {
-  //     const completed = _.chain(categories)
-  //       .map((category) => ({
-  //         category: category.name,
-  //         color: category.iconColor,
-  //         value: _.sumBy(category.tasks, (task) => {
-  //           return task.completedAt ? task.estimateMinutes : 0;
-  //         }),
-  //         completed: true,
-  //       }))
-  //       .value();
+  const isLoading = taskQueries.some((query) => query.isLoading);
+  const isError = taskQueries.some((query) => query.isError);
 
-  //     const unfinished = _.chain(categories)
-  //       .map((category) => ({
-  //         category: category.name,
-  //         color: category.iconColor,
-  //         value: _.sumBy(category.tasks, (task) => {
-  //           return task.completedAt ? 0 : task.estimateMinutes;
-  //         }),
-  //         completed: false,
-  //       }))
-  //       .value();
+  if (isLoading) {
+    console.log("loading");
+  } else if (isError) {
+    console.log("error");
+  } else {
+    // Combine all task data into a single array
+    const queryData = taskQueries
+      .map((query) => query.data)
+      .flat(1) as TaskModel[];
 
-  //     setChartData([...completed, ...unfinished]);
-  //   }
-  // }, [categories]);
+    const aggregatedQueryData = _(queryData)
+      .map((task) => {
+        return { ...task, isComplete: task.completedAt !== null };
+      })
+      .groupBy((task) => {
+        return `${task.categoryId}, ${task.isComplete}`;
+      })
+      .map((task) => ({
+        categoryId: _.maxBy(task, "categoryId")?.categoryId,
+        isComplete: _.maxBy(task, "isComplete")?.isComplete,
+        value: _.sumBy(task, "estimateMinutes"),
+      }))
+      .value();
+
+    const chartData = aggregatedQueryData.map((item) => ({
+      ...categories.find((cat) => cat.id === item.categoryId),
+      ...item,
+    }));
+    console.log(chartData);
+  }
 
   return (
     <>
