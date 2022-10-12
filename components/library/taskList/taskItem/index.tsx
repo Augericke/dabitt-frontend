@@ -157,7 +157,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
         <span className={styles.popoverContainer}>
           <Popover
             customMenuClass={styles.customTaskMenu}
-            menuItems={getMenuItems(textRef, onCanKick, () => {
+            menuItems={getMenuItems(textRef, onCanKick, onTick, () => {
               setShowModal(true);
             })}
           />

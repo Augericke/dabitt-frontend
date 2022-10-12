@@ -1,6 +1,6 @@
 import React from "react";
 import { AiTwotoneDelete } from "react-icons/ai";
-import { TbEdit } from "react-icons/tb";
+import { TbEdit, TbCheck } from "react-icons/tb";
 import { GiConverseShoe } from "react-icons/gi";
 
 const styles = require("./taskMenuOptions.module.scss");
@@ -8,6 +8,7 @@ const styles = require("./taskMenuOptions.module.scss");
 export const getMenuItems = (
   inputRef: React.MutableRefObject<any>,
   handleCanKick: () => void,
+  handleComplete: () => void,
   handleDelete: () => void,
 ) => {
   // Focus on text input field and place cursor at end of string
@@ -28,6 +29,17 @@ export const getMenuItems = (
       ),
       onClick: handleEditClick,
     },
+    {
+      content: (
+        <div className={styles.itemContainer}>
+          <div className={styles.itemInfoContainer}>
+            <TbCheck /> complete
+          </div>
+        </div>
+      ),
+      onClick: handleComplete,
+    },
+
     {
       content: (
         <div className={styles.itemContainer}>
