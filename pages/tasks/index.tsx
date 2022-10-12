@@ -15,7 +15,11 @@ const TasksPage: NextPage = () => {
       ) : categories.error ? (
         <p>looks like something went wrong</p>
       ) : (
-        <TasksView categories={categories.data} />
+        <TasksView
+          categories={categories.data.sort((a, b) =>
+            a.name.localeCompare(b.name),
+          )}
+        />
       )}
     </Layout>
   );

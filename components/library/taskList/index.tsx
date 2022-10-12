@@ -33,16 +33,22 @@ const TaskList: React.FC<TaskListProps> = ({ selectedDate, category }) => {
             <ul className={styles.taskList}>
               {tasks && (
                 <>
-                  {tasks.data.map((task: TaskModel) => {
-                    return (
-                      <TaskItem
-                        key={task.id}
-                        selectedDate={selectedDate}
-                        category={category}
-                        task={task}
-                      />
-                    );
-                  })}
+                  {tasks.data
+                    .sort((a, b) => {
+                      const aCompleted = a.completedAt ? 1 : -1;
+                      const bCompleted = b.completedAt ? 1 : -1;
+                      return bCompleted - aCompleted;
+                    })
+                    .map((task: TaskModel) => {
+                      return (
+                        <TaskItem
+                          key={task.id}
+                          selectedDate={selectedDate}
+                          category={category}
+                          task={task}
+                        />
+                      );
+                    })}
                 </>
               )}
               <li>
