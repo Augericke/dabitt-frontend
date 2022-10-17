@@ -9,6 +9,7 @@ import { getUserMenuOptions } from "./userMenuOptions";
 import DeleteModal from "../../library/modal/deleteModal";
 import { useDeleteUser } from "../../../utils/hooks/query/user/useDeleteUser";
 import ShowOnViewport from "../../library/animation/showOnViewport";
+import { useAuth0 } from "@auth0/auth0-react";
 
 type UserViewProps = {
   user: UserModel;
@@ -17,6 +18,7 @@ type UserViewProps = {
 const styles = require("./user.module.scss");
 
 const UserView: React.FC<UserViewProps> = ({ user }) => {
+  const { logout } = useAuth0();
   const deleteUser = useDeleteUser();
   const updateUser = useUpdateUser();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -64,6 +66,14 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
               <li className={styles.infoItemName}>
                 member since
                 <span className={styles.infoItemValue}>{joinedAt}</span>
+              </li>
+              <li className={styles.infoItemName}>
+                <button
+                  className={styles.userButton}
+                  onClick={() => logout({ returnTo: window.location.origin })}
+                >
+                  logout
+                </button>
               </li>
             </ul>
             <h2 className={styles.settingsSubtitle}>themes</h2>
