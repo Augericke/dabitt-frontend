@@ -9,7 +9,9 @@ import _ from "lodash";
 import { CategoryModel } from "../../../types/category";
 import { getUTCDayRange } from "../../../utils/dateComputer";
 import { useQueries } from "@tanstack/react-query";
-import { TaskModel } from "../../../types/task";
+import { IconColors, TaskModel } from "../../../types/task";
+import taskService from "../../../utils/services/task";
+import { useTaskProgressBar } from "../../../utils/hooks/query/task/useTaskProgressBar";
 
 const styles = require("./tasks.module.scss");
 
@@ -20,46 +22,9 @@ type TasksViewProps = {
 const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
   const { startTime } = getUTCDayRange(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date(startTime));
+  const progressBarData = useTaskProgressBar(categories, selectedDate);
 
-  const taskQueries = useQueries<TaskModel[]>({
-    queries: categories.map((category) => {
-      return { queryKey: ["tasks", category.id, selectedDate] };
-    }),
-  });
-
-  const isLoading = taskQueries.some((query) => query.isLoading);
-  const isError = taskQueries.some((query) => query.isError);
-
-  if (isLoading) {
-    console.log("loading");
-  } else if (isError) {
-    console.log("error");
-  } else {
-    // Combine all task data into a single array
-    const queryData = taskQueries
-      .map((query) => query.data)
-      .flat(1) as TaskModel[];
-
-    const aggregatedQueryData = _(queryData)
-      .map((task) => {
-        return { ...task, isComplete: task.completedAt !== null };
-      })
-      .groupBy((task) => {
-        return `${task.categoryId}, ${task.isComplete}`;
-      })
-      .map((task) => ({
-        categoryId: _.maxBy(task, "categoryId")?.categoryId,
-        isComplete: _.maxBy(task, "isComplete")?.isComplete,
-        value: _.sumBy(task, "estimateMinutes"),
-      }))
-      .value();
-
-    const chartData = aggregatedQueryData.map((item) => ({
-      ...categories.find((cat) => cat.id === item.categoryId),
-      ...item,
-    }));
-    console.log(chartData);
-  }
+  // console.log(progressBarData);
 
   return (
     <>
@@ -69,7 +34,7 @@ const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
       />
       {categories ? (
         <>
-          {/* <ProgressBar chartData={chartData} /> */}
+          {progressBarData && <ProgressBar chartData={progressBarData} />}
           {categories.map((category) => {
             return (
               <TaskList

@@ -1,0 +1,11 @@
+@use "../../../../../styles/selectableColors.module.scss";
+
+.barCategory {
+  // transition: width 200ms;
+  opacity: 0.2;
+
+  &Complected {
+    @extend .barCategory;
+    opacity: 1;
+  }
+}

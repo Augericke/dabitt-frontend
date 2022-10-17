@@ -1,17 +1,19 @@
 import React from "react";
 import { IconColors } from "../../../../types/task";
-import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
+import Bar from "./bar";
+import { motion, AnimatePresence } from "framer-motion";
 
 const styles = require("./progressBar.module.scss");
 
 export type ProgressBarDataType = {
+  categoryId: string;
   category: string;
   color: IconColors;
   value: number;
   completed: boolean;
 };
 
-type ProgressBarProps = {
+export type ProgressBarProps = {
   chartData: ProgressBarDataType[];
 };
 
@@ -30,7 +32,6 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
     (a, b) => Number(b.completed) - Number(a.completed),
   );
 
-  //TODO: add tooltip
   return (
     <div
       className={
@@ -39,25 +40,13 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
           : styles.barContainerEmpty
       }
     >
-      {chartData.map((data, index) => {
-        const { backgroundColor } = getSelectableColorClass(styles, data.color);
-
-        const barId = `${data.category}-${index}`;
-        const bar = document.getElementById(barId);
-        if (bar) {
-          bar.style.width = `${data.value}%`;
-        }
-
-        return (
-          <span
-            id={barId}
-            key={index}
-            className={`${
-              data.completed ? styles.barCategoryCompleted : styles.barCategory
-            } ${backgroundColor}`}
-          />
-        );
-      })}
+      <AnimatePresence>
+        {chartData.map((data) => {
+          return (
+            <Bar data={data} key={`${data.categoryId}-${data.completed}`} />
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 };
