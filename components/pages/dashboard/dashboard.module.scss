@@ -24,7 +24,10 @@
   }
 
   .calenderContainer {
-    width: 650px;
+    width: 100%;
+    background-color: var(--foreground-color);
+    border: 1px solid var(--subtle-color);
+    border-radius: 10px;
     overflow: hidden;
   }
 }

@@ -13,26 +13,31 @@ type CalenderMapProps = {};
 const CalenderMap: React.FC<CalenderMapProps> = (props: CalenderMapProps) => {
   return (
     <div className={styles.chartContainer}>
-      <TimeRange
-        data={calData}
-        height={250}
-        width={650}
-        from="2016-02-01"
-        to="2016-7-31"
-        theme={{
-          textColor: variable["text-color"],
-        }}
-        emptyColor={variable["background-color"]}
-        colors={colors}
-        margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
-        dayBorderWidth={0.5}
-        daySpacing={5}
-        dayBorderColor={colors[2]}
-        tooltip={(input) => {
-          console.log(input);
-          return <span />;
-        }}
-      />
+      <div className={styles.calendarContainer}>
+        <TimeRange
+          data={calData}
+          height={230}
+          width={823}
+          from="2016-01-01"
+          to="2016-7-31"
+          theme={{
+            textColor: variable["text-color"],
+          }}
+          emptyColor={variable["background-color"]}
+          colors={colors}
+          margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
+          square={false}
+          dayBorderWidth={0}
+          daySpacing={5}
+          dayRadius={2}
+          dayBorderColor={colors[0]}
+          tooltip={(input) => {
+            console.log(input);
+            return <span />;
+          }}
+          isInteractive={true}
+        />
+      </div>
       <div className={styles.legendContainer}>
         less
         {colors.map((color) => {
@@ -58,17 +63,17 @@ function addAlpha(color: string, opacity: number) {
   return color + _opacity.toString(16).toUpperCase();
 }
 
-const defaultColors = [
-  variable["chart-color-lowest"],
-  variable["chart-color-low"],
-  variable["chart-color-medium"],
-  variable["chart-color-high"],
-  variable["chart-color-highest"],
-];
+// const colors = [
+//   variable["chart-color-lowest"],
+//   variable["chart-color-low"],
+//   variable["chart-color-medium"],
+//   variable["chart-color-high"],
+//   variable["chart-color-highest"],
+// ];
 
 const opacityRange = [0.1, 0.3, 0.5, 0.7, 1];
 const colors = opacityRange.map((opacity) => {
-  return addAlpha(variable["category-color-blush"], opacity);
+  return addAlpha(variable["category-color-copper"], opacity);
 });
 
 const calData: any = [
