@@ -1,6 +1,6 @@
 import React from "react";
 import { formatDate, getUTCDayRange } from "../../../utils/dateComputer";
-import { add, startOfDay, sub } from "date-fns";
+import { add, sub } from "date-fns";
 
 const styles = require("./limitedCalender.module.scss");
 

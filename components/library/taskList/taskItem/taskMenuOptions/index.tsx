@@ -1,5 +1,5 @@
 import React from "react";
-import { AiTwotoneDelete } from "react-icons/ai";
+import { AiTwotoneDelete, AiOutlineRedo } from "react-icons/ai";
 import { TbEdit, TbCheck } from "react-icons/tb";
 import { GiConverseShoe } from "react-icons/gi";
 
@@ -9,6 +9,7 @@ export const getMenuItems = (
   inputRef: React.MutableRefObject<any>,
   handleCanKick: () => void,
   handleComplete: () => void,
+  isTicked: boolean,
   handleDelete: () => void,
 ) => {
   // Focus on text input field and place cursor at end of string
@@ -33,7 +34,15 @@ export const getMenuItems = (
       content: (
         <div className={styles.itemContainer}>
           <div className={styles.itemInfoContainer}>
-            <TbCheck /> complete
+            {isTicked ? (
+              <>
+                <AiOutlineRedo /> unfinished
+              </>
+            ) : (
+              <>
+                <TbCheck /> complete
+              </>
+            )}
           </div>
         </div>
       ),

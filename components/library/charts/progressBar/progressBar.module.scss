@@ -4,6 +4,7 @@
   height: 20px;
   border-radius: 10px;
   overflow: hidden;
+  margin: 10px;
 
   &Empty {
     @extend .barContainer;

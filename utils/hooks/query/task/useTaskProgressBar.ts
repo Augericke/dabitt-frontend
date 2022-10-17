@@ -1,6 +1,4 @@
 import { useQueries } from "@tanstack/react-query";
-import { useState } from "react";
-import { ProgressBarDataType } from "../../../../components/library/charts/progressBar";
 import { CategoryModel } from "../../../../types/category";
 import { IconColors, TaskModel } from "../../../../types/task";
 import taskService from "../../../services/task";
@@ -59,7 +57,6 @@ export function useTaskProgressBar(
       }),
     );
 
-    console.log(chartData);
     return chartData;
   }
 }
