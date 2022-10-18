@@ -2,12 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100vh;
-  margin-top: 20px;
   padding: 20px;
   width: 60vw;
-  margin: auto;
   transition: padding 400ms width 400ms;
 
   @media only screen and (max-width: 992px) {
@@ -29,5 +27,43 @@
     border: 1px solid var(--subtle-color);
     border-radius: 10px;
     overflow: hidden;
+  }
+}
+
+.categoriesContainer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  padding-bottom: 20px;
+  width: 100%;
+  overflow-x: scroll;
+
+  .categoryContainer {
+    position: relative;
+    cursor: pointer;
+
+    .categoryText {
+      font-size: 21px;
+      font-weight: 200;
+      color: var(--subtle-color);
+      transition: color 300ms;
+
+      &Selected {
+        @extend .categoryText;
+        font-weight: 400;
+        color: var(--text-color);
+      }
+    }
+
+    .categoryUnderline {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      margin-top: 5px;
+      height: 2px;
+      border-radius: 15px;
+      background: var(--icon-color);
+    }
   }
 }
