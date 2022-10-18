@@ -48,7 +48,6 @@ export const getMenuItems = (
       ),
       onClick: handleComplete,
     },
-
     {
       content: (
         <div className={styles.itemContainer}>
@@ -74,5 +73,9 @@ export const getMenuItems = (
     },
   ];
 
-  return menuItems;
+  const activeMenuItems = isTicked
+    ? menuItems.filter((item) => item.content !== menuItems[2].content)
+    : menuItems;
+
+  return activeMenuItems;
 };
