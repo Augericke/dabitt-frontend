@@ -3,7 +3,6 @@ import LimitedCalender from "../../library/limitedCalender";
 import TaskList from "../../library/taskList";
 import CategoryForm from "../../library/taskList/categoryForm";
 import ProgressBar from "../../library/charts/progressBar";
-import _ from "lodash";
 import { CategoryModel } from "../../../types/category";
 import { getUTCDayRange } from "../../../utils/dateComputer";
 import { useTaskProgressBar } from "../../../utils/hooks/query/task/useTaskProgressBar";

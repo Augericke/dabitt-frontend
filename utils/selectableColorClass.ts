@@ -68,3 +68,15 @@ export const getSelectableColorClass = (styles: any, color: IconColors) => {
     textColor,
   };
 };
+
+export function getCSSGlobal(variable: string) {
+  const value = getComputedStyle(document.documentElement).getPropertyValue(
+    variable,
+  );
+  return value;
+}
+
+export function addAlpha(color: string, opacity: number) {
+  var opacityValue = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+  return color + opacityValue.toString(16).toUpperCase();
+}

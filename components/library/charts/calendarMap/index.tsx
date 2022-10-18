@@ -1,8 +1,9 @@
 import React from "react";
 import { TimeRange } from "@nivo/calendar";
-import variable from "../../../../styles/_selectableColors.module.scss";
+import colorOptions from "../../../../styles/_selectableColors.module.scss";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { IconColors } from "../../../../types/task";
+import { addAlpha, getCSSGlobal } from "../../../../utils/selectableColorClass";
 
 const styles = require("./calendarMap.module.scss");
 
@@ -18,7 +19,7 @@ const CalenderMap: React.FC<CalenderMapProps> = ({ color }) => {
         ? getCSSGlobal("--icon-color")
         : color === "default_secondary"
         ? getCSSGlobal("--subtle-color")
-        : variable[`category-color-${color}`];
+        : colorOptions[`category-color-${color}`];
     return addAlpha(selectedColor, opacity);
   });
 
@@ -32,9 +33,9 @@ const CalenderMap: React.FC<CalenderMapProps> = ({ color }) => {
           from="2016-01-01"
           to="2016-7-31"
           theme={{
-            textColor: variable["text-color"],
+            textColor: colorOptions["text-color"],
           }}
-          emptyColor={variable["background-color"]}
+          emptyColor={colorOptions["background-color"]}
           colors={colors}
           margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
           square={false}
@@ -72,18 +73,6 @@ const CalenderMap: React.FC<CalenderMapProps> = ({ color }) => {
 };
 
 export default CalenderMap;
-
-function getCSSGlobal(variable: string) {
-  const value = getComputedStyle(document.documentElement).getPropertyValue(
-    variable,
-  );
-  return value;
-}
-
-function addAlpha(color: string, opacity: number) {
-  var opacityValue = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
-  return color + opacityValue.toString(16).toUpperCase();
-}
 
 const calData: any = [
   {
