@@ -1,21 +1,24 @@
-import { useEffect, useState } from "react";
 import type { NextPage } from "next";
 import { withAuthenticationRequired } from "@auth0/auth0-react";
 import Layout from "../../components/layout";
 import DashboardView from "../../components/pages/dashboard";
-import { CategoryModel } from "../../types/task";
-import { useApi } from "../../utils/hooks/useApi";
+import { useCategory } from "../../utils/hooks/query/category/useCategory";
 
 const DashboardPage: NextPage = () => {
-  // const { loading, error, data } = useApi("/category/user/", {});
-  // const [categories, setCategories] = useState<CategoryModel[] | null>([]);
-
-  // useEffect(() => {
-  //   setCategories(data);
-  // }, [data]);
+  const categories = useCategory();
   return (
     <Layout>
-      <DashboardView />
+      {categories.isLoading ? (
+        <p>loading</p>
+      ) : categories.error ? (
+        <p>looks like something went wrong</p>
+      ) : (
+        <DashboardView
+          categories={categories.data.sort((a, b) =>
+            a.name.localeCompare(b.name),
+          )}
+        />
+      )}
     </Layout>
   );
 };

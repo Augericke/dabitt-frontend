@@ -2,17 +2,20 @@
   display: block;
   width: 100%;
   transition: margin 400ms;
-  margin-left: 13px;
 
-  @media only screen and (max-width: 1300px) {
+  @media only screen and (max-width: 1400px) {
     margin-left: 23px;
   }
 }
 
 .calendarContainer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   overflow: hidden;
+
+  @media only screen and (max-width: 1400px) {
+    justify-content: flex-end;
+  }
 }
 
 .calendarTooltip {
@@ -35,16 +38,20 @@
 .legendContainer {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 5px;
   width: 100%;
   color: var(--text-color);
   font-weight: 200;
   font-size: 12px;
   text-align: center;
-  margin-left: -50px;
   margin-top: -30px;
   padding-bottom: 20px;
+
+  @media only screen and (max-width: 1400px) {
+    margin-left: -50px;
+    justify-content: flex-end;
+  }
 
   @media only screen and (max-width: 576px) {
     justify-content: center;

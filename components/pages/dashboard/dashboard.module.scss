@@ -1,3 +1,5 @@
+@use "../../../styles/selectableColors.module";
+
 .placeHolderContainer {
   display: flex;
   flex-direction: column;
@@ -63,7 +65,6 @@
       margin-top: 5px;
       height: 2px;
       border-radius: 15px;
-      background: var(--icon-color);
     }
   }
 }
