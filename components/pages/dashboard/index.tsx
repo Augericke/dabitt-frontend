@@ -3,6 +3,7 @@ import CalenderMap from "../../library/charts/calendarMap";
 import { motion } from "framer-motion";
 import { getSelectableColorClass } from "../../../utils/selectableColorClass";
 import { CategoryModel } from "../../../types/category";
+import { IconColors } from "../../../types/task";
 
 const styles = require("./dashboard.module.scss");
 
@@ -11,7 +12,15 @@ type DashboardViewProps = {
 };
 
 const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
-  const [selectedCategory, setSelectedCategory] = useState(categories[0]);
+  const categoryList = [
+    {
+      id: "",
+      name: "all",
+      iconColor: "default" as IconColors,
+    },
+    ...categories,
+  ];
+  const [selectedCategory, setSelectedCategory] = useState(categoryList[0]);
   const { backgroundColor } = getSelectableColorClass(
     styles,
     selectedCategory.iconColor,
@@ -20,7 +29,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
   return (
     <div className={styles.placeHolderContainer}>
       <div className={styles.categoriesContainer}>
-        {categories.map((category) => {
+        {categoryList.map((category) => {
           const isSelected = category.id === selectedCategory.id;
           return (
             <div
