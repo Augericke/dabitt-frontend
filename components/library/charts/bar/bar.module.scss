@@ -1,6 +1,6 @@
 .barTooltip {
   position: absolute;
-  top: 20px;
+  top: 15px;
   left: -75px;
   background-color: var(--subtle-color);
   border-radius: 5px;
@@ -9,6 +9,7 @@
   font-size: 10px;
   font-weight: 100;
   text-align: center;
+  color: white;
 
   .barValue {
     font-weight: 400;

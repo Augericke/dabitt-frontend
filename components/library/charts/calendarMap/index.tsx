@@ -48,8 +48,8 @@ const CalenderMap: React.FC<CalenderMapProps> = ({ color }) => {
               <div className={styles.calendarTooltip}>
                 <span className={styles.calendarValue}>
                   {displayHourMinutes(Number(input.value))}
-                </span>{" "}
-                of tasks completed
+                </span>
+                &nbsp;of tasks completed
               </div>
             );
           }}
