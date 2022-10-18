@@ -2,12 +2,26 @@ import React from "react";
 import { TimeRange } from "@nivo/calendar";
 import variable from "../../../../styles/_selectableColors.module.scss";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
+import { IconColors } from "../../../../types/task";
 
 const styles = require("./calendarMap.module.scss");
 
-type CalenderMapProps = {};
+type CalenderMapProps = {
+  color: IconColors;
+};
 
-const CalenderMap: React.FC<CalenderMapProps> = (props: CalenderMapProps) => {
+const CalenderMap: React.FC<CalenderMapProps> = ({ color }) => {
+  const opacityRange = [0.1, 0.3, 0.5, 0.7, 1];
+  const colors = opacityRange.map((opacity) => {
+    const selectedColor =
+      color === "default"
+        ? getCSSGlobal("--icon-color")
+        : color === "default_secondary"
+        ? getCSSGlobal("--subtle-color")
+        : variable[`category-color-${color}`];
+    return addAlpha(selectedColor, opacity);
+  });
+
   return (
     <div className={styles.chartContainer}>
       <div className={styles.calendarContainer}>
@@ -59,24 +73,17 @@ const CalenderMap: React.FC<CalenderMapProps> = (props: CalenderMapProps) => {
 
 export default CalenderMap;
 
-function addAlpha(color: string, opacity: number) {
-  // coerce values so it is between 0 and 1.
-  var _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
-  return color + _opacity.toString(16).toUpperCase();
+function getCSSGlobal(variable: string) {
+  const value = getComputedStyle(document.documentElement).getPropertyValue(
+    variable,
+  );
+  return value;
 }
 
-// const colors = [
-//   variable["chart-color-lowest"],
-//   variable["chart-color-low"],
-//   variable["chart-color-medium"],
-//   variable["chart-color-high"],
-//   variable["chart-color-highest"],
-// ];
-
-const opacityRange = [0.1, 0.3, 0.5, 0.7, 1];
-const colors = opacityRange.map((opacity) => {
-  return addAlpha(variable["category-color-copper"], opacity);
-});
+function addAlpha(color: string, opacity: number) {
+  var opacityValue = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+  return color + opacityValue.toString(16).toUpperCase();
+}
 
 const calData: any = [
   {

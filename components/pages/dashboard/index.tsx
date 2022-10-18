@@ -46,7 +46,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
         })}
       </div>
       <div className={styles.calenderContainer}>
-        <CalenderMap />
+        <CalenderMap color={selectedCategory.iconColor} />
       </div>
     </div>
   );

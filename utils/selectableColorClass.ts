@@ -24,18 +24,6 @@ export const getSelectableColorClass = (styles: any, color: IconColors) => {
       borderColor = styles.borderColorForest;
       textColor = styles.textColorForest;
       break;
-    case "coffee":
-      backgroundColor = styles.backgroundColorCoffee;
-      outlineColor = styles.outlineColorCoffee;
-      borderColor = styles.borderColorCoffee;
-      textColor = styles.textColorCoffee;
-      break;
-    case "blush":
-      backgroundColor = styles.backgroundColorBlush;
-      outlineColor = styles.outlineColorBlush;
-      borderColor = styles.borderColorBlush;
-      textColor = styles.textColorBlush;
-      break;
     case "tan":
       backgroundColor = styles.backgroundColorTan;
       outlineColor = styles.outlineColorTan;

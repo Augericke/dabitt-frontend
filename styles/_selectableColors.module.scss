@@ -112,11 +112,4 @@ $category-color-pine-cone: #655554;
   icon-color: var(--icon-color);
   text-color: var(--text-color);
   subtle-color: var(--subtle-color);
-
-  // Chart Colors
-  chart-color-lowest: rgba(var(--icon-color-rga), 0.1);
-  chart-color-low: rgba(var(--icon-color-rga), 0.3);
-  chart-color-medium: rgba(var(--icon-color-rga), 0.5);
-  chart-color-high: rgba(var(--icon-color-rga), 0.7);
-  chart-color-highest: rgba(var(--icon-color-rga), 1);
 }
