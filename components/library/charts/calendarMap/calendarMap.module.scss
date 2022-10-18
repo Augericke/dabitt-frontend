@@ -15,6 +15,18 @@
   overflow: hidden;
 }
 
+.calendarTooltip {
+  position: absolute;
+  top: -15px;
+  right: 10px;
+  background-color: var(--subtle-color);
+  border-radius: 5px;
+  padding: 5px;
+  width: 100px;
+  font-size: 8px;
+  text-align: center;
+}
+
 .legendContainer {
   display: flex;
   align-items: center;

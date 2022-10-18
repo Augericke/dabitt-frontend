@@ -1,10 +1,7 @@
 import React from "react";
-import {
-  ResponsiveTimeRange,
-  TimeRange,
-  CalendarTooltipProps,
-} from "@nivo/calendar";
+import { TimeRange } from "@nivo/calendar";
 import variable from "../../../../styles/_selectableColors.module.scss";
+import { displayHourMinutes } from "../../../../utils/dateComputer";
 
 const styles = require("./calendarMap.module.scss");
 
@@ -32,10 +29,12 @@ const CalenderMap: React.FC<CalenderMapProps> = (props: CalenderMapProps) => {
           dayRadius={2}
           dayBorderColor={colors[0]}
           tooltip={(input) => {
-            console.log(input);
-            return <span />;
+            return (
+              <div className={styles.calendarTooltip}>
+                {displayHourMinutes(Number(input.value))} of tasks completed
+              </div>
+            );
           }}
-          isInteractive={true}
         />
       </div>
       <div className={styles.legendContainer}>
@@ -58,7 +57,7 @@ const CalenderMap: React.FC<CalenderMapProps> = (props: CalenderMapProps) => {
 export default CalenderMap;
 
 function addAlpha(color: string, opacity: number) {
-  // coerce values so ti is between 0 and 1.
+  // coerce values so it is between 0 and 1.
   var _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
   return color + _opacity.toString(16).toUpperCase();
 }
