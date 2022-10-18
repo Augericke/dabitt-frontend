@@ -59,7 +59,10 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
         <BarChart />
       </div>
       <div className={styles.calenderContainer}>
-        <CalenderMap color={selectedCategory.iconColor} />
+        <CalenderMap
+          categories={categories}
+          color={selectedCategory.iconColor}
+        />
       </div>
     </div>
   );

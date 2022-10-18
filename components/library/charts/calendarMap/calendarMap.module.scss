@@ -69,3 +69,44 @@
   width: 100px;
   background-color: var(--subtle-color);
 }
+
+.daysModalContainer {
+  width: 60vw;
+  padding: 20px;
+  transition: padding 400ms width 400ms;
+  max-height: 75vh;
+
+  @media only screen and (max-width: 992px) {
+    width: 75vw;
+  }
+
+  @media only screen and (max-width: 768px) {
+    width: 90vw;
+  }
+
+  .dayModalTitle {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 100;
+    color: var(--text-color);
+    padding-bottom: 5px;
+    border-bottom: 2px solid var(--icon-color);
+
+    @media only screen and (max-width: 992px) {
+      font-size: 24px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      font-size: 18px;
+    }
+  }
+
+  .dayContainer {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+  }
+}
