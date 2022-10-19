@@ -18,6 +18,10 @@
   }
 }
 
+.calendarContainer svg rect {
+  cursor: pointer;
+}
+
 .calendarTooltip {
   position: absolute;
   top: -15px;
@@ -72,10 +76,10 @@
 
 .daysModalContainer {
   position: relative;
-  width: 60vw;
+  width: 70vw;
   padding: 10px 60px 60px 60px;
   transition: padding 400ms width 400ms;
-  max-height: 75vh;
+  max-height: 95vh;
 
   @media only screen and (max-width: 992px) {
     width: 75vw;

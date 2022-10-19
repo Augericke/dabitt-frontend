@@ -13,9 +13,14 @@ const styles = require("./taskList.module.scss");
 type TaskListProps = {
   selectedDate: Date;
   category: CategoryModel;
+  modifiable?: boolean;
 };
 
-const TaskList: React.FC<TaskListProps> = ({ selectedDate, category }) => {
+const TaskList: React.FC<TaskListProps> = ({
+  selectedDate,
+  category,
+  modifiable = true,
+}) => {
   const tasks = useTask(category.id, selectedDate);
 
   return (
@@ -29,6 +34,7 @@ const TaskList: React.FC<TaskListProps> = ({ selectedDate, category }) => {
           <CategoryHeader
             category={category}
             numTasks={tasks.data ? tasks.data.length : 0}
+            modifiable={modifiable}
           />
           <ShowOnViewport customClass={styles.taskListContainer}>
             <>
@@ -48,14 +54,17 @@ const TaskList: React.FC<TaskListProps> = ({ selectedDate, category }) => {
                             selectedDate={selectedDate}
                             category={category}
                             task={task}
+                            modifiable={modifiable}
                           />
                         );
                       })}
                   </>
                 )}
-                <li>
-                  <TaskForm category={category} selectedDate={selectedDate} />
-                </li>
+                {modifiable && (
+                  <li>
+                    <TaskForm category={category} selectedDate={selectedDate} />
+                  </li>
+                )}
               </ul>
             </>
           </ShowOnViewport>

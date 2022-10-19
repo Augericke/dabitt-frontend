@@ -92,7 +92,6 @@ const CalenderMap: React.FC<CalenderMapProps> = ({ categories, color }) => {
         isVisible={showDayModal}
         content={
           <div className={styles.daysModalContainer}>
-            {/* TODO: replace blocker with logic to restrict Task List */}
             <div className={styles.modalBlocker} />
             <h1 className={styles.dayModalTitle}>
               {formatDate(selectedDate, "MMM e, yyyy")}
@@ -105,6 +104,7 @@ const CalenderMap: React.FC<CalenderMapProps> = ({ categories, color }) => {
                       key={category.id}
                       selectedDate={selectedDate}
                       category={category}
+                      modifiable={false}
                     />
                   );
                 })}
