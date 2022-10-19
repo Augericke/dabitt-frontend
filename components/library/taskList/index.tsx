@@ -22,6 +22,7 @@ const TaskList: React.FC<TaskListProps> = ({
   modifiable = true,
 }) => {
   const tasks = useTask(category.id, selectedDate);
+  const numTasks = tasks.data ? tasks.data.length : 0;
 
   return (
     <>
@@ -30,45 +31,52 @@ const TaskList: React.FC<TaskListProps> = ({
       ) : tasks.error ? (
         <p>looks like something went wrong</p>
       ) : (
-        <section className={styles.categoryContainer}>
-          <CategoryHeader
-            category={category}
-            numTasks={tasks.data ? tasks.data.length : 0}
-            modifiable={modifiable}
-          />
-          <ShowOnViewport customClass={styles.taskListContainer}>
-            <>
-              <ul className={styles.taskList}>
-                {tasks && (
-                  <>
-                    {tasks.data
-                      .sort((a, b) => {
-                        const aCompleted = a.completedAt ? 1 : -1;
-                        const bCompleted = b.completedAt ? 1 : -1;
-                        return bCompleted - aCompleted;
-                      })
-                      .map((task: TaskModel) => {
-                        return (
-                          <TaskItem
-                            key={task.id}
-                            selectedDate={selectedDate}
-                            category={category}
-                            task={task}
-                            modifiable={modifiable}
-                          />
-                        );
-                      })}
-                  </>
-                )}
-                {modifiable && (
-                  <li>
-                    <TaskForm category={category} selectedDate={selectedDate} />
-                  </li>
-                )}
-              </ul>
-            </>
-          </ShowOnViewport>
-        </section>
+        <>
+          {(modifiable || numTasks > 0) && (
+            <section className={styles.categoryContainer}>
+              <CategoryHeader
+                category={category}
+                numTasks={numTasks}
+                modifiable={modifiable}
+              />
+              <ShowOnViewport customClass={styles.taskListContainer}>
+                <>
+                  <ul className={styles.taskList}>
+                    {tasks && (
+                      <>
+                        {tasks.data
+                          .sort((a, b) => {
+                            const aCompleted = a.completedAt ? 1 : -1;
+                            const bCompleted = b.completedAt ? 1 : -1;
+                            return bCompleted - aCompleted;
+                          })
+                          .map((task: TaskModel) => {
+                            return (
+                              <TaskItem
+                                key={task.id}
+                                selectedDate={selectedDate}
+                                category={category}
+                                task={task}
+                                modifiable={modifiable}
+                              />
+                            );
+                          })}
+                      </>
+                    )}
+                    {modifiable && (
+                      <li>
+                        <TaskForm
+                          category={category}
+                          selectedDate={selectedDate}
+                        />
+                      </li>
+                    )}
+                  </ul>
+                </>
+              </ShowOnViewport>
+            </section>
+          )}
+        </>
       )}
     </>
   );
