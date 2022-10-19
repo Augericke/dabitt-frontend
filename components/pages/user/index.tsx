@@ -48,7 +48,10 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
               <h2 className={styles.userTitle}>user</h2>
               <Popover
                 customMenuClass={styles.customMenuClass}
-                menuItems={getUserMenuOptions(() => setShowDeleteModal(true))}
+                menuItems={getUserMenuOptions(
+                  () => setShowDeleteModal(true),
+                  logout,
+                )}
                 iconType="gear"
               />
             </div>
@@ -85,7 +88,7 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
       </ShowOnViewport>
       <DeleteModal
         isVisible={showDeleteModal}
-        content="All data will be lost - are you sure you want to delete your account? "
+        content="All data will be lost. Are you sure you want to delete your account? "
         onClose={() => {
           setShowDeleteModal(false);
         }}
