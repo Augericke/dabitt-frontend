@@ -5,7 +5,7 @@ import { getSelectableColorClass } from "../../../utils/selectableColorClass";
 import { CategoryModel } from "../../../types/category";
 import { IconColors } from "../../../types/task";
 import BarChart from "../../library/charts/bar";
-
+import { useCalendarCompleted } from "../../../utils/hooks/query/analytics/useCalendarCompleted";
 const styles = require("./dashboard.module.scss");
 
 type DashboardViewProps = {
@@ -26,6 +26,8 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
     styles,
     selectedCategory.iconColor,
   );
+
+  const calendarData = useCalendarCompleted(selectedCategory.id);
 
   return (
     <div className={styles.placeHolderContainer}>
@@ -59,10 +61,19 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
         <BarChart />
       </div>
       <div className={styles.calenderContainer}>
-        <CalenderMap
-          categories={categories}
-          color={selectedCategory.iconColor}
-        />
+        {calendarData.isLoading ? (
+          <></>
+        ) : calendarData.isError ? (
+          <></>
+        ) : (
+          <CalenderMap
+            data={calendarData.data}
+            categories={
+              selectedCategory.id === "" ? categories : [selectedCategory]
+            }
+            color={selectedCategory.iconColor}
+          />
+        )}
       </div>
     </div>
   );

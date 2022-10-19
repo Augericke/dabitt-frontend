@@ -7,15 +7,22 @@ import { IconColors } from "../../../../types/task";
 import { addAlpha, getCSSGlobal } from "../../../../utils/selectableColorClass";
 import { CategoryModel } from "../../../../types/category";
 import TaskList from "../../taskList";
+import { CalendarCompleted } from "../../../../types/analytics";
+import { sub } from "date-fns";
 
 const styles = require("./calendarMap.module.scss");
 
 type CalenderMapProps = {
+  data: CalendarCompleted[];
   categories: CategoryModel[];
   color: IconColors;
 };
 
-const CalenderMap: React.FC<CalenderMapProps> = ({ categories, color }) => {
+const CalenderMap: React.FC<CalenderMapProps> = ({
+  data,
+  categories,
+  color,
+}) => {
   const [showDayModal, setShowDayModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -37,15 +44,21 @@ const CalenderMap: React.FC<CalenderMapProps> = ({ categories, color }) => {
     setShowDayModal(true);
   };
 
+  const chartData = data.map((item) => {
+    const day = item.day.slice(0, 10);
+    const value = Number(item.value);
+    return { day, value };
+  });
+
   return (
     <div className={styles.chartContainer}>
       <div className={styles.calendarContainer}>
         <TimeRange
-          data={calData}
+          data={chartData}
           height={230}
           width={823}
-          from="2022-03-01"
-          to="2022-10-31"
+          from={sub(new Date(), { days: 182 })}
+          to={new Date()}
           theme={{
             textColor: colorOptions["text-color"],
           }}
@@ -63,7 +76,9 @@ const CalenderMap: React.FC<CalenderMapProps> = ({ categories, color }) => {
                 <span className={styles.calendarValue}>
                   {displayHourMinutes(Number(input.value))}
                 </span>
-                &nbsp;of tasks completed
+                {` of ${
+                  categories.length === 1 ? categories[0].name : ""
+                } tasks completed`}
               </div>
             );
           }}
