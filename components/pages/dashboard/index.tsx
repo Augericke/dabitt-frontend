@@ -6,6 +6,7 @@ import { CategoryModel } from "../../../types/category";
 import { IconColors } from "../../../types/task";
 import BarChart from "../../library/charts/bar";
 import { useCalendarCompleted } from "../../../utils/hooks/query/analytics/useCalendarCompleted";
+import ShowOnViewport from "../../library/animation/showOnViewport";
 const styles = require("./dashboard.module.scss");
 
 type DashboardViewProps = {
@@ -57,10 +58,10 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
           );
         })}
       </div>
-      <div className={styles.barContainer}>
+      <ShowOnViewport customClass={styles.barContainer}>
         <BarChart />
-      </div>
-      <div className={styles.calenderContainer}>
+      </ShowOnViewport>
+      <ShowOnViewport customClass={styles.calenderContainer}>
         {calendarData.isLoading ? (
           <></>
         ) : calendarData.isError ? (
@@ -74,7 +75,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
             color={selectedCategory.iconColor}
           />
         )}
-      </div>
+      </ShowOnViewport>
     </div>
   );
 };

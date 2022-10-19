@@ -40,52 +40,54 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
 
   return (
     <>
-      <ShowOnViewport customClass={styles.userViewContainer}>
+      <div className={styles.userViewContainer}>
         <>
           <h1 className={styles.settingsTitle}>settings</h1>
-          <div className={styles.userSettingsContainer}>
-            <div className={styles.userInfoHeader}>
-              <h2 className={styles.userTitle}>user</h2>
-              <Popover
-                customMenuClass={styles.customMenuClass}
-                menuItems={getUserMenuOptions(
-                  () => setShowDeleteModal(true),
-                  logout,
-                )}
-                iconType="gear"
-              />
-            </div>
-            <ul className={styles.infoItemsContainer}>
-              <li className={styles.infoItemName}>
-                username
-                <input
-                  className={styles.infoItemInput}
-                  value={username}
-                  onKeyDown={onEnterDownBlur}
-                  onChange={onChange}
-                  onBlur={onBlur}
+          <ShowOnViewport>
+            <div className={styles.userSettingsContainer}>
+              <div className={styles.userInfoHeader}>
+                <h2 className={styles.userTitle}>user</h2>
+                <Popover
+                  customMenuClass={styles.customMenuClass}
+                  menuItems={getUserMenuOptions(
+                    () => setShowDeleteModal(true),
+                    logout,
+                  )}
+                  iconType="gear"
                 />
-              </li>
-              <li className={styles.infoItemName}>
-                member since
-                <span className={styles.infoItemValue}>{joinedAt}</span>
-              </li>
-              <li className={styles.infoItemName}>
-                <button
-                  className={styles.userButton}
-                  onClick={() => logout({ returnTo: window.location.origin })}
-                >
-                  logout
-                </button>
-              </li>
-            </ul>
-            <h2 className={styles.settingsSubtitle}>themes</h2>
-            <div className={styles.themeSectionContainer}>
-              <ThemeSelector />
+              </div>
+              <ul className={styles.infoItemsContainer}>
+                <li className={styles.infoItemName}>
+                  username
+                  <input
+                    className={styles.infoItemInput}
+                    value={username}
+                    onKeyDown={onEnterDownBlur}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                  />
+                </li>
+                <li className={styles.infoItemName}>
+                  member since
+                  <span className={styles.infoItemValue}>{joinedAt}</span>
+                </li>
+                <li className={styles.infoItemName}>
+                  <button
+                    className={styles.userButton}
+                    onClick={() => logout({ returnTo: window.location.origin })}
+                  >
+                    logout
+                  </button>
+                </li>
+              </ul>
+              <h2 className={styles.settingsSubtitle}>themes</h2>
+              <div className={styles.themeSectionContainer}>
+                <ThemeSelector />
+              </div>
             </div>
-          </div>
+          </ShowOnViewport>
         </>
-      </ShowOnViewport>
+      </div>
       <DeleteModal
         isVisible={showDeleteModal}
         content="All data will be lost. Are you sure you want to delete your account? "
