@@ -22,17 +22,22 @@ const BarChart: React.FC<BarChartProps> = ({
 }) => {
   const { width } = useWindowSize();
 
-  console.log(data);
-
   //Filter data if category selected
   const filteredData = selectedCategory
     ? data.filter((category) => category.categoryId === selectedCategory.id)
     : data;
 
-  // Format data so it plays nice with nivo
+  //Show placeholder text if no data
+  if (filteredData.length === 0) {
+    return <p className={styles.noBarText}>no tasks completed this week</p>;
+  }
+  //Format data so it plays nice with nivo
   const chartData = _(filteredData)
     .map((row) => {
-      return { [row.categoryId]: Number(row.value), day: row.day.slice(0, 10) };
+      return {
+        [row.categoryId]: Number(row.value),
+        day: row.day.slice(0, 10),
+      };
     })
     .value()
     .reduce((accumulator: any, current: any) => {
