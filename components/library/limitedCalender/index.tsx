@@ -17,9 +17,17 @@ const LimitedCalender: React.FC<LimitedCalenderProps> = ({
   const currentDate = new Date();
   return (
     <div className={styles.calenderContainer}>
-      <h1 className={styles.calenderHeader}>
-        {formatDate(selectedDate, "MMMM, yyyy")}
-      </h1>
+      <AnimatePresence>
+        <motion.h1
+          className={styles.calenderHeader}
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 10, opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {formatDate(selectedDate, "MMMM, yyyy")}
+        </motion.h1>
+      </AnimatePresence>
       <div className={styles.datesContainer}>
         <DateSelector
           dateObj={sub(currentDate, { days: 1 })}

@@ -58,7 +58,7 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
               </div>
               <ul className={styles.infoItemsContainer}>
                 <li className={styles.infoItemName}>
-                  username
+                  <small>username</small>
                   <input
                     className={styles.infoItemInput}
                     value={username}
@@ -68,17 +68,9 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
                   />
                 </li>
                 <li className={styles.infoItemName}>
-                  member since
+                  <small>member since</small>
                   <span className={styles.infoItemValue}>{joinedAt}</span>
                 </li>
-                {/* <li className={styles.infoItemName}>
-                  <button
-                    className={styles.userButton}
-                    onClick={() => logout({ returnTo: window.location.origin })}
-                  >
-                    logout
-                  </button>
-                </li> */}
               </ul>
               <h2 className={styles.settingsSubtitle}>themes</h2>
               <div className={styles.themeSectionContainer}>

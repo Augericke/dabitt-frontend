@@ -88,7 +88,11 @@ const BarChart: React.FC<BarChartProps> = ({
       theme={{
         fontFamily: "Poppins",
         fontSize: 8,
-        textColor: "white",
+        legends: {
+          text: {
+            fontWeight: 200,
+          },
+        },
         axis: {
           ticks: {
             line: {

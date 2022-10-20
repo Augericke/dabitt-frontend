@@ -73,7 +73,7 @@
     transition: opacity 400ms, background-color 200ms;
 
     &:hover {
-      background-color: var(--icon-color);
+      background-color: var(--subtle-color);
       font-weight: 400;
       opacity: 1;
     }

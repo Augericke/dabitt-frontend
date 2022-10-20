@@ -1,5 +1,5 @@
 import React, { useState, FormEvent } from "react";
-import { BsPlusCircle } from "react-icons/bs";
+import { BsFillPlusCircleFill } from "react-icons/bs";
 import { colorList, IconColors } from "../../../../types/task";
 import Popover from "../../popover";
 import { getSelectableColorMenuOptions } from "../../popover/selectableColorMenuOptions";
@@ -52,7 +52,7 @@ const CategoryForm: React.FC<CategoryFormProps> = () => {
         type="submit"
       >
         <span className={styles.addIcon}>
-          <BsPlusCircle />
+          <BsFillPlusCircleFill />
         </span>
       </button>
       <input

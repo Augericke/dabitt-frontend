@@ -1,7 +1,8 @@
 .barTooltip {
   position: absolute;
-  bottom: px;
+  bottom: 0px;
   left: -75px;
+  border: 1px solid var(--background-color);
   background-color: var(--subtle-color);
   border-radius: 5px;
   padding: 5px;
