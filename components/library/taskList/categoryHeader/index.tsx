@@ -18,13 +18,11 @@ const styles = require("./categoryHeader.module.scss");
 type CategoryHeaderProps = {
   category: CategoryModel;
   numTasks: number;
-  modifiable?: boolean;
 };
 
 const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   category,
   numTasks,
-  modifiable = true,
 }) => {
   const deleteCategory = useDeleteCategory(category.id);
   const updateCategory = useUpdateCategory();
@@ -56,9 +54,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   };
 
   const onColorChange = (color: IconColors) => {
-    if (modifiable) {
-      updateCategory.mutate({ id: category.id, data: { iconColor: color } });
-    }
+    updateCategory.mutate({ id: category.id, data: { iconColor: color } });
   };
 
   const onBlur = () => {
@@ -83,8 +79,6 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             onBlur={onBlur}
             onFocus={() => setShowWordCount(true)}
             maxLength={headerLimit}
-            readOnly={!modifiable}
-            disabled={!modifiable}
           />
           {showWordCount && (
             <WordCount
@@ -107,13 +101,11 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             }
           />
         </div>
-        {modifiable && (
-          <Popover
-            customMenuClass={styles.customCategoryMenuClass}
-            menuItems={getMenuItems(textRef, () => setShowDeleteModal(true))}
-            iconType="gear"
-          />
-        )}
+        <Popover
+          customMenuClass={styles.customCategoryMenuClass}
+          menuItems={getMenuItems(textRef, () => setShowDeleteModal(true))}
+          iconType="gear"
+        />
       </div>
       <DeleteModal
         isVisible={showDeleteModal}

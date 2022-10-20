@@ -24,14 +24,12 @@ type TaskItemProps = {
   selectedDate: Date;
   category: CategoryModel;
   task: TaskModel;
-  modifiable?: boolean;
 };
 
 const TaskItem: React.FC<TaskItemProps> = ({
   selectedDate,
   category,
   task,
-  modifiable = true,
 }) => {
   // Task Mutations
   const updateTask = useUpdateTask(category.id, selectedDate);
@@ -97,13 +95,11 @@ const TaskItem: React.FC<TaskItemProps> = ({
   };
 
   const onTimeChange = (newEstimate: number) => {
-    if (modifiable) {
-      updateTask.mutate({
-        categoryId: category.id,
-        taskId: task.id,
-        data: { estimateMinutes: newEstimate },
-      });
-    }
+    updateTask.mutate({
+      categoryId: category.id,
+      taskId: task.id,
+      data: { estimateMinutes: newEstimate },
+    });
   };
 
   const onCanKick = () => {
@@ -142,8 +138,6 @@ const TaskItem: React.FC<TaskItemProps> = ({
             onFocus={() => setInFocus(true)}
             onBlur={onBlur}
             maxLength={descriptionLimit}
-            readOnly={!modifiable}
-            disabled={!modifiable}
           />
           {inFocus && (
             <>
@@ -167,22 +161,20 @@ const TaskItem: React.FC<TaskItemProps> = ({
             menuItems={getTimeEstimateMenuOptions(onTimeChange)}
           />
         </div>
-        {modifiable && (
-          <span className={styles.popoverContainer}>
-            <Popover
-              customMenuClass={styles.customTaskMenu}
-              menuItems={getMenuItems(
-                textRef,
-                onCanKick,
-                onTick,
-                isTicked,
-                () => {
-                  setShowModal(true);
-                },
-              )}
-            />
-          </span>
-        )}
+        <span className={styles.popoverContainer}>
+          <Popover
+            customMenuClass={styles.customTaskMenu}
+            menuItems={getMenuItems(
+              textRef,
+              onCanKick,
+              onTick,
+              isTicked,
+              () => {
+                setShowModal(true);
+              },
+            )}
+          />
+        </span>
       </motion.li>
       <DeleteModal
         isVisible={showModal}

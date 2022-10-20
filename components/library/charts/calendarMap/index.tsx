@@ -115,7 +115,7 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
         isVisible={showDayModal}
         content={
           <div className={styles.daysModalContainer}>
-            <div className={styles.modalBlocker} />
+            {/* <div className={styles.modalBlocker} /> */}
             <h1 className={styles.dayModalTitle}>
               {formatDate(selectedDate, "MMM do, yyyy")}
             </h1>

@@ -25,7 +25,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({
           <h2 className={styles.dangerTitle}>Danger Zone</h2>
           <div className={styles.dangerContent}>{content}</div>
           <div className={styles.buttonContainer}>
-            <button className={styles.buttonSafe}>Never mind</button>
+            <button className={styles.buttonSafe} onClick={onClose}>
+              Never mind
+            </button>
             <button className={styles.buttonDanger} onClick={onDelete}>
               Delete
             </button>

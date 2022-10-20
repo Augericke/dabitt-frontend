@@ -25,7 +25,6 @@ const Modal: React.FC<ModalProps> = ({ isVisible, content, onClose }) => {
           className={styles.modalContainer}
           ref={modalRef}
           tabIndex={-1}
-          onClick={onClose}
           onKeyDown={(event) => {
             if (event.key === "Escape") {
               onClose();

@@ -35,11 +35,7 @@ const TaskList: React.FC<TaskListProps> = ({
         <>
           {(modifiable || numTasks > 0) && (
             <section className={styles.categoryContainer}>
-              <CategoryHeader
-                category={category}
-                numTasks={numTasks}
-                modifiable={modifiable}
-              />
+              <CategoryHeader category={category} numTasks={numTasks} />
               <ShowOnViewport customClass={styles.taskListContainer}>
                 <>
                   <ul className={styles.taskList}>
@@ -58,7 +54,6 @@ const TaskList: React.FC<TaskListProps> = ({
                                 selectedDate={selectedDate}
                                 category={category}
                                 task={task}
-                                modifiable={modifiable}
                               />
                             );
                           })}
