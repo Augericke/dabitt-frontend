@@ -71,14 +71,14 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
                   member since
                   <span className={styles.infoItemValue}>{joinedAt}</span>
                 </li>
-                <li className={styles.infoItemName}>
+                {/* <li className={styles.infoItemName}>
                   <button
                     className={styles.userButton}
                     onClick={() => logout({ returnTo: window.location.origin })}
                   >
                     logout
                   </button>
-                </li>
+                </li> */}
               </ul>
               <h2 className={styles.settingsSubtitle}>themes</h2>
               <div className={styles.themeSectionContainer}>

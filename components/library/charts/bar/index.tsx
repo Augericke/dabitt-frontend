@@ -27,7 +27,6 @@ const BarChart: React.FC<BarChartProps> = ({
     ? data.filter((category) => category.categoryId === selectedCategory.id)
     : data;
 
-  console.log(selectedCategory?.name);
   // Format data so it plays nice with nivo
   const chartData = _(filteredData)
     .map((row) => {
@@ -48,7 +47,8 @@ const BarChart: React.FC<BarChartProps> = ({
 
   const chartKeys = categories.map((category) => category.id);
   const chartColors = categories.map(
-    (category) => colorOptions[`category-color-${category.iconColor}`],
+    (category) =>
+      colorOptions[`category-color-${category.iconColor}`.replace("_", "-")],
   );
 
   function findCategoryName(categoryId: string) {

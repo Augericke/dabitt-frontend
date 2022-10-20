@@ -1,7 +1,7 @@
 import React from "react";
 import { IconColors } from "../../../../types/task";
 import Bar from "./bar";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 
 const styles = require("./progressBar.module.scss");
 

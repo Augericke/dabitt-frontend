@@ -73,7 +73,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   return (
     <>
       <div className={styles.categoryHeaderContainer}>
-        <hgroup className={styles.categoryTitleContainer}>
+        <div className={styles.categoryTitleContainer}>
           <input
             ref={textRef}
             className={`${styles.categoryInput} ${borderColor}`}
@@ -106,7 +106,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
               </span>
             }
           />
-        </hgroup>
+        </div>
         {modifiable && (
           <Popover
             customMenuClass={styles.customCategoryMenuClass}
