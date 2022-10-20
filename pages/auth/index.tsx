@@ -5,6 +5,13 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { api } from "../../utils/environmentManager";
 import { UserModel } from "../../types/user";
 
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import colors from "../../styles/_selectableColors.module.scss";
+import "react-loading-skeleton/dist/skeleton.css";
+import ShowOnViewport from "../../components/library/animation/showOnViewport";
+
+const styles = require("../../components/pages/setup/setup.module.scss");
+
 const Auth: NextPage = () => {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
 
@@ -43,7 +50,18 @@ const Auth: NextPage = () => {
     })();
   }, [getAccessTokenSilently, isLoading, user]);
 
-  return <></>;
+  return (
+    <SkeletonTheme
+      baseColor={colors["foreground-color"]}
+      highlightColor={colors["icon-color"]}
+    >
+      <ShowOnViewport duration={2} delay={0.5}>
+        <section className={styles.sectionContainer}>
+          <Skeleton width="15vw" height="15vw" circle />
+        </section>
+      </ShowOnViewport>
+    </SkeletonTheme>
+  );
 };
 
 export default withAuthenticationRequired(Auth);

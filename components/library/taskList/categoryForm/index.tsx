@@ -16,7 +16,7 @@ const CategoryForm: React.FC<CategoryFormProps> = () => {
 
   const [newCategoryName, setNewCategoryName] = useState("");
   const [newCategoryColor, setNewCategoryColor] = useState<IconColors>(
-    colorList[0],
+    colorList[1],
   );
   const headerLimit = 25;
   const { backgroundColor, borderColor, textColor } = getSelectableColorClass(

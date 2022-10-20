@@ -11,6 +11,10 @@
   font-size: 14px;
   color: var(--text-color);
 
+  &:hover {
+    color: whitesmoke;
+  }
+
   @media only screen and (max-width: 992px) {
     width: 150px;
     font-size: 10px;

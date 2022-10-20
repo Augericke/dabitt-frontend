@@ -19,12 +19,12 @@ const SetupView: React.FC<SetupViewProps> = (props: SetupViewProps) => {
 
   return (
     <section className={styles.sectionContainer}>
-      <hgroup>
+      <div>
         <h1 className={styles.title}>select your vibe</h1>
         <p className={styles.subtext}>
           (don&apos;t worry you can always change this later)
         </p>
-      </hgroup>
+      </div>
       <div className={styles.themeContainer}>
         <ThemeSelector />
       </div>
