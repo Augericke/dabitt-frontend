@@ -19,10 +19,10 @@
   .datesContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     border-radius: 10px;
     padding: 0px 10px 0px 10px;
-    gap: 25px;
+    // gap: 30px;
 
     .dateContainer {
       display: flex;
@@ -34,6 +34,7 @@
       font-size: 14px;
       font-weight: 200;
       margin: 5px;
+      width: 50px;
 
       &Selected {
         @extend .dateContainer;

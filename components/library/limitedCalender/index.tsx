@@ -1,5 +1,6 @@
 import React from "react";
 import { formatDate, getUTCDayRange } from "../../../utils/dateComputer";
+import { motion, AnimatePresence } from "framer-motion";
 import { add, sub } from "date-fns";
 
 const styles = require("./limitedCalender.module.scss");
@@ -67,9 +68,23 @@ const DateSelector: React.FC<DateSelectorProps> = ({
       }
       onClick={() => setSelectedDate(new Date(selectedTimeSpan.startTime))}
     >
-      <span>{formatDate(dateObj, "EEE")}</span>
-      <span>{formatDate(dateObj, "d")}</span>
-      {isSelected && <span className={styles.dayText}>{content}</span>}
+      <AnimatePresence>
+        <span>{formatDate(dateObj, "EEE")}</span>
+        <span>{formatDate(dateObj, "d")}</span>
+        {isSelected && (
+          <motion.span
+            id={content}
+            key={content}
+            className={styles.dayText}
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 10, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {content}
+          </motion.span>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
