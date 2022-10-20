@@ -33,9 +33,9 @@ const TaskList: React.FC<TaskListProps> = ({
         <p>looks like something went wrong</p>
       ) : (
         <>
-          {(modifiable || numTasks > 0) && (
-            <section className={styles.categoryContainer}>
-              <CategoryHeader category={category} numTasks={numTasks} />
+          <section className={styles.categoryContainer}>
+            <CategoryHeader category={category} numTasks={numTasks} />
+            {(modifiable || numTasks > 0) && (
               <ShowOnViewport customClass={styles.taskListContainer}>
                 <>
                   <ul className={styles.taskList}>
@@ -70,8 +70,8 @@ const TaskList: React.FC<TaskListProps> = ({
                   </ul>
                 </>
               </ShowOnViewport>
-            </section>
-          )}
+            )}
+          </section>
         </>
       )}
     </>

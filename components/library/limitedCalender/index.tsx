@@ -68,9 +68,9 @@ const DateSelector: React.FC<DateSelectorProps> = ({
       }
       onClick={() => setSelectedDate(new Date(selectedTimeSpan.startTime))}
     >
+      <span>{formatDate(dateObj, "EEE")}</span>
+      <span>{formatDate(dateObj, "d")}</span>
       <AnimatePresence>
-        <span>{formatDate(dateObj, "EEE")}</span>
-        <span>{formatDate(dateObj, "d")}</span>
         {isSelected && (
           <motion.span
             id={content}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { IoMdClose } from "react-icons/io";
 import ShowOnViewport from "../animation/showOnViewport";
 
@@ -11,19 +11,11 @@ type ModalProps = {
 };
 
 const Modal: React.FC<ModalProps> = ({ isVisible, content, onClose }) => {
-  const modalRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    if (isVisible && modalRef.current) {
-      modalRef.current.focus();
-    }
-  }, [isVisible, modalRef]);
-
   return (
     <>
       {isVisible && (
         <div
           className={styles.modalContainer}
-          ref={modalRef}
           tabIndex={-1}
           onKeyDown={(event) => {
             if (event.key === "Escape") {
