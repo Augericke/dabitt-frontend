@@ -30,7 +30,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
   );
 
   const calendarData = useCalendarCompleted(selectedCategory.id);
-  const weekData = useWeekCompleted(selectedCategory.id);
+  const weekData = useWeekCompleted();
 
   return (
     <div className={styles.placeHolderContainer}>
@@ -66,7 +66,13 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
         ) : weekData.isError ? (
           <></>
         ) : (
-          <BarChart data={weekData.data} categories={categories} />
+          <BarChart
+            data={weekData.data}
+            categories={categories}
+            selectedCategory={
+              selectedCategory.id === "" ? undefined : selectedCategory
+            }
+          />
         )}
       </ShowOnViewport>
       <ShowOnViewport customClass={styles.calenderContainer}>

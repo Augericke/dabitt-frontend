@@ -5,16 +5,31 @@ import { displayHourMinutes, formatDate } from "../../../../utils/dateComputer";
 import { WeekCompleted } from "../../../../types/analytics";
 import _ from "lodash";
 import { CategoryModel } from "../../../../types/category";
+import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 
 const styles = require("./bar.module.scss");
 
 type BarChartProps = {
   data: WeekCompleted[];
   categories: CategoryModel[];
+  selectedCategory?: CategoryModel;
 };
 
-const BarChart: React.FC<BarChartProps> = ({ data, categories }) => {
-  const chartData = _(data)
+const BarChart: React.FC<BarChartProps> = ({
+  data,
+  categories,
+  selectedCategory,
+}) => {
+  const { width } = useWindowSize();
+
+  //Filter data if category selected
+  const filteredData = selectedCategory
+    ? data.filter((category) => category.categoryId === selectedCategory.id)
+    : data;
+
+  console.log(selectedCategory?.name);
+  // Format data so it plays nice with nivo
+  const chartData = _(filteredData)
     .map((row) => {
       return { [row.categoryId]: Number(row.value), day: row.day.slice(0, 10) };
     })
@@ -46,7 +61,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, categories }) => {
       data={chartData}
       indexBy="day"
       keys={chartKeys}
-      margin={{ top: 40, right: 100, bottom: 40, left: 60 }}
+      margin={{ top: 40, right: 60, bottom: 60, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
@@ -88,17 +103,19 @@ const BarChart: React.FC<BarChartProps> = ({ data, categories }) => {
       legendLabel={(data) => findCategoryName(data.id as string)}
       legends={[
         {
+          toggleSerie: true,
           dataFrom: "keys",
-          anchor: "bottom-right",
-          direction: "column",
+          anchor: "bottom",
+          direction: "row",
           justify: false,
-          translateX: 120,
-          translateY: 0,
+          translateX: 0,
+          translateY: 50,
           itemsSpacing: 2,
-          itemWidth: 100,
+          itemWidth: width > 750 ? 70 : 60,
           itemHeight: 20,
           itemDirection: "left-to-right",
-          symbolSize: 15,
+          symbolSize: width > 750 ? 15 : 10,
+          itemTextColor: colorOptions["text-color"],
         },
       ]}
     />
@@ -106,40 +123,3 @@ const BarChart: React.FC<BarChartProps> = ({ data, categories }) => {
 };
 
 export default BarChart;
-
-const mockData: any = [
-  {
-    day: "2016-07-01",
-    personal: 30,
-    work: 60,
-  },
-  {
-    day: "2016-07-02",
-    personal: 30,
-    work: 60,
-  },
-  {
-    day: "2016-07-03",
-    personal: 30,
-  },
-  {
-    day: "2016-07-04",
-    personal: 50,
-    work: 60,
-  },
-  {
-    day: "2016-07-05",
-    personal: 10,
-    work: 60,
-  },
-  {
-    day: "2016-07-06",
-    personal: 20,
-    work: 60,
-  },
-  {
-    day: "2016-07-07",
-    personal: 30,
-    work: 60,
-  },
-];

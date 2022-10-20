@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TimeRange } from "@nivo/calendar";
+import { TimeRange, TimeRangeDayData } from "@nivo/calendar";
 import colorOptions from "../../../../styles/_selectableColors.module.scss";
 import Modal from "../../modal";
 import { displayHourMinutes, formatDate } from "../../../../utils/dateComputer";
@@ -16,6 +16,11 @@ type CalenderMapProps = {
   data: CalendarCompleted[];
   categories: CategoryModel[];
   color: IconColors;
+};
+
+type TimeRangeCalenderData = TimeRangeDayData & {
+  date: Date;
+  value?: number;
 };
 
 const CalenderMap: React.FC<CalenderMapProps> = ({
@@ -44,6 +49,7 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
     setShowDayModal(true);
   };
 
+  // Format data to play nice with nivo
   const chartData = data.map((item) => {
     const day = item.day.slice(0, 10);
     const value = Number(item.value);
@@ -78,12 +84,14 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
                 </span>
                 {` of ${
                   categories.length === 1 ? categories[0].name : ""
-                } tasks completed`}
+                } tasks completed on ${formatDate(
+                  new Date(input.day),
+                  "MMM do",
+                )}`}
               </div>
             );
           }}
-          onClick={(input) => {
-            //@ts-ignore
+          onClick={(input: TimeRangeCalenderData) => {
             if (input.value) {
               showDaysTask(input.date);
             }
@@ -109,7 +117,7 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
           <div className={styles.daysModalContainer}>
             <div className={styles.modalBlocker} />
             <h1 className={styles.dayModalTitle}>
-              {formatDate(selectedDate, "MMM e, yyyy")}
+              {formatDate(selectedDate, "MMM do, yyyy")}
             </h1>
             {categories && (
               <div className={styles.dayContainer}>
@@ -134,10 +142,3 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
 };
 
 export default CalenderMap;
-
-const calData: any = [
-  {
-    day: "2022-10-18",
-    value: 822,
-  },
-];
