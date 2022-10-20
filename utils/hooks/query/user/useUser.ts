@@ -4,7 +4,9 @@ import { UserModel } from "../../../../types/user";
 
 export function useUser() {
   const queryKey = ["user"];
-  const query = useQuery<UserModel, Error>(queryKey, () => userService.read());
+  const query = useQuery<UserModel, Error>(queryKey, () => userService.read(), {
+    staleTime: Infinity,
+  });
 
   return query;
 }
