@@ -1,4 +1,4 @@
-import { CalendarCompleted } from "../../types/analytics";
+import { CalendarCompleted, WeekCompleted } from "../../types/analytics";
 import {} from "../../types/user";
 import { api } from "../environmentManager";
 
@@ -10,6 +10,14 @@ const readCalendarCompleted = async (categoryId?: string) => {
   return data;
 };
 
-const analyticsService = { readCalendarCompleted };
+const readWeekCompleted = async (categoryId?: string) => {
+  const basePath = "/data/week";
+  const queryPath = categoryId ? `?categoryId=${categoryId}` : "";
+
+  const { data } = await api.get<WeekCompleted[]>(basePath + queryPath);
+  return data;
+};
+
+const analyticsService = { readCalendarCompleted, readWeekCompleted };
 
 export default analyticsService;

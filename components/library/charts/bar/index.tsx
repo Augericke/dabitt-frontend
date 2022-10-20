@@ -2,23 +2,56 @@ import React from "react";
 import { ResponsiveBar } from "@nivo/bar";
 import colorOptions from "../../../../styles/_selectableColors.module.scss";
 import { displayHourMinutes, formatDate } from "../../../../utils/dateComputer";
+import { WeekCompleted } from "../../../../types/analytics";
+import _ from "lodash";
+import { CategoryModel } from "../../../../types/category";
 
 const styles = require("./bar.module.scss");
 
-type BarChartProps = {};
+type BarChartProps = {
+  data: WeekCompleted[];
+  categories: CategoryModel[];
+};
 
-const BarChart: React.FC<BarChartProps> = (props: BarChartProps) => {
+const BarChart: React.FC<BarChartProps> = ({ data, categories }) => {
+  const chartData = _(data)
+    .map((row) => {
+      return { [row.categoryId]: Number(row.value), day: row.day.slice(0, 10) };
+    })
+    .value()
+    .reduce((accumulator: any, current: any) => {
+      let itemIndex = accumulator.findIndex(
+        (item: any) => item.day === current.day,
+      );
+      if (itemIndex != -1) {
+        accumulator[itemIndex] = { ...accumulator[itemIndex], ...current };
+      } else {
+        accumulator = accumulator.concat(current);
+      }
+      return accumulator;
+    }, []);
+
+  const chartKeys = categories.map((category) => category.id);
+  const chartColors = categories.map(
+    (category) => colorOptions[`category-color-${category.iconColor}`],
+  );
+
+  function findCategoryName(categoryId: string) {
+    const category = categories.find((category) => category.id === categoryId);
+    return category!.name;
+  }
+
   return (
     <ResponsiveBar
-      data={mockData}
+      data={chartData}
       indexBy="day"
-      keys={["work", "personal"]}
+      keys={chartKeys}
       margin={{ top: 40, right: 100, bottom: 40, left: 60 }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
       enableLabel={false}
-      colors={[colorOptions["icon-color"], colorOptions["subtle-color"]]}
+      colors={chartColors}
       axisBottom={{ format: (value) => formatDate(value, "EEE") }}
       tooltip={(input) => {
         return (
@@ -26,7 +59,7 @@ const BarChart: React.FC<BarChartProps> = (props: BarChartProps) => {
             <span className={styles.barValue}>
               {displayHourMinutes(Number(input.value))}
             </span>
-            &nbsp;of {input.id} tasks completed
+            &nbsp;of {findCategoryName(input.id as string)} tasks completed
           </div>
         );
       }}
@@ -52,6 +85,7 @@ const BarChart: React.FC<BarChartProps> = (props: BarChartProps) => {
           },
         },
       }}
+      legendLabel={(data) => findCategoryName(data.id as string)}
       legends={[
         {
           dataFrom: "keys",
