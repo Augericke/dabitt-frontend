@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
+import { motion } from "framer-motion";
 import { getMenuItems } from "./taskMenuOptions";
 import { CategoryModel } from "../../../../types/category";
 import { TaskModel } from "../../../../types/task";
@@ -116,7 +117,13 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   return (
     <>
-      <li className={styles.taskItem}>
+      <motion.li
+        className={styles.taskItem}
+        key={task.id}
+        initial={{ x: 10, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.33 }}
+      >
         <TickBox
           isTicked={isTicked}
           onClick={onTick}
@@ -176,7 +183,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
             />
           </span>
         )}
-      </li>
+      </motion.li>
       <DeleteModal
         isVisible={showModal}
         content="Are you sure you want to delete this task?"

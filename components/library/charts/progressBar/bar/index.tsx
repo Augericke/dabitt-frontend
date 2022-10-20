@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ProgressBarDataType } from "..";
 import { getSelectableColorClass } from "../../../../../utils/selectableColorClass";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const styles = require("./bar.module.scss");
 
@@ -10,7 +10,7 @@ type BarType = {
 };
 
 const Bar: React.FC<BarType> = ({ data }) => {
-  const { category, categoryId, value, color, completed } = data;
+  const { categoryId, value, color, completed } = data;
 
   const { backgroundColor } = getSelectableColorClass(styles, color);
   const barId = `${categoryId}-${completed ? "completed" : "remaining"}`;

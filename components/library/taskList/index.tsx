@@ -5,6 +5,7 @@ import TaskForm from "./taskForm";
 import { TaskModel } from "../../../types/task";
 import { CategoryModel } from "../../../types/category";
 import { useTask } from "../../../utils/hooks/query/task/useTask";
+import { AnimatePresence } from "framer-motion";
 import TaskListSkeleton from "./skeleton";
 import ShowOnViewport from "../animation/showOnViewport";
 
@@ -43,7 +44,7 @@ const TaskList: React.FC<TaskListProps> = ({
                 <>
                   <ul className={styles.taskList}>
                     {tasks && (
-                      <>
+                      <AnimatePresence>
                         {tasks.data
                           .sort((a, b) => {
                             const aCompleted = a.completedAt ? 1 : -1;
@@ -61,7 +62,7 @@ const TaskList: React.FC<TaskListProps> = ({
                               />
                             );
                           })}
-                      </>
+                      </AnimatePresence>
                     )}
                     {modifiable && (
                       <li>
