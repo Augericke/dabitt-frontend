@@ -22,6 +22,8 @@ const BarChart: React.FC<BarChartProps> = ({
 }) => {
   const { width } = useWindowSize();
 
+  console.log(data);
+
   //Filter data if category selected
   const filteredData = selectedCategory
     ? data.filter((category) => category.categoryId === selectedCategory.id)
@@ -67,7 +69,7 @@ const BarChart: React.FC<BarChartProps> = ({
       indexScale={{ type: "band", round: true }}
       enableLabel={false}
       colors={chartColors}
-      axisBottom={{ format: (value) => formatDate(value, "EEE") }}
+      axisBottom={{ format: (value) => formatDate(value.split("-"), "EEE") }}
       tooltip={(input) => {
         return (
           <div className={styles.barTooltip}>

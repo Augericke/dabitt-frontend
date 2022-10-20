@@ -18,9 +18,9 @@ const DashboardSkeleton: React.FC<DashboardSkeletonProps> = (
     >
       <div className={styles.dashboardContainer}>
         <div className={styles.categoriesContainer}>
-          <Skeleton width="5vw" height="30px" />
-          <Skeleton width="5vw" height="30px" />
-          <Skeleton width="5vw" height="30px" />
+          <Skeleton width="60px" height="30px" />
+          <Skeleton width="60px" height="30px" />
+          <Skeleton width="60px" height="30px" />
         </div>
         <div className={styles.barContainer}>
           <Skeleton width="100vw" height="100vh" />

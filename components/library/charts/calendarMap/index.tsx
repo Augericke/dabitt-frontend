@@ -85,8 +85,9 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
                 {` of ${
                   categories.length === 1 ? categories[0].name : ""
                 } tasks completed on ${formatDate(
-                  new Date(input.day),
-                  "MMM do",
+                  //@ts-ignore
+                  input.day.split("-"),
+                  "MMM, do",
                 )}`}
               </div>
             );
