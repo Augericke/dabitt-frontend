@@ -3,13 +3,14 @@ import { withAuthenticationRequired } from "@auth0/auth0-react";
 import Layout from "../../components/layout";
 import DashboardView from "../../components/pages/dashboard";
 import { useCategory } from "../../utils/hooks/query/category/useCategory";
+import DashboardSkeleton from "../../components/pages/dashboard/skeleton";
 
 const DashboardPage: NextPage = () => {
   const categories = useCategory();
   return (
     <Layout>
       {categories.isLoading ? (
-        <p>loading</p>
+        <DashboardSkeleton />
       ) : categories.error ? (
         <p>looks like something went wrong</p>
       ) : (

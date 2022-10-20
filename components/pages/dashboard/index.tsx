@@ -38,7 +38,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
   const weekData = useWeekCompleted();
 
   return (
-    <div className={styles.placeHolderContainer}>
+    <div className={styles.dashboardContainer}>
       <div className={styles.categoriesContainer}>
         {categoryList.map((category) => {
           const isSelected = category.id === selectedCategory.id;
