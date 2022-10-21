@@ -25,32 +25,50 @@ const NavBar: React.FC<NavBarProps> = (props: NavBarProps) => {
   useOutsideClick(wrapperRef, () => setMenuIsOpen(false));
 
   return (
-    <nav
-      ref={menuIsOpen ? wrapperRef : null}
-      className={styles.navBarContainer}
-    >
-      <ul className={styles.navList}>
-        <li
-          className={styles.navMenuToggle}
-          onClick={() => setMenuIsOpen(!menuIsOpen)}
-        >
-          <MenuToggle isOpen={menuIsOpen} setIsOpen={setMenuIsOpen} />
-        </li>
-        {menuIsOpen && (
-          <>
-            {navOptions.map((option, index) => {
-              return (
-                <Link key={index} href={option.href}>
-                  <li className={styles.navIcon}>
-                    <a>{option.icon} </a>
-                  </li>
-                </Link>
-              );
-            })}
-          </>
-        )}
-      </ul>
-    </nav>
+    <>
+      {/* On Larger Screens */}
+      <nav
+        ref={menuIsOpen ? wrapperRef : null}
+        className={styles.navBarContainer}
+      >
+        <ul className={styles.navList}>
+          <li
+            className={styles.navMenuToggle}
+            onClick={() => setMenuIsOpen(!menuIsOpen)}
+          >
+            <MenuToggle isOpen={menuIsOpen} setIsOpen={setMenuIsOpen} />
+          </li>
+          {menuIsOpen && (
+            <>
+              {navOptions.map((option, index) => {
+                return (
+                  <Link key={index} href={option.href}>
+                    <li className={styles.navIcon}>
+                      <a>{option.icon} </a>
+                    </li>
+                  </Link>
+                );
+              })}
+            </>
+          )}
+        </ul>
+      </nav>
+
+      {/* On Smaller Screens */}
+      <nav className={styles.smallNavBarContainer}>
+        <ul className={styles.navList}>
+          {navOptions.map((option, index) => {
+            return (
+              <Link key={index} href={option.href}>
+                <li className={styles.navIcon}>
+                  <a className={styles.navLink}>{option.icon} </a>
+                </li>
+              </Link>
+            );
+          })}
+        </ul>
+      </nav>
+    </>
   );
 };
 
