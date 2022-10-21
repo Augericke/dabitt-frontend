@@ -4,8 +4,12 @@ import analyticsService from "../../../services/analytics";
 
 export function useCalendarCompleted(categoryId?: string) {
   const queryKey = ["calendar-completed", categoryId || "all"];
-  const query = useQuery<CalendarCompleted[], Error>(queryKey, () =>
-    analyticsService.readCalendarCompleted(categoryId),
+  const query = useQuery<CalendarCompleted[], Error>(
+    queryKey,
+    () => analyticsService.readCalendarCompleted(categoryId),
+    {
+      staleTime: 1 * 60 * 1000,
+    },
   );
 
   return query;
