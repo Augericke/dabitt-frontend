@@ -11,7 +11,6 @@ type BarType = {
 
 const Bar: React.FC<BarType> = ({ data }) => {
   const { categoryId, value, color, completed } = data;
-
   const { backgroundColor } = getSelectableColorClass(styles, color);
   const barId = `${categoryId}-${completed ? "completed" : "remaining"}`;
 
@@ -23,17 +22,19 @@ const Bar: React.FC<BarType> = ({ data }) => {
   }, [barId, value]);
 
   return (
-    <motion.span
-      id={barId}
-      key={barId}
-      className={`${
-        completed ? styles.barCategoryCompleted : styles.barCategory
-      } ${backgroundColor}`}
-      initial={{ width: 0 }}
-      animate={{ width: `${value}%` }}
-      exit={{ width: 0, opacity: 0.2 }}
-      transition={{ duration: 0.9, delay: 0 }}
-    />
+    <>
+      <motion.span
+        id={barId}
+        key={barId}
+        className={`${
+          completed ? styles.barCategoryCompleted : styles.barCategory
+        } ${backgroundColor}`}
+        initial={{ width: 0 }}
+        animate={{ width: `${value}%` }}
+        exit={{ width: 0, opacity: 0.2 }}
+        transition={{ duration: 0.9, delay: 0 }}
+      />
+    </>
   );
 };
 

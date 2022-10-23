@@ -1,10 +1,12 @@
 @use "../../../../../styles/selectableColors.module.scss";
 
 .barCategory {
-  // transition: width 200ms;
+  display: flex;
+  justify-content: center;
   opacity: 0.2;
+  cursor: pointer;
 
-  &Complected {
+  &Completed {
     @extend .barCategory;
     opacity: 1;
   }
