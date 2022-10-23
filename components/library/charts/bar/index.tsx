@@ -6,6 +6,7 @@ import { WeekCompleted } from "../../../../types/analytics";
 import _ from "lodash";
 import { CategoryModel } from "../../../../types/category";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
+import { RiContactsBookLine } from "react-icons/ri";
 
 const styles = require("./bar.module.scss");
 
@@ -24,7 +25,11 @@ const BarChart: React.FC<BarChartProps> = ({
 
   //Filter data if category selected
   const filteredData = selectedCategory
-    ? data.filter((category) => category.categoryId === selectedCategory.id)
+    ? data.filter(
+        (category) =>
+          category.categoryId === selectedCategory.id ||
+          category.categoryId == null,
+      )
     : data;
 
   //Show placeholder text if no data
