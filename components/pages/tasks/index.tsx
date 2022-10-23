@@ -28,7 +28,7 @@ const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
       />
-      {categories ? (
+      {categories.length > 0 && (
         <>
           {progressBarData && <ProgressBar chartData={progressBarData} />}
           {categories.map((category) => {
@@ -44,8 +44,6 @@ const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
             );
           })}
         </>
-      ) : (
-        <p>todo add looks like you have no categories section</p>
       )}
       <CategoryForm />
     </>

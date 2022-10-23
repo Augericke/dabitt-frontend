@@ -1,18 +1,24 @@
 import { CalendarCompleted, WeekCompleted } from "../../types/analytics";
-import {} from "../../types/user";
+import { getTimeZone } from "../dateComputer";
 import { api } from "../environmentManager";
 
 const readCalendarCompleted = async (categoryId?: string) => {
   const basePath = "/data/calendar";
-  const queryPath = categoryId ? `?categoryId=${categoryId}` : "";
+
+  const tz = getTimeZone();
+  const queryPath = categoryId
+    ? `?tz=${tz}&categoryId=${categoryId}`
+    : `?tz=${tz}`;
 
   const { data } = await api.get<CalendarCompleted[]>(basePath + queryPath);
   return data;
 };
 
-const readWeekCompleted = async (categoryId?: string) => {
+const readWeekCompleted = async () => {
   const basePath = "/data/week";
-  const queryPath = categoryId ? `?categoryId=${categoryId}` : "";
+
+  const tz = getTimeZone();
+  const queryPath = `?tz=${tz}`;
 
   const { data } = await api.get<WeekCompleted[]>(basePath + queryPath);
   return data;

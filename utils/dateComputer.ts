@@ -4,6 +4,10 @@ function formatDate(date: Date, formatString: string): string {
   return format(new Date(date), formatString);
 }
 
+function getTimeZone() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
+
 function getUTCDayRange(date: Date) {
   const startTime = startOfDay(new Date(date)).toISOString();
   const endTime = endOfDay(new Date(date)).toISOString();
@@ -40,6 +44,7 @@ function displayHourMinutes(minutes: number): string {
 
 export {
   formatDate,
+  getTimeZone,
   displayHourMinutes,
   getUTCDayRange,
   getIsCurrent,
