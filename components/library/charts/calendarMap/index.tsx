@@ -9,6 +9,7 @@ import { CategoryModel } from "../../../../types/category";
 import TaskList from "../../taskList";
 import { CalendarCompleted } from "../../../../types/analytics";
 import { sub } from "date-fns";
+import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 
 const styles = require("./calendarMap.module.scss");
 
@@ -28,6 +29,7 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
   categories,
   color,
 }) => {
+  const { width } = useWindowSize();
   const [showDayModal, setShowDayModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -70,8 +72,13 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
           }}
           emptyColor={colorOptions["background-color"]}
           colors={colors}
-          margin={{ top: 40, right: 40, bottom: 40, left: 40 }}
-          square={false}
+          margin={{
+            top: 40,
+            right: 40,
+            bottom: 40,
+            left: width > 1400 ? 80 : 140,
+          }}
+          square={true}
           dayBorderWidth={0}
           daySpacing={5}
           dayRadius={2}

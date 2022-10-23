@@ -73,7 +73,12 @@ const BarChart: React.FC<BarChartProps> = ({
       data={chartData}
       indexBy="day"
       keys={chartKeys}
-      margin={{ top: 40, right: 60, bottom: 60, left: 60 }}
+      margin={{
+        top: 40,
+        right: width > 750 ? 60 : 30,
+        bottom: 60,
+        left: width > 750 ? 60 : 30,
+      }}
       padding={0.3}
       valueScale={{ type: "linear" }}
       indexScale={{ type: "band", round: true }}
