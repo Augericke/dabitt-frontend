@@ -4,6 +4,7 @@ import Bar from "./bar";
 import { motion, AnimatePresence } from "framer-motion";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
+import { CategoryModel } from "../../../../types/category";
 
 const styles = require("./progressBar.module.scss");
 
@@ -18,9 +19,10 @@ export type ProgressBarDataType = {
 
 export type ProgressBarProps = {
   chartData: ProgressBarDataType[];
+  categories: CategoryModel[];
 };
 
-const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
+const ProgressBar: React.FC<ProgressBarProps> = ({ chartData, categories }) => {
   const [showInfo, setShowInfo] = useState(false);
 
   // Convert value into value 1-100
@@ -40,9 +42,6 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
   chartData = chartData.sort(
     (a, b) => Number(b.completed) - Number(a.completed),
   );
-
-  const completedCategory = chartData.filter((category) => category.completed);
-  const remainingCategory = chartData.filter((category) => !category.completed);
 
   return (
     <div className={styles.barInfoContainer}>
@@ -72,16 +71,10 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.9, delay: 0 }}
           >
-            {completedCategory && (
+            {chartData && (
               <ProgressBarSummary
-                chartData={completedCategory}
-                isCompleted={true}
-              />
-            )}
-            {remainingCategory && (
-              <ProgressBarSummary
-                chartData={remainingCategory}
-                isCompleted={false}
+                chartData={chartData}
+                categories={categories}
               />
             )}
           </motion.div>
@@ -93,44 +86,46 @@ const ProgressBar: React.FC<ProgressBarProps> = ({ chartData }) => {
 
 type ProgressBarSummaryProps = {
   chartData: ProgressBarDataType[];
-  isCompleted: boolean;
+  categories: CategoryModel[];
 };
 
 const ProgressBarSummary: React.FC<ProgressBarSummaryProps> = ({
   chartData,
-  isCompleted,
+  categories,
 }) => {
   return (
     <ul className={styles.toolList}>
-      <p
-        className={
-          isCompleted ? styles.categoryHeaderCompleted : styles.categoryHeader
-        }
-      >
-        {isCompleted ? "completed" : "remaining"}
-      </p>
-      {chartData.map((category) => {
+      <li className={styles.listItemHeader}>
+        <span className={styles.categoryName} />
+        <span className={styles.categoryHeader}>completed</span>
+        <span className={styles.categoryHeader}>remaining</span>
+      </li>
+      {categories.map((category) => {
         const { backgroundColor } = getSelectableColorClass(
           styles,
-          category.color,
+          category.iconColor,
         );
         return (
-          <motion.li
-            key={`${category.categoryId}-${category.completed}`}
-            className={styles.listItem}
-            initial={{ y: 3, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 3, opacity: 0 }}
-            transition={{ duration: 0.9, delay: 0.1 }}
-          >
+          <li key={category.id} className={styles.listItem}>
             <span className={styles.categoryName}>
               <div className={`${styles.categoryIcon} ${backgroundColor}`} />
-              {category.category}
+              {category.name}
             </span>
-            <motion.span className={styles.categoryTime}>
-              {displayHourMinutes(category.minutes || 0)}
+            <motion.span className={styles.categoryValue}>
+              {displayHourMinutes(
+                chartData.find(
+                  (cat) => cat.categoryId === category.id && cat.completed,
+                )?.minutes || 0,
+              )}
             </motion.span>
-          </motion.li>
+            <motion.span className={styles.categoryValue}>
+              {displayHourMinutes(
+                chartData.find(
+                  (cat) => cat.categoryId === category.id && !cat.completed,
+                )?.minutes || 0,
+              )}
+            </motion.span>
+          </li>
         );
       })}
     </ul>

@@ -30,7 +30,9 @@ const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
       />
       {categories.length > 0 && (
         <>
-          {progressBarData && <ProgressBar chartData={progressBarData} />}
+          {progressBarData && (
+            <ProgressBar chartData={progressBarData} categories={categories} />
+          )}
           {categories.map((category) => {
             const isModifiable =
               getIsCurrent(selectedDate) || getIsFuture(selectedDate);

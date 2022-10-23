@@ -27,7 +27,7 @@
 .tooltipContainer {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
+  justify-content: flex-start;
   overflow-y: scroll;
   width: 100%;
 }
@@ -39,46 +39,69 @@
   justify-content: center;
   list-style: none;
   margin: 0;
-  padding: 0;
-  width: 30%;
-  padding-right: 15px;
-
-  .categoryHeader {
-    font-weight: 200;
-    color: var(--text-color);
-    margin: 0;
-    padding-bottom: 3px;
-    margin-bottom: 10px;
-    border-bottom: 2px solid var(--subtle-color);
-
-    &Completed {
-      @extend .categoryHeader;
-      border-bottom: 2px solid var(--icon-color);
-    }
-  }
+  padding: 15px;
+  width: 100%;
+  background-color: var(--foreground-color);
+  border: 1px solid var(--subtle-color);
+  border-radius: 10px;
 
   .listItem {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 6px;
+    margin-bottom: 6px;
     font-size: 12px;
+    color: var(--text-color);
     width: 100%;
+
+    @media only screen and (max-width: 576px) {
+      font-size: 10px;
+    }
+
+    &Header {
+      @extend .listItem;
+      padding-bottom: 3px;
+      margin-top: 0px;
+      margin-bottom: 5px;
+      border-bottom: 1px solid var(--subtle-color);
+    }
 
     .categoryName {
       display: flex;
+      justify-content: start;
       align-items: center;
       font-weight: 200;
       gap: 5px;
+      padding-left: 6px;
+      width: 20%;
 
       .categoryIcon {
         height: 10px;
         width: 10px;
         border-radius: 50%;
+
+        @media only screen and (max-width: 576px) {
+          height: 6px;
+          width: 6px;
+        }
       }
     }
 
-    .categoryTime {
-      font-weight: 200;
+    .categoryValue {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 100;
+      width: 40%;
+      text-align: center;
+    }
+
+    .categoryHeader {
+      @extend .categoryValue;
+      font-weight: 400;
+      color: var(--subtle-color);
     }
   }
 }
