@@ -9,7 +9,7 @@ function isProd(): boolean {
 }
 
 const baseUrl = isProd()
-  ? "https://dabitt-frontend.vercel.app/"
+  ? "https://dabitt-frontend.vercel.app"
   : "http://localhost:3000";
 
 const baseApiUrl = isProd()
