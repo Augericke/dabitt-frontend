@@ -18,10 +18,7 @@ export function AxiosProvider({ children }) {
   useEffect(() => {
     (async () => {
       try {
-        const token = await getAccessTokenSilently({
-          audience: "API/dabitt",
-          scope: "",
-        });
+        const token = await getAccessTokenSilently();
 
         api.interceptors.request.use(
           (config: AxiosRequestConfig) => {

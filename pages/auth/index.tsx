@@ -21,10 +21,7 @@ const Auth: NextPage = () => {
     (async () => {
       try {
         if (!isLoading && user) {
-          const token = await getAccessTokenSilently({
-            audience: "API/dabitt",
-            scope: "",
-          });
+          const token = await getAccessTokenSilently();
 
           const dataConfig = {
             username: user!.nickname,
