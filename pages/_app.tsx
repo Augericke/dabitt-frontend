@@ -20,6 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           domain={process.env.NEXT_PUBLIC_AUTH0_PUBLIC_DOMAIN!}
           clientId={process.env.NEXT_PUBLIC_AUTH0_PUBLIC_CLIENT_ID!}
           audience={process.env.NEXT_PUBLIC_AUTH0_PUBLIC_AUDIENCE!}
+          useRefreshTokens={true}
           scope="read:users"
           redirectUri={`${baseUrl}/auth`}
         >
