@@ -15,14 +15,12 @@ const LandingView: React.FC<LandingViewProps> = (props: LandingViewProps) => {
           <h1 className={styles.logo}>dabitt</h1>
           <p className={styles.tagline}>the opinionated daily habit app</p>
         </hgroup>
-        <div>
-          <button
-            className={styles.userButton}
-            onClick={() => loginWithRedirect()}
-          >
-            Log In
-          </button>
-        </div>
+        <button
+          className={styles.userButton}
+          onClick={() => loginWithRedirect()}
+        >
+          Log In
+        </button>
       </div>
     </section>
   );
