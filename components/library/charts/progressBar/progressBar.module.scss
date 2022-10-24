@@ -12,7 +12,7 @@
 
   &Empty {
     @extend .barContainer;
-    background-color: var(--foreground-color);
+    display: none;
   }
 }
 

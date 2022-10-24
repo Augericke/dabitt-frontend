@@ -27,18 +27,19 @@
     }
 
     .closeContainer {
-      position: absolute;
+      position: sticky;
       top: 0px;
       display: flex;
       justify-content: flex-end;
       width: 100%;
+      z-index: 99999;
 
       .closeIcon {
+        position: absolute;
         color: var(--subtle-color);
         cursor: pointer;
-        padding: 10px;
-        font-size: 50px;
-        z-index: 99999;
+        margin: 10px;
+        font-size: 30px;
 
         @media only screen and (max-width: 992px) {
           padding: 5px;

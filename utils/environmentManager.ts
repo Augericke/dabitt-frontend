@@ -8,9 +8,7 @@ function isProd(): boolean {
   return process.env.NODE_ENV === "production";
 }
 
-const baseUrl = isProd()
-  ? "https://dabitt-frontend.vercel.app"
-  : "http://localhost:3000";
+const baseUrl = isProd() ? "https://www.dabitts.com" : "http://localhost:3000";
 
 const baseApiUrl = isProd()
   ? "https://dabitt.onrender.com/api"

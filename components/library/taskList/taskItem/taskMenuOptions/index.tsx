@@ -55,7 +55,7 @@ export const getMenuItems = (
             <span className={styles.canContainer}>
               <GiConverseShoe />
             </span>
-            kick the can
+            kick to tomorrow
           </div>
         </div>
       ),

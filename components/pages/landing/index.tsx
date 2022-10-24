@@ -12,8 +12,8 @@ const LandingView: React.FC<LandingViewProps> = (props: LandingViewProps) => {
     <section className={styles.sectionContainer}>
       <div className={styles.introContainer}>
         <hgroup>
-          <h1 className={styles.logo}>dabitt</h1>
-          <p className={styles.tagline}>the opinionated daily habit app</p>
+          <h1 className={styles.logo}>dabitts</h1>
+          <p className={styles.tagline}>the opinionated daily habits app</p>
         </hgroup>
         <button
           className={styles.userButton}

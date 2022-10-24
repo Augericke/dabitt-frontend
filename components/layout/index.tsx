@@ -26,10 +26,10 @@ const Layout: React.FC<LayoutProps> = ({ children, pageMeta }) => {
 
   // Default meta tags if not otherwise set via the pageMeta prop
   const meta = {
-    title: "dabitt",
-    description: "The daily habit app.",
+    title: "dabitts",
+    description: "The daily habits app.",
     type: "website",
-    siteName: "dabitt",
+    siteName: "dabitts",
     url: `${baseUrl}${router.asPath}`,
     // image: TODO,
     // imageAlt: TODO,

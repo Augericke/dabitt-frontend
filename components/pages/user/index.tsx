@@ -23,7 +23,7 @@ const UserView: React.FC<UserViewProps> = ({ user }) => {
   const updateUser = useUpdateUser();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [username, setUsername] = useState(user.username);
-  const joinedAt = formatDate(user.createdAt, "MMM e, yyyy");
+  const joinedAt = formatDate(user.createdAt, "MMM d, yyyy");
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
