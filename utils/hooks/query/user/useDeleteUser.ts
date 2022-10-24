@@ -2,6 +2,7 @@ import userService from "../../../services/user";
 import { UserModel } from "../../../../types/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth0 } from "@auth0/auth0-react";
+import { baseUrl } from "../../../environmentManager";
 
 const deleteUser = async () => {
   const deletedUser = await userService.destroy();
@@ -26,7 +27,7 @@ export function useDeleteUser() {
       queryClient.setQueryData<UserModel[] | undefined>(queryKey, undefined);
       queryClient.clear();
       clearCacheData();
-      logout();
+      logout({ returnTo: baseUrl });
     },
     onError: () => {
       console.log(deleteMutation.error);
