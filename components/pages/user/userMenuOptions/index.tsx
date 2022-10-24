@@ -2,6 +2,7 @@ import { LogoutOptions } from "@auth0/auth0-react";
 import React from "react";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { GiExitDoor } from "react-icons/gi";
+import { baseUrl } from "../../../../utils/environmentManager";
 
 const styles = require("./userMenuOptions.module.scss");
 
@@ -18,7 +19,7 @@ export const getUserMenuOptions = (
           </div>
         </div>
       ),
-      onClick: () => logout({ returnTo: window.location.origin }),
+      onClick: () => logout({ returnTo: baseUrl }),
     },
     {
       content: (
