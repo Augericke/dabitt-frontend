@@ -6,7 +6,7 @@ const styles = require("./landing.module.scss");
 type LandingViewProps = {};
 
 const LandingView: React.FC<LandingViewProps> = (props: LandingViewProps) => {
-  const { loginWithRedirect, logout } = useAuth0();
+  const { loginWithRedirect } = useAuth0();
 
   return (
     <section className={styles.sectionContainer}>
@@ -21,12 +21,6 @@ const LandingView: React.FC<LandingViewProps> = (props: LandingViewProps) => {
             onClick={() => loginWithRedirect()}
           >
             Log In
-          </button>
-          <button
-            className={styles.userButton}
-            onClick={() => logout({ returnTo: window.location.origin })}
-          >
-            Log Out
           </button>
         </div>
       </div>

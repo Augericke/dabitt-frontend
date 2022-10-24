@@ -10,7 +10,7 @@ function isProd(): boolean {
 
 const baseApiUrl = isDev()
   ? "http://localhost:3001/api"
-  : "http://localhost:3001/api";
+  : "https://dabitt.onrender.com/api";
 
 const api = axios.create({
   baseURL: `${baseApiUrl}`,

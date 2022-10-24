@@ -14,6 +14,7 @@ export function useAxios() {
 //@ts-ignore
 export function AxiosProvider({ children }) {
   const { getAccessTokenSilently } = useAuth0();
+
   useEffect(() => {
     (async () => {
       try {

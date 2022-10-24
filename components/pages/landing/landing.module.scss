@@ -30,6 +30,8 @@
     .userButton {
       display: inline-block;
       text-align: center;
+      cursor: pointer;
+
       background-color: var(--icon-color);
       border-radius: var(--button-border-radius);
       border: none;
@@ -38,13 +40,10 @@
       padding: 10px;
       width: 150px;
       opacity: 0.75;
-      transition: padding 200ms, opacity 100ms, width 200ms;
+      transition: opacity 100ms;
 
       &:hover {
-        padding: 12px;
-        width: 125px;
         opacity: 1;
-        cursor: pointer;
       }
     }
   }
