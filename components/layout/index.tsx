@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import NavBar from "../library/navBar";
+import { baseUrl } from "../../utils/environmentManager";
 
 const styles = require("./layout.module.scss");
 
@@ -29,7 +30,7 @@ const Layout: React.FC<LayoutProps> = ({ children, pageMeta }) => {
     description: "The daily habit app.",
     type: "website",
     siteName: "dabitt",
-    url: `http://localhost:3000${router.asPath}`,
+    url: `${baseUrl}${router.asPath}`,
     // image: TODO,
     // imageAlt: TODO,
     ...pageMeta,

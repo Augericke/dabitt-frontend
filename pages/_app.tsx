@@ -6,6 +6,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { ThemeProvider } from "next-themes";
 import { AxiosProvider } from "../utils/axiosProvider";
+import { baseUrl } from "../utils/environmentManager";
 
 const queryClient = new QueryClient();
 
@@ -20,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           clientId={process.env.NEXT_PUBLIC_AUTH0_PUBLIC_CLIENT_ID!}
           audience={process.env.NEXT_PUBLIC_AUTH0_PUBLIC_AUDIENCE!}
           scope="read:users"
-          redirectUri={"http://localhost:3000/auth"}
+          redirectUri={`${baseUrl}/auth`}
         >
           {router.pathname === "/" ? (
             <ThemeProvider
