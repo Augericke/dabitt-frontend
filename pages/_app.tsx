@@ -20,9 +20,10 @@ function MyApp({ Component, pageProps }: AppProps) {
           domain={process.env.NEXT_PUBLIC_AUTH0_PUBLIC_DOMAIN!}
           clientId={process.env.NEXT_PUBLIC_AUTH0_PUBLIC_CLIENT_ID!}
           audience={process.env.NEXT_PUBLIC_AUTH0_PUBLIC_AUDIENCE!}
-          useRefreshTokens={true}
-          scope="read:users"
+          useRefreshTokens
+          scope="read:current_user"
           redirectUri={`${baseUrl}/auth`}
+          cacheLocation="localstorage"
         >
           {router.pathname === "/" ? (
             <ThemeProvider

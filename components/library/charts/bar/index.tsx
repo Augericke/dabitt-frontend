@@ -6,7 +6,6 @@ import { WeekCompleted } from "../../../../types/analytics";
 import _ from "lodash";
 import { CategoryModel } from "../../../../types/category";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
-import { RiContactsBookLine } from "react-icons/ri";
 
 const styles = require("./bar.module.scss");
 
@@ -84,7 +83,7 @@ const BarChart: React.FC<BarChartProps> = ({
       indexScale={{ type: "band", round: true }}
       enableLabel={false}
       colors={chartColors}
-      axisBottom={{ format: (value) => formatDate(value.split("-"), "EEE") }}
+      // axisBottom={{ format: (value) => formatDate(value.split("-"), "EEE") }}
       tooltip={(input) => {
         return (
           <div className={styles.barTooltip}>
