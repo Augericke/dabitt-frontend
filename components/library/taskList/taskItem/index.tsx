@@ -8,7 +8,10 @@ import { TaskModel } from "../../../../types/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
 import { add } from "date-fns";
-import { displayHourMinutes } from "../../../../utils/dateComputer";
+import {
+  displayHourMinutes,
+  getIsCurrent,
+} from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
@@ -33,6 +36,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
 }) => {
   // Task Mutations
   const updateTask = useUpdateTask(category.id, selectedDate);
+  const updateTaskToCurrent = useUpdateTask(category.id, selectedDate, true);
   const kickTask = useKickTask(category.id, task.id, selectedDate);
   const deleteTask = useDeleteTask(category.id, task.id, selectedDate);
 
@@ -83,14 +87,16 @@ const TaskItem: React.FC<TaskItemProps> = ({
 
   const onTick = () => {
     let completedAt: Date | null = null;
+    let startAt = task.startAt;
     if (!isTicked) {
       completedAt = new Date();
+      startAt = null;
     }
 
-    updateTask.mutate({
+    updateTaskToCurrent.mutate({
       categoryId: category.id,
       taskId: task.id,
-      data: { completedAt },
+      data: { completedAt, startAt },
     });
   };
 
@@ -116,9 +122,18 @@ const TaskItem: React.FC<TaskItemProps> = ({
       <motion.li
         className={styles.taskItem}
         key={task.id}
-        initial={{ x: 10, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.33 }}
+        initial={{ opacity: 0 }}
+        animate={{
+          opacity: 1,
+        }}
+        exit={{
+          margin: 0,
+          padding: 0,
+          height: 0,
+          opacity: 0,
+          transition: { duration: 0.33 },
+        }}
+        transition={{ duration: 0.33, delay: 0.33 }}
       >
         <TickBox
           isTicked={isTicked}
@@ -165,10 +180,11 @@ const TaskItem: React.FC<TaskItemProps> = ({
           <Popover
             customMenuClass={styles.customTaskMenu}
             menuItems={getMenuItems(
+              isTicked,
               textRef,
+              selectedDate,
               onCanKick,
               onTick,
-              isTicked,
               () => {
                 setShowModal(true);
               },

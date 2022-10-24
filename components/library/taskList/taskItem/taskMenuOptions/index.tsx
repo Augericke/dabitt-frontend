@@ -2,14 +2,16 @@ import React from "react";
 import { AiTwotoneDelete, AiOutlineRedo } from "react-icons/ai";
 import { TbEdit, TbCheck } from "react-icons/tb";
 import { GiConverseShoe } from "react-icons/gi";
+import { getIsCurrent } from "../../../../../utils/dateComputer";
 
 const styles = require("./taskMenuOptions.module.scss");
 
 export const getMenuItems = (
+  isTicked: boolean,
   inputRef: React.MutableRefObject<any>,
+  selectedDate: Date,
   handleCanKick: () => void,
   handleComplete: () => void,
-  isTicked: boolean,
   handleDelete: () => void,
 ) => {
   // Focus on text input field and place cursor at end of string
@@ -73,9 +75,10 @@ export const getMenuItems = (
     },
   ];
 
-  const activeMenuItems = isTicked
-    ? menuItems.filter((item) => item.content !== menuItems[2].content)
-    : menuItems;
+  const activeMenuItems =
+    isTicked || !getIsCurrent(selectedDate)
+      ? menuItems.filter((item) => item.content !== menuItems[2].content)
+      : menuItems;
 
   return activeMenuItems;
 };
