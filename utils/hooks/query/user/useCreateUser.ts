@@ -20,7 +20,7 @@ export function useCreateUser() {
         queryClient.setQueryData<UserModel>(queryKey, data);
         Router.push(data.completedSetup ? "/tasks" : "/setup");
       },
-      onError: (error) => {
+      onError: () => {
         toast.error(`We ran into an issue creating your profile.`, {
           id: "user",
         });

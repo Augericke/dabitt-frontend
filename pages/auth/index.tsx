@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Router from "next/router";
 import { useEffect } from "react";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+import { useTheme } from "next-themes";
 import { api } from "../../utils/environmentManager";
 import { UserModel } from "../../types/user";
 
@@ -9,11 +10,13 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import colors from "../../styles/_selectableColors.module.scss";
 import "react-loading-skeleton/dist/skeleton.css";
 import ShowOnViewport from "../../components/library/animation/showOnViewport";
+import userService from "../../utils/services/user";
 
 const styles = require("../../components/pages/setup/setup.module.scss");
 
 const Auth: NextPage = () => {
   const { user, isLoading, getAccessTokenSilently } = useAuth0();
+  const { setTheme } = useTheme();
 
   // If auth0 user not present create in postgresDb and redirect to setup
   // otherwise redirect to dashboard
@@ -39,13 +42,19 @@ const Auth: NextPage = () => {
             headerConfig,
           );
 
-          Router.push(response.data.completedSetup ? "/tasks" : "/setup");
+          if (response.data.completedSetup) {
+            const userResponse = await userService.read();
+            setTheme(userResponse.userPreference.preferedTheme);
+            Router.push("/tasks");
+          } else {
+            Router.push("/setup");
+          }
         }
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [getAccessTokenSilently, isLoading, user]);
+  }, [getAccessTokenSilently, isLoading, setTheme, user]);
 
   return (
     <SkeletonTheme
