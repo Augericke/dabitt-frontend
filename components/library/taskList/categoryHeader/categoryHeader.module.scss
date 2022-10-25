@@ -29,6 +29,10 @@
       line-height: 22px;
     }
 
+    @media only screen and (max-width: 576px) {
+      min-width: 100px;
+    }
+
     // Hide Scroll Bar
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
