@@ -83,7 +83,17 @@ const BarChart: React.FC<BarChartProps> = ({
       indexScale={{ type: "band", round: true }}
       enableLabel={false}
       colors={chartColors}
-      // axisBottom={{ format: (value) => formatDate(value.split("-"), "EEE") }}
+      axisBottom={{
+        // Get day of week ignoring timezone since only a date string is being passed (i.e '2022-01-31' -> Mon)
+        format: (value) =>
+          formatDate(
+            new Date(
+              new Date(value).valueOf() +
+                new Date(value).getTimezoneOffset() * 60 * 1000,
+            ),
+            "EEE",
+          ),
+      }}
       tooltip={(input) => {
         return (
           <div className={styles.barTooltip}>
