@@ -1,6 +1,7 @@
 import userService, { CreateUser } from "../../../services/user";
 import { UserModel } from "../../../../types/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Router from "next/router";
 import toast from "react-hot-toast";
 
 const createUser = async (newUserData: CreateUser) => {
@@ -17,8 +18,9 @@ export function useCreateUser() {
     {
       onSuccess: (data) => {
         queryClient.setQueryData<UserModel>(queryKey, data);
+        Router.push(data.completedSetup ? "/tasks" : "/setup");
       },
-      onError: () => {
+      onError: (error) => {
         toast.error(`We ran into an issue creating your profile.`, {
           id: "user",
         });

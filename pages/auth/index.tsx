@@ -24,7 +24,7 @@ const Auth: NextPage = () => {
           const token = await getAccessTokenSilently();
 
           const dataConfig = {
-            username: user!.nickname,
+            username: "dabitter",
           };
 
           const headerConfig = {
