@@ -8,6 +8,7 @@ import { useTask } from "../../../utils/hooks/query/task/useTask";
 import { AnimatePresence } from "framer-motion";
 import TaskListSkeleton from "./skeleton";
 import ShowOnViewport from "../animation/showOnViewport";
+import ErrorView from "../error";
 
 const styles = require("./taskList.module.scss");
 
@@ -29,8 +30,19 @@ const TaskList: React.FC<TaskListProps> = ({
     <>
       {tasks.isLoading ? (
         <TaskListSkeleton />
-      ) : tasks.error ? (
-        <p>looks like something went wrong</p>
+      ) : tasks.isError ? (
+        <section className={styles.categoryContainer}>
+          <CategoryHeader category={category} numTasks={numTasks} />
+          {(modifiable || numTasks > 0) && (
+            <ShowOnViewport customClass={styles.taskListContainer}>
+              <>
+                <ul className={styles.taskList}>
+                  We ran into an issue loading these tasks...
+                </ul>
+              </>
+            </ShowOnViewport>
+          )}
+        </section>
       ) : (
         <>
           <section className={styles.categoryContainer}>

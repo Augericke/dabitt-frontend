@@ -4,6 +4,7 @@ import Layout from "../../components/layout";
 import DashboardView from "../../components/pages/dashboard";
 import { useCategory } from "../../utils/hooks/query/category/useCategory";
 import DashboardSkeleton from "../../components/pages/dashboard/skeleton";
+import ErrorView from "../../components/library/error";
 
 const DashboardPage: NextPage = () => {
   const categories = useCategory();
@@ -12,7 +13,9 @@ const DashboardPage: NextPage = () => {
       {categories.isLoading ? (
         <DashboardSkeleton />
       ) : categories.error ? (
-        <p>looks like something went wrong</p>
+        <div style={{ height: "80vh", display: "flex", alignItems: "center" }}>
+          <ErrorView />
+        </div>
       ) : (
         <DashboardView
           categories={categories.data.sort((a, b) =>

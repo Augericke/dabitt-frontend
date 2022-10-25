@@ -12,6 +12,7 @@ import { useWeekCompleted } from "../../../utils/hooks/query/analytics/useWeekCo
 
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import ErrorView from "../../library/error";
 
 const styles = require("./dashboard.module.scss");
 
@@ -74,7 +75,7 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
             <Skeleton width="100vw" height="100vh" />
           </SkeletonTheme>
         ) : weekData.isError ? (
-          <></>
+          <ErrorView showBorder={false} />
         ) : (
           <BarChart
             data={weekData.data}
@@ -96,7 +97,11 @@ const DashboardView: React.FC<DashboardViewProps> = ({ categories }) => {
             </div>
           </SkeletonTheme>
         ) : calendarData.isError ? (
-          <></>
+          <ErrorView
+            title={"There was an issue with loading your calendar"}
+            showBody={false}
+            showBorder={false}
+          />
         ) : (
           <CalenderMap
             data={calendarData.data}

@@ -1,0 +1,61 @@
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px 50px 20px 50px;
+  background: var(--foreground-color);
+  width: 100%;
+
+  @media only screen and (max-width: 576px) {
+    padding: 10px 20px 10px 20px;
+  }
+
+  &Border {
+    @extend .errorContainer;
+    border: 1px solid var(--subtle-color);
+    border-radius: 15px;
+  }
+
+  .errorHeader {
+    font-size: 21px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--icon-color);
+
+    @media only screen and (max-width: 992px) {
+      font-size: 21px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 18px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      font-size: 16px;
+    }
+  }
+
+  .errorSubheader {
+    font-size: 16px;
+    font-weight: 200;
+    color: var(--text-color);
+
+    @media only screen and (max-width: 992px) {
+      font-size: 16px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 14px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      font-size: 12px;
+    }
+  }
+
+  .errorSocialLink {
+    @extend .errorSubheader;
+    color: var(--icon-color);
+  }
+}

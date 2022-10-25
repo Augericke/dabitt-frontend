@@ -4,6 +4,7 @@ import Layout from "../../components/layout";
 import TasksView from "../../components/pages/tasks";
 import { useCategory } from "../../utils/hooks/query/category/useCategory";
 import TasksSkeleton from "../../components/pages/tasks/skeleton";
+import ErrorView from "../../components/library/error";
 
 const TasksPage: NextPage = () => {
   const categories = useCategory();
@@ -12,8 +13,10 @@ const TasksPage: NextPage = () => {
     <Layout>
       {categories.isLoading ? (
         <TasksSkeleton />
-      ) : categories.error ? (
-        <p>looks like something went wrong</p>
+      ) : categories.isError ? (
+        <div style={{ height: "80vh", display: "flex", alignItems: "center" }}>
+          <ErrorView />
+        </div>
       ) : (
         <TasksView
           categories={categories.data.sort((a, b) =>
