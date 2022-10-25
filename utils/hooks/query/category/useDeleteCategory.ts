@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import categoryService from "../../../services/category";
 import { CategoryModel } from "../../../../types/category";
+import toast from "react-hot-toast";
 
 const deleteCategory = async (id: string) => {
   const deletedCategory = await categoryService.destroy(id);
@@ -21,7 +22,7 @@ export function useDeleteCategory(categoryId: string) {
       );
     },
     onError: () => {
-      console.log(deleteMutation.error);
+      toast(`We ran into an issue deleting this category.`, { id: "category" });
     },
   });
 

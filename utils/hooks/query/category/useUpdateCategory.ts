@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import categoryService, { UpdateCategory } from "../../../services/category";
 import { CategoryModel } from "../../../../types/category";
+import toast from "react-hot-toast";
 
 const updateCategory = async (updateData: UpdateCategory) => {
   const updatedCategory = await categoryService.update(updateData);
@@ -25,7 +26,9 @@ export function useUpdateCategory() {
         );
       },
       onError: () => {
-        console.log(updateMutation.error);
+        toast(`We ran into an issue updating this category.`, {
+          id: "category",
+        });
       },
     },
   );

@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { TaskModel } from "../../../../types/task";
 import taskService, { CreateTask } from "../../../services/task";
 
@@ -21,7 +22,7 @@ export function useCreateTask(categoryId: string, date: Date) {
         );
       },
       onError: () => {
-        console.log(createMutation.error);
+        toast.error(`We ran into an issue creating this task.`, { id: "task" });
       },
     },
   );

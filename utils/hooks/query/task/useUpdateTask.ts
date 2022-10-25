@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { TaskModel } from "../../../../types/task";
 import { getIsCurrent, getUTCDayRange } from "../../../dateComputer";
 import taskService, { UpdateTask } from "../../../services/task";
@@ -44,7 +45,7 @@ export function useUpdateTask(
         }
       },
       onError: () => {
-        console.log(updateMutation.error);
+        toast.error(`We ran into an issue updating this task.`, { id: "task" });
       },
     },
   );

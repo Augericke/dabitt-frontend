@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import categoryService, { CreateCategory } from "../../../services/category";
 import { CategoryModel } from "../../../../types/category";
+import toast from "react-hot-toast";
 
 const createCategory = async (data: CreateCategory) => {
   const addedCategory = await categoryService.create(data);
@@ -20,7 +21,9 @@ export function useCreateCategory() {
         );
       },
       onError: () => {
-        console.log(createMutation.error);
+        toast(`We ran into an issue creating this category.`, {
+          id: "category",
+        });
       },
     },
   );

@@ -7,11 +7,38 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { ThemeProvider } from "next-themes";
 import { AxiosProvider } from "../utils/axiosProvider";
 import { baseUrl } from "../utils/environmentManager";
+import colorOptions from "../styles/_selectableColors.module.scss";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  const mainElements = (
+    <ThemeProvider themes={["light", "dark", "coffee", "sea", "cappuccino"]}>
+      <Component {...pageProps} />
+      <Toaster
+        toastOptions={{
+          error: {
+            iconTheme: {
+              primary: colorOptions["icon-color"],
+              secondary: colorOptions["text-color"],
+            },
+            style: {
+              fontFamily: "Poppins",
+              fontWeight: 200,
+              fontSize: "14px",
+              background: colorOptions["foreground-color"],
+              border: `1px solid ${colorOptions["subtle-color"]}`,
+              color: colorOptions["text-color"],
+            },
+          },
+        }}
+      />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </ThemeProvider>
+  );
 
   return (
     <>
@@ -26,20 +53,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           cacheLocation="localstorage"
         >
           {router.pathname === "/" ? (
-            <ThemeProvider
-              themes={["light", "dark", "coffee", "sea", "cappuccino"]}
-            >
-              <Component {...pageProps} />
-            </ThemeProvider>
+            mainElements
           ) : (
-            <AxiosProvider>
-              <ThemeProvider
-                themes={["light", "dark", "coffee", "sea", "cappuccino"]}
-              >
-                <Component {...pageProps} />
-                <ReactQueryDevtools initialIsOpen={false} />
-              </ThemeProvider>
-            </AxiosProvider>
+            <AxiosProvider>{mainElements}</AxiosProvider>
           )}
         </Auth0Provider>
       </QueryClientProvider>

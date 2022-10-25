@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 import { TaskModel } from "../../../../types/task";
-import taskService, { DeleteTask, UpdateTask } from "../../../services/task";
+import taskService, { DeleteTask } from "../../../services/task";
 
 const deleteTask = async ({ categoryId, taskId }: DeleteTask) => {
   const deletedTask = await taskService.destroy({ categoryId, taskId });
@@ -22,7 +23,7 @@ export function useDeleteTask(categoryId: string, taskId: string, date: Date) {
         );
       },
       onError: () => {
-        console.log(deleteMutation.error);
+        toast.error(`We ran into an issue deleting this task.`, { id: "task" });
       },
     },
   );

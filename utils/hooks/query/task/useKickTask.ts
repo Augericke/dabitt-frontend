@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { add } from "date-fns";
+import toast from "react-hot-toast";
 import { TaskModel } from "../../../../types/task";
 import taskService, { UpdateTask } from "../../../services/task";
 
@@ -30,7 +31,7 @@ export function useKickTask(categoryId: string, taskId: string, date: Date) {
         );
       },
       onError: () => {
-        console.log(canKickMutation.error);
+        toast.error(`We ran into an issue kicking this task.`, { id: "task" });
       },
     },
   );

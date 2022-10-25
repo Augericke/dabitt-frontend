@@ -3,6 +3,7 @@ import { UserModel } from "../../../../types/user";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth0 } from "@auth0/auth0-react";
 import { baseUrl } from "../../../environmentManager";
+import toast from "react-hot-toast";
 
 const deleteUser = async () => {
   const deletedUser = await userService.destroy();
@@ -30,7 +31,9 @@ export function useDeleteUser() {
       logout({ returnTo: baseUrl });
     },
     onError: () => {
-      console.log(deleteMutation.error);
+      toast.error(`We ran into an issue deleting your profile.`, {
+        id: "user",
+      });
     },
   });
 
