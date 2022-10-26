@@ -92,6 +92,7 @@
   text-align: center;
   transition: font-size 400ms;
   color: white;
+  box-shadow: var(--shadow-elevation-medium);
 
   @media only screen and (max-width: 768px) {
     font-size: 14px;
