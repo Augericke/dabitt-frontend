@@ -122,8 +122,8 @@ const AnalyticsSection: React.FC = () => {
             <div className={styles.headerContainer}>
               <h1 className={styles.title}>track your progress</h1>
               <p className={styles.subtext}>
-                with daily analytics that show where and how you are spending
-                your time
+                daily analytics that show where and how you are spending your
+                time
               </p>
             </div>
           </>
