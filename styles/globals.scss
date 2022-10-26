@@ -12,7 +12,23 @@
   --icon-color: #{light.$icon-color};
   --icon-color-rga: #{light.$icon-color-rga};
   --text-color: #{light.$text-color};
-  --button-border-radius: 20px;
+  --button-border-radius: 15px;
+  --shadow-color: 0deg 0% 0%;
+  --shadow-elevation-medium: 0.1px 0.2px 0.2px hsl(var(--shadow-color) / 0.09),
+    0.3px 0.5px 0.6px -0.7px hsl(var(--shadow-color) / 0.08),
+    0.6px 1px 1.2px -1.4px hsl(var(--shadow-color) / 0.08),
+    1.3px 2px 2.5px -2.2px hsl(var(--shadow-color) / 0.07),
+    2.5px 4px 5px -2.9px hsl(var(--shadow-color) / 0.07);
+  --shadow-elevation-high: 0.1px 0.2px 0.2px hsl(var(--shadow-color) / 0.08),
+    0.5px 0.8px 1px -0.3px hsl(var(--shadow-color) / 0.08),
+    0.9px 1.4px 1.8px -0.6px hsl(var(--shadow-color) / 0.08),
+    1.4px 2.2px 2.8px -1px hsl(var(--shadow-color) / 0.07),
+    2.1px 3.3px 4.2px -1.3px hsl(var(--shadow-color) / 0.07),
+    3px 4.8px 6px -1.6px hsl(var(--shadow-color) / 0.07),
+    4.4px 6.9px 8.7px -1.9px hsl(var(--shadow-color) / 0.07),
+    6.2px 9.9px 12.4px -2.3px hsl(var(--shadow-color) / 0.06),
+    8.6px 13.7px 17.2px -2.6px hsl(var(--shadow-color) / 0.06),
+    11.7px 18.6px 23.4px -2.9px hsl(var(--shadow-color) / 0.06);
 }
 
 [data-theme="light"] {

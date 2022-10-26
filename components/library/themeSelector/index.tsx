@@ -1,4 +1,5 @@
 import { useTheme } from "next-themes";
+import { useRouter } from "next/router";
 import dark from "../../../styles/themes/_dark.module.scss";
 import light from "../../../styles/themes/_light.module.scss";
 import lobby from "../../../styles/themes/_lobby.module.scss";
@@ -15,6 +16,7 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = (
   props: ThemeSelectorProps,
 ) => {
   const updateUser = useUpdateUser();
+  const router = useRouter();
   const { theme, setTheme } = useTheme();
 
   const themeList: { name: ThemeColors; data: any }[] = [
@@ -26,7 +28,9 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = (
   ];
   const onThemeClick = (selectedTheme: ThemeColors) => {
     setTheme(selectedTheme);
-    updateUser.mutate({ preferedTheme: selectedTheme });
+    if (router.pathname !== "/") {
+      updateUser.mutate({ preferedTheme: selectedTheme });
+    }
   };
 
   return (

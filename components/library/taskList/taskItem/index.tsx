@@ -8,10 +8,7 @@ import { TaskModel } from "../../../../types/task";
 import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
 import useFontFaceObserver from "use-font-face-observer";
 import { add } from "date-fns";
-import {
-  displayHourMinutes,
-  getIsCurrent,
-} from "../../../../utils/dateComputer";
+import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
 import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import DeleteModal from "../../modal/deleteModal";
