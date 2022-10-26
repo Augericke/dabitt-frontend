@@ -9,6 +9,7 @@
   margin-top: 15px;
   margin-bottom: 10px;
   z-index: 10;
+  box-shadow: var(--shadow-elevation-medium);
 
   &Empty {
     @extend .barContainer;

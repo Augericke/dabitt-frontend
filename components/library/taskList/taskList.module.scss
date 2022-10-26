@@ -10,6 +10,7 @@
     border-radius: 10px;
     padding-left: 40px;
     padding-right: 40px;
+    box-shadow: var(--shadow-elevation-high);
 
     @media only screen and (max-width: 992px) {
       padding-left: 30px;
