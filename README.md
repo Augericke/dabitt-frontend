@@ -25,9 +25,9 @@ This project has a few third party dependencies as well as a [corresponding node
 On the frontend the project uses [Auth0](https://auth0.com/) for authentication which requires the following env variables to be set in a <i>.env.local</i> file.
 
 ```bash
-NEXT_PUBLIC_AUTH0_PUBLIC_DOMAIN = "https://[YOUR-AUTH0-DOMAIN]";
-NEXT_PUBLIC_AUTH0_PUBLIC_CLIENT_ID = "[YOUR-AUTH0-CLIENT-ID]";
-NEXT_PUBLIC_AUTH0_PUBLIC_AUDIENCE = "[YOUR-AUTH0-AUDIENCE]";
+NEXT_PUBLIC_AUTH0_PUBLIC_DOMAIN = "https://[YOUR-AUTH0-DOMAIN]"
+NEXT_PUBLIC_AUTH0_PUBLIC_CLIENT_ID = "[YOUR-AUTH0-CLIENT-ID]"
+NEXT_PUBLIC_AUTH0_PUBLIC_AUDIENCE = "[YOUR-AUTH0-AUDIENCE]"
 ```
 
 Once the above, as well as the set up for the [node backend](https://github.com/Augericke/dabitt-backend) is configured you can run the development server:
