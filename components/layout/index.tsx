@@ -27,7 +27,7 @@ const Layout: React.FC<LayoutProps> = ({
   // Default meta tags if not otherwise set via the pageMeta prop
   const meta = {
     title: "dabitts",
-    description: "The daily habits app.",
+    description: "The daily habits app",
     type: "website",
     image: `https://www.dabitts.com${Banner.src}`,
     imageAlt: "dabitts - the daily habits app",

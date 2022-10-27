@@ -41,13 +41,14 @@ const SetupView: React.FC<SetupViewProps> = (props: SetupViewProps) => {
         onClose={() => setShowModal(false)}
         content={
           <div className={styles.modalContainer}>
-            <h1 className={styles.modalTitle}>before we get started</h1>
+            <h1 className={styles.modalTitle}>hello hello hello!</h1>
             <div className={styles.modalTextContainer}>
               <p>
-                dabitts is a hobby project that I put together with the sole
-                purpose being for my learning and growth as a web developer.
+                Just a heads up - dabitts is a hobby project put together with
+                the sole purpose being for my learning and growth as a web
+                developer and is not intended for actual use.
               </p>
-              <p className={styles.additionalText}>
+              <p>
                 There are no long term plans to support the project but any
                 feedback is very much appreciated! You can reach me via twitter{" "}
                 <a

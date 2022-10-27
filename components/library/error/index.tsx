@@ -26,8 +26,8 @@ const ErrorView: React.FC<ErrorViewProps> = ({
         </span>
         {showBody && (
           <span className={styles.errorSubheader}>
-            Sorry for the inconvenience. It looks like there are still some
-            things for me to learn. If this issue continues please reach out at{" "}
+            Sorry for the inconvenience. If this issue continues please reach
+            out at{" "}
             <a
               className={styles.errorSocialLink}
               href="https://twitter.com/augericke"

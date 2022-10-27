@@ -64,6 +64,19 @@ const Auth: NextPage = () => {
       <ShowOnViewport duration={2} delay={0.5}>
         <section className={styles.sectionContainer}>
           <Skeleton width="15vw" height="15vw" circle />
+          <ShowOnViewport duration={1} delay={7.5}>
+            <p className={styles.subtext}>
+              Too slow? Let me know at{" "}
+              <a
+                href="https://twitter.com/augericke"
+                target="_blank"
+                rel="noreferrer"
+                className={styles.modalLink}
+              >
+                @augericke
+              </a>
+            </p>
+          </ShowOnViewport>
         </section>
       </ShowOnViewport>
     </SkeletonTheme>

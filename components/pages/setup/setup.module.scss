@@ -109,18 +109,21 @@
   .modalTextContainer {
     color: var(--text-color);
     width: 90%;
-
     font-weight: 300;
     font-size: 14px;
     color: var(--text-color);
 
     @media only screen and (max-width: 1200px) {
+      font-size: 12px;
       margin-bottom: 10px;
     }
 
     @media only screen and (max-width: 768px) {
-      font-size: 12px;
       margin-bottom: 5px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      font-size: 10px;
     }
 
     .additionalText {
@@ -130,11 +133,6 @@
         display: none;
       }
     }
-  }
-
-  .modalLink {
-    font-weight: 500;
-    color: var(--icon-color);
   }
 
   .modalButtonContainer {
@@ -165,9 +163,22 @@
         opacity: 1;
       }
 
+      @media only screen and (max-width: 1200px) {
+        font-size: 12px;
+      }
+
       @media only screen and (max-width: 768px) {
         width: 100px;
       }
+
+      @media only screen and (max-width: 576px) {
+        font-size: 10px;
+      }
     }
   }
+}
+
+.modalLink {
+  font-weight: 500;
+  color: var(--icon-color);
 }
