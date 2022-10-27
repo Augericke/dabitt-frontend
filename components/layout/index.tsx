@@ -31,7 +31,7 @@ const Layout: React.FC<LayoutProps> = ({
     type: "website",
     image: `https://www.dabitts.com${Banner.src}`,
     imageAlt: "dabitts - the daily habits app",
-    url: `https://dabitts.com${router.asPath}`,
+    url: `https://www.dabitts.com${router.asPath}`,
     ...pageMeta,
   };
 
