@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import NavBar from "../library/navBar";
 import { baseUrl } from "../../utils/environmentManager";
+import Footer from "../library/footer";
 
 const styles = require("./layout.module.scss");
 
@@ -61,6 +62,7 @@ const Layout: React.FC<LayoutProps> = ({ children, pageMeta }) => {
         <main className={styles.mainContentContainer}>
           {React.cloneElement(children)}
         </main>
+        <Footer />
       </div>
     </>
   );

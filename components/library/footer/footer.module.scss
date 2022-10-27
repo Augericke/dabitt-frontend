@@ -1,0 +1,102 @@
+.footerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
+  width: 100%;
+  z-index: 12;
+
+  transition: all 400ms;
+
+  @media only screen and (max-width: 992px) {
+    margin-bottom: 20px;
+  }
+
+  @media only screen and (max-width: 576px) {
+    margin-bottom: 15px;
+  }
+
+  .footerItems {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 1px solid var(--subtle-color);
+    padding-top: 15px;
+    transition: all 400ms;
+
+    @media only screen and (max-width: 992px) {
+      gap: 10px;
+    }
+
+    @media only screen and (max-width: 576px) {
+      padding-top: 8px;
+      gap: 4px;
+    }
+
+    .brandItems {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--icon-color);
+      margin-left: 10px;
+      margin-right: 10px;
+      width: 250px;
+
+      .logo {
+        font-family: "Coiny";
+        font-size: 24px;
+        font-weight: 700;
+        color: white;
+        text-shadow: 4px 4px var(--subtle-color);
+        margin: 0;
+        transition: all 400ms;
+        transition: all 400ms;
+
+        @media only screen and (max-width: 992px) {
+          font-size: 21px;
+        }
+
+        @media only screen and (max-width: 576px) {
+          font-size: 18px;
+        }
+      }
+
+      .socialContainer {
+        display: flex;
+        gap: 15px;
+
+        .socialIcon {
+          display: flex;
+          align-items: center;
+
+          cursor: pointer;
+          color: var(--subtle-color);
+          font-size: 18px;
+
+          transition: all 400ms;
+
+          @media only screen and (max-width: 992px) {
+            font-size: 16px;
+          }
+
+          @media only screen and (max-width: 576px) {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    .legalItems {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 50px;
+      color: var(--subtle-color);
+      margin-left: 10px;
+      margin-right: 10px;
+      font-size: 10px;
+      font-weight: 300;
+      width: 250px;
+    }
+  }
+}

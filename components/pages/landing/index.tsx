@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import colorOptions from "../../../styles/_selectableColors.module.scss";
 import ShowOnViewport from "../../library/animation/showOnViewport";
 import ThemeSelector from "../../library/themeSelector";
-import { useTheme } from "next-themes";
 import BarChartDemo from "../../library/charts/bar/demo";
 
 const styles = require("./landing.module.scss");
@@ -18,7 +17,6 @@ const LandingView: React.FC<LandingViewProps> = (props: LandingViewProps) => {
     colorOptions["foreground-color"],
     colorOptions["subtle-color"],
   ];
-  const { theme, setTheme } = useTheme();
 
   // Don't show ui until page mounted to avoid hydration issue with theme selector
   const [mounted, setMounted] = useState(false);
