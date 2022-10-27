@@ -23,7 +23,7 @@ const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
   const progressBarData = useTaskProgressBar(categories, selectedDate);
 
   return (
-    <>
+    <div className={styles.taskPageContainer}>
       <LimitedCalender
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
@@ -48,7 +48,7 @@ const TasksView: React.FC<TasksViewProps> = ({ categories }) => {
         </>
       )}
       <CategoryForm />
-    </>
+    </div>
   );
 };
 
