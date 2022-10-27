@@ -43,6 +43,7 @@ const Layout: React.FC<LayoutProps> = ({
       <meta property="og:site_name" content="dabitts" />
       <meta property="og:title" content={meta.title} />
       <meta property="og:image" content={meta.image} />
+      <meta property="og:image:alt" content={meta.imageAlt} />
       <meta property="og:description" content={meta.description} />
       <meta property="og:url" content={meta.url} />
       <meta name="twitter:image" content={meta.image} />
@@ -51,7 +52,7 @@ const Layout: React.FC<LayoutProps> = ({
       <meta property="twitter:description" content={meta.description} />
       <meta property="twitter:site" content="@augericke" />
       <meta property="twitter:creator" content="@augericke" />
-      <meta name="twitter:card" content="summary" />
+      <meta name="twitter:card" content="summary_large_image" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
   );
