@@ -9,7 +9,12 @@ import ErrorView from "../../components/library/error";
 const DashboardPage: NextPage = () => {
   const categories = useCategory();
   return (
-    <Layout>
+    <Layout
+      pageMeta={{
+        title: "dabitts | Dashboard",
+        description: "Who doesn't love data.",
+      }}
+    >
       {categories.isLoading ? (
         <DashboardSkeleton />
       ) : categories.error ? (

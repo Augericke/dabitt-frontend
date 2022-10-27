@@ -10,7 +10,12 @@ const UserPage: NextPage = () => {
   const user = useUser();
 
   return (
-    <Layout>
+    <Layout
+      pageMeta={{
+        title: "dabitts | Profile",
+        description: "The place you go to change those pesky user settings.",
+      }}
+    >
       {user.isLoading ? (
         <UserSkeleton />
       ) : user.isError ? (

@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const styles = require("./privacy.module.scss");
 
 type PrivacyViewProps = {};
 
 const PrivacyView = (props: PrivacyViewProps) => {
-  // Don't show ui until page mounted to avoid hydration issue with theme selector
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <>
       <div className={styles.privacyContainer}>

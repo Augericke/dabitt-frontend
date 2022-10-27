@@ -1,13 +1,12 @@
 import type { NextPage } from "next";
-import Footer from "../components/library/footer";
+import Layout from "../components/layout";
 import LandingView from "../components/pages/landing";
 
 const Home: NextPage = () => {
   return (
-    <>
+    <Layout displayNav={false}>
       <LandingView />
-      <Footer />
-    </>
+    </Layout>
   );
 };
 

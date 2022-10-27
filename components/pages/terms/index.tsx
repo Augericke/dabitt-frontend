@@ -1,20 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const styles = require("./terms.module.scss");
 
 type TermsViewProps = {};
 
 const TermsView = (props: TermsViewProps) => {
-  // Don't show ui until page mounted to avoid hydration issue with theme selector
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
-
   return (
     <>
       <div className={styles.termsContainer}>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { RedirectLoginOptions, useAuth0 } from "@auth0/auth0-react";
 import { motion, AnimatePresence } from "framer-motion";
 import colorOptions from "../../../styles/_selectableColors.module.scss";
@@ -17,16 +17,6 @@ const LandingView: React.FC<LandingViewProps> = (props: LandingViewProps) => {
     colorOptions["foreground-color"],
     colorOptions["subtle-color"],
   ];
-
-  // Don't show ui until page mounted to avoid hydration issue with theme selector
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <>

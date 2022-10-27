@@ -10,7 +10,12 @@ const TasksPage: NextPage = () => {
   const categories = useCategory();
 
   return (
-    <Layout>
+    <Layout
+      pageMeta={{
+        title: "dabitts | Tasks",
+        description: "What do you have to do today?",
+      }}
+    >
       {categories.isLoading ? (
         <TasksSkeleton />
       ) : categories.isError ? (
