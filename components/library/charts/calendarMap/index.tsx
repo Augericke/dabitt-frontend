@@ -41,7 +41,7 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
         ? getCSSGlobal("--icon-color")
         : color === "default_secondary"
         ? getCSSGlobal("--subtle-color")
-        : colorOptions[`category-color-${color}`];
+        : colorOptions[`category-color-${color}`.replace("_", "-")];
     return addAlpha(selectedColor, opacity);
   });
 
