@@ -84,6 +84,9 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
           dayRadius={2}
           dayBorderColor={colors[0]}
           tooltip={(input) => {
+            const dateArray = input.day
+              .split("-")
+              .map((date) => parseInt(date));
             return (
               <div className={styles.calendarTooltip}>
                 <span className={styles.calendarValue}>
@@ -92,8 +95,7 @@ const CalenderMap: React.FC<CalenderMapProps> = ({
                 {` of ${
                   categories.length === 1 ? categories[0].name : ""
                 } tasks completed on ${formatDate(
-                  //@ts-ignore
-                  input.day.split("-"),
+                  new Date(dateArray[0], dateArray[1] - 1, dateArray[2]),
                   "MMM, do",
                 )}`}
               </div>
