@@ -40,18 +40,18 @@ const Footer: React.FC<FooterProps> = (props: FooterProps) => {
               <FaLinkedin />
             </a>
           </div>
-        </div>
-        <div className={styles.legalItems}>
-          <Link href="/terms">
-            <a>
-              <span>terms of service</span>
-            </a>
-          </Link>
-          <Link href="/privacy">
-            <a>
-              <span>privacy policy</span>
-            </a>
-          </Link>
+          <div className={styles.legalItems}>
+            <Link href="/terms">
+              <a>
+                <span>terms of service</span>
+              </a>
+            </Link>
+            <Link href="/privacy">
+              <a>
+                <span>privacy policy</span>
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
     </div>

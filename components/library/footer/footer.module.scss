@@ -23,13 +23,21 @@
     border-top: 1px solid var(--subtle-color);
     padding-top: 15px;
     transition: all 400ms;
+    width: 60vw;
+    margin: auto;
 
     @media only screen and (max-width: 992px) {
+      width: 75vw;
       gap: 10px;
     }
 
+    @media only screen and (max-width: 768px) {
+      width: 90vw;
+    }
+
     @media only screen and (max-width: 576px) {
-      padding-top: 8px;
+      width: 95vw;
+      padding: 10px;
       gap: 4px;
     }
 
@@ -40,11 +48,11 @@
       color: var(--icon-color);
       margin-left: 10px;
       margin-right: 10px;
-      width: 250px;
+      width: 100%;
 
       .logo {
         font-family: "Coiny";
-        font-size: 24px;
+        font-size: 41px;
         font-weight: 700;
         color: white;
         text-shadow: 2px 2px var(--subtle-color);
@@ -53,7 +61,7 @@
         transition: all 400ms;
 
         @media only screen and (max-width: 992px) {
-          font-size: 21px;
+          font-size: 31px;
         }
 
         @media only screen and (max-width: 576px) {
@@ -63,7 +71,12 @@
 
       .socialContainer {
         display: flex;
+        justify-content: center;
         gap: 15px;
+
+        @media only screen and (max-width: 576px) {
+          gap: 10px;
+        }
 
         .socialIcon {
           display: flex;
@@ -71,16 +84,16 @@
 
           cursor: pointer;
           color: var(--subtle-color);
-          font-size: 18px;
+          font-size: 26px;
 
           transition: all 400ms;
 
           @media only screen and (max-width: 992px) {
-            font-size: 16px;
+            font-size: 21px;
           }
 
           @media only screen and (max-width: 576px) {
-            font-size: 14px;
+            font-size: 16px;
           }
         }
       }
@@ -88,15 +101,18 @@
 
     .legalItems {
       display: flex;
+      flex-direction: column;
       align-items: flex-end;
-      justify-content: space-between;
-      gap: 50px;
+      justify-content: center;
       color: var(--subtle-color);
       margin-left: 10px;
       margin-right: 10px;
       font-size: 10px;
-      font-weight: 300;
-      width: 250px;
+      font-weight: 200;
+
+      @media only screen and (max-width: 576px) {
+        font-size: 6px;
+      }
     }
   }
 }
