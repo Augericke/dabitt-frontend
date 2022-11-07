@@ -6,12 +6,12 @@
 
 :root {
   // default
-  --background-color: #{light.$background-color};
-  --foreground-color: #{light.$foreground-color};
-  --subtle-color: #{light.$subtle-color};
-  --icon-color: #{light.$icon-color};
-  --icon-color-rga: #{light.$icon-color-rga};
-  --text-color: #{light.$text-color};
+  --background-color: #{dark.$background-color};
+  --foreground-color: #{dark.$foreground-color};
+  --subtle-color: #{dark.$subtle-color};
+  --icon-color: #{dark.$icon-color};
+  --icon-color-rga: #{dark.$icon-color-rga};
+  --text-color: #{dark.$text-color};
   --button-border-radius: 15px;
   --shadow-color: 0deg 0% 0%;
   --shadow-elevation-medium: 0.1px 0.2px 0.2px hsl(var(--shadow-color) / 0.09),
