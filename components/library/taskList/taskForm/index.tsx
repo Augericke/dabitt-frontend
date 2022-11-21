@@ -57,6 +57,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
 
       createTask.mutate({ categoryId: category.id, data: newTaskData });
       setNewTaskDescription("");
+      setTaskLink("");
       setTaskTimeEstimate(15);
     }
   };
