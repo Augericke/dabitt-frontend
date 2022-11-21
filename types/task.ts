@@ -5,6 +5,7 @@ export interface TaskModel {
   completedAt: Date | null;
   startAt: Date | null;
   estimateMinutes: number;
+  externalURL?: string;
   categoryId: string;
 }
 

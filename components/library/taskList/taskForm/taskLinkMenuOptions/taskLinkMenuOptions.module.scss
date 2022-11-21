@@ -1,0 +1,112 @@
+.itemContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 150px;
+  font-weight: 100;
+  color: var(--text-color);
+  font-size: 14px;
+
+  &:hover {
+    color: whitesmoke;
+  }
+
+  @media only screen and (max-width: 992px) {
+    font-size: 12px;
+    width: 140px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    gap: 10px;
+    font-size: 10x;
+    width: 125px;
+  }
+
+  .itemInfoContainer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 2px 5px 2px 5px;
+    border-radius: 8px;
+    background: none;
+  }
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0px;
+  width: 150px;
+
+  @media only screen and (max-width: 992px) {
+    font-size: 10px;
+    width: 140px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    font-size: 8x;
+    width: 125px;
+  }
+
+  .inputText {
+    text-align: right;
+    padding-bottom: 12px;
+    width: 50%;
+    font-size: 12px;
+    font-weight: 200;
+    color: var(--subtle-color);
+    cursor: not-allowed;
+    transition: font-size 400ms, font-weight 400ms, color 400ms;
+
+    @media only screen and (max-width: 992px) {
+      font-size: 10px;
+    }
+
+    @media only screen and (max-width: 768px) {
+      font-size: 8x;
+    }
+
+    &Filled {
+      @extend .inputText;
+      font-weight: 400;
+      color: var(--text-color);
+      cursor: pointer;
+    }
+  }
+}
+
+.itemInput {
+  font-weight: 100;
+  font-size: 12px;
+  background: none;
+  resize: none;
+  color: var(--text-color);
+  transition: padding 400ms, width 400ms, color 800ms;
+  padding-bottom: 3px;
+  border-width: 1px;
+  border-style: solid;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  margin-bottom: 10px;
+  width: 100%;
+
+  @media only screen and (max-width: 992px) {
+    font-size: 10px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    font-size: 8x;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::placeholder {
+    @extend .itemInput;
+    font-weight: 200;
+    height: 30px;
+    color: var(--subtle-color);
+  }
+}

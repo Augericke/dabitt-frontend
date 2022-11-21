@@ -66,16 +66,21 @@
     left: 110%;
   }
 
-  .menuItemButton {
+  .menuItem {
     background: none;
     z-index: 2;
     cursor: pointer;
     transition: opacity 400ms, background-color 200ms;
+    border-radius: 0;
 
-    &:hover {
-      background-color: var(--subtle-color);
-      font-weight: 400;
-      opacity: 1;
+    &Button {
+      @extend .menuItem;
+
+      &:hover {
+        background-color: var(--subtle-color);
+        font-weight: 400;
+        opacity: 1;
+      }
     }
   }
 }
