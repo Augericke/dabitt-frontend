@@ -2,18 +2,19 @@ import React, { useRef, useEffect, useState } from "react";
 import TickBox from "../../tickBox";
 import Popover from "../../popover";
 import { motion } from "framer-motion";
-import { getMenuItems } from "./taskMenuOptions";
 import { CategoryModel } from "../../../../types/category";
 import { TaskModel } from "../../../../types/task";
-import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
-import useFontFaceObserver from "use-font-face-observer";
+import DeleteModal from "../../modal/deleteModal";
 import { add } from "date-fns";
 import { displayHourMinutes } from "../../../../utils/dateComputer";
-import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
-import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
-import DeleteModal from "../../modal/deleteModal";
 import { onEnterDownBlur } from "../../../../utils/formControllers";
 import WordCount from "../../wordCount";
+import { getSelectableColorClass } from "../../../../utils/selectableColorClass";
+import { getMenuItems } from "./taskMenuOptions";
+import { getLinkMenuItems } from "../taskForm/taskLinkMenuOptions";
+import { getTimeEstimateMenuOptions } from "../taskForm/timeEstimateMenuOptions";
+import useFontFaceObserver from "use-font-face-observer";
+import { useWindowSize } from "../../../../utils/hooks/useWindowSize";
 import { useUpdateTask } from "../../../../utils/hooks/query/task/useUpdateTask";
 import { useKickTask } from "../../../../utils/hooks/query/task/useKickTask";
 import { useDeleteTask } from "../../../../utils/hooks/query/task/useDeleteTask";
@@ -46,6 +47,10 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const [taskDescription, setTaskDescription] = useState(task.description);
   const descriptionLimit = 140;
   const [inFocus, setInFocus] = useState(false);
+
+  // Task Link
+  const [taskLink, setTaskLink] = useState(task.externalURL ?? "");
+  const taskChanged = taskLink !== task.externalURL && taskLink !== "";
 
   // Resize textArea based on description length
   const textRef = useRef<any>();
@@ -114,6 +119,14 @@ const TaskItem: React.FC<TaskItemProps> = ({
     });
   };
 
+  const onLinkChange = (newLink: string) => {
+    updateTask.mutate({
+      categoryId: category.id,
+      taskId: task.id,
+      data: { externalURL: newLink },
+    });
+  };
+
   return (
     <>
       <motion.li
@@ -162,7 +175,16 @@ const TaskItem: React.FC<TaskItemProps> = ({
             </>
           )}
         </div>
-        <div className={styles.taskTimeEstimateContainer}>
+        <div className={styles.taskAdditionalInfoContainer}>
+          <Popover
+            iconType={task.externalURL ? "link" : "unlink"}
+            menuItems={getLinkMenuItems(
+              taskLink,
+              setTaskLink,
+              onLinkChange,
+              task.externalURL,
+            )}
+          />
           <Popover
             iconType="clock"
             iconText={

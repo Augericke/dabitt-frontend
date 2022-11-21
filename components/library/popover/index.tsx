@@ -1,17 +1,20 @@
 import React, { useState, useRef, ReactElement } from "react";
 import { useOutsideClick } from "../../../utils/hooks/useOutsideClick";
-import { TbDots, TbClock } from "react-icons/tb";
+import { TbDots, TbClock, TbLink, TbUnlink } from "react-icons/tb";
 import { RiSettings5Fill } from "react-icons/ri";
 
 const styles = require("./popover.module.scss");
 
+export type PopoverMenuItem = {
+  content: JSX.Element;
+  onClick: () => void;
+  type?: "button" | "input";
+};
+
 type PopoverProps = {
-  menuItems: {
-    content: JSX.Element;
-    onClick: () => void;
-  }[];
+  menuItems: PopoverMenuItem[];
   direction?: "top" | "bottom" | "left" | "right";
-  iconType?: "dots" | "gear" | "clock" | "none";
+  iconType?: "dots" | "gear" | "clock" | "link" | "unlink" | "none";
   iconText?: string | ReactElement;
   customButtonClass?: string;
   customMenuClass?: string;
@@ -73,6 +76,12 @@ const Popover: React.FC<PopoverProps> = ({
     case "clock":
       icon = <TbClock size={15} />;
       break;
+    case "link":
+      icon = <TbLink size={15} />;
+      break;
+    case "unlink":
+      icon = <TbUnlink size={15} />;
+      break;
     case "none":
       icon = <></>;
       break;
@@ -97,12 +106,16 @@ const Popover: React.FC<PopoverProps> = ({
             {menuItems.map((item, index) => {
               return (
                 <li key={index}>
-                  <button
-                    className={styles.menuItemButton}
-                    onClick={() => handleSelection(item.onClick)}
-                  >
-                    {item.content}
-                  </button>
+                  {!item.type || item.type === "button" ? (
+                    <button
+                      className={styles.menuItemButton}
+                      onClick={() => handleSelection(item.onClick)}
+                    >
+                      {item.content}
+                    </button>
+                  ) : (
+                    <div className={styles.menuItem}>{item.content}</div>
+                  )}
                 </li>
               );
             })}

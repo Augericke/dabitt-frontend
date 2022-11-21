@@ -12,6 +12,7 @@ export interface CreateTask {
   data: {
     description: string;
     estimateMinutes?: number;
+    externalURL?: string;
     startAt?: Date | null;
   };
 }
@@ -24,6 +25,7 @@ export interface UpdateTask {
     completedAt?: Date | null;
     startAt?: Date | null;
     estimateMinutes?: number;
+    externalURL?: string;
   };
 }
 
