@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
-import { TbLink, TbUnlink } from "react-icons/tb";
+import React from "react";
+import { TbLink, TbUnlink, TbPlaylistAdd } from "react-icons/tb";
 import { PopoverMenuItem } from "../../../popover";
 
 const styles = require("./taskLinkMenuOptions.module.scss");
@@ -7,7 +7,6 @@ const styles = require("./taskLinkMenuOptions.module.scss");
 export const getLinkMenuItems = (
   link: string,
   setLink: React.Dispatch<React.SetStateAction<string>>,
-  taskLinkChanged: boolean,
   handleLinkChange: (newLink: string) => void,
   currentLink?: string,
 ) => {
@@ -32,18 +31,20 @@ export const getLinkMenuItems = (
             value={link}
             onChange={handleLinkValueChange}
           />
-          <div
-            className={
-              taskLinkChanged ? styles.inputTextFilled : styles.inputText
-            }
-            onClick={() => (link ? handleLinkChange(link) : {})}
-          >
-            apply
+        </div>
+      ),
+      onClick: () => {},
+      type: "input",
+    },
+    {
+      content: (
+        <div className={styles.itemContainer}>
+          <div className={styles.itemInfoContainer}>
+            <TbPlaylistAdd /> apply change
           </div>
         </div>
       ),
-      onClick: () => console.log(),
-      type: "input",
+      onClick: () => (link ? handleLinkChange(link) : {}),
     },
     {
       content: (
@@ -72,13 +73,18 @@ export const getLinkMenuItems = (
     },
   ];
 
-  const activeMenuItems = !currentLink
+  let activeMenuItems = !currentLink
     ? menuItems.filter(
         (item) =>
-          item.content !== menuItems[1].content &&
-          item.content !== menuItems[2].content,
+          item.content !== menuItems[2].content &&
+          item.content !== menuItems[3].content,
       )
     : menuItems;
+
+  activeMenuItems =
+    currentLink !== link && link
+      ? activeMenuItems
+      : activeMenuItems.filter((item) => item.content !== menuItems[1].content);
 
   return activeMenuItems;
 };

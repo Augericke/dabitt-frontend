@@ -112,12 +112,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
           <div className={styles.taskAdditionalInfoContainer}>
             <Popover
               iconType={taskChanged ? "link" : "unlink"}
-              menuItems={getLinkMenuItems(
-                taskLink,
-                setTaskLink,
-                taskChanged,
-                () => {},
-              )}
+              menuItems={getLinkMenuItems(taskLink, setTaskLink, () => {})}
             />
             <Popover
               iconType="clock"

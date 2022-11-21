@@ -181,7 +181,6 @@ const TaskItem: React.FC<TaskItemProps> = ({
             menuItems={getLinkMenuItems(
               taskLink,
               setTaskLink,
-              taskChanged,
               onLinkChange,
               task.externalURL,
             )}

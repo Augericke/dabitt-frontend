@@ -32,46 +32,14 @@
 }
 
 .inputContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 0px;
-  width: 150px;
+  min-width: 150px;
 
   @media only screen and (max-width: 992px) {
-    font-size: 10px;
-    width: 140px;
+    min-width: 140px;
   }
 
   @media only screen and (max-width: 768px) {
-    font-size: 8x;
-    width: 125px;
-  }
-
-  .inputText {
-    text-align: right;
-    padding-bottom: 12px;
-    width: 50%;
-    font-size: 12px;
-    font-weight: 200;
-    color: var(--subtle-color);
-    cursor: not-allowed;
-    transition: font-size 400ms, font-weight 400ms, color 400ms;
-
-    @media only screen and (max-width: 992px) {
-      font-size: 10px;
-    }
-
-    @media only screen and (max-width: 768px) {
-      font-size: 8x;
-    }
-
-    &Filled {
-      @extend .inputText;
-      font-weight: 400;
-      color: var(--text-color);
-      cursor: pointer;
-    }
+    min-width: 125px;
   }
 }
 
