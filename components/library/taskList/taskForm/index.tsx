@@ -7,6 +7,7 @@ import { displayHourMinutes } from "../../../../utils/dateComputer";
 import { getTimeEstimateMenuOptions } from "./timeEstimateMenuOptions";
 import WordCount from "../../wordCount";
 import { useCreateTask } from "../../../../utils/hooks/query/task/useCreateTask";
+import { getLinkMenuItems } from "./taskLinkMenuOptions";
 
 const styles = require("./taskForm.module.scss");
 
@@ -21,9 +22,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
     styles,
     category.iconColor,
   );
-  const [newTaskDescription, setNewTaskDescription] = useState("");
+  const [newTaskDescription, setNewTaskDescription] = useState<
+    string | undefined
+  >("");
   const [taskTimeEstimate, setTaskTimeEstimate] = useState(15);
-  const [inFocus, setInFocus] = useState(false);
   const descriptionLimit = 140;
 
   // Resize textArea based on description length
@@ -38,6 +40,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
     setNewTaskDescription(event.target.value.replace(/\n/g, ""));
   };
 
+  // Task Link
+  const [taskLink, setTaskLink] = useState("");
+  const taskChanged = taskLink !== "";
+
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (newTaskDescription) {
@@ -45,6 +51,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
         categoryId: category.id,
         description: newTaskDescription,
         estimateMinutes: taskTimeEstimate,
+        externalURL: taskLink,
         startAt: selectedDate,
       };
 
@@ -88,8 +95,6 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
             value={newTaskDescription}
             onChange={handleDescription}
             onKeyDown={taskEnterSubmit}
-            onFocus={() => setInFocus(true)}
-            onBlur={() => setInFocus(false)}
             maxLength={descriptionLimit}
           />
           {newTaskDescription && (
@@ -104,7 +109,16 @@ const TaskForm: React.FC<TaskFormProps> = ({ selectedDate, category }) => {
           )}
         </div>
         {newTaskDescription && (
-          <div className={styles.taskTimeEstimateContainer}>
+          <div className={styles.taskAdditionalInfoContainer}>
+            <Popover
+              iconType={taskChanged ? "link" : "unlink"}
+              menuItems={getLinkMenuItems(
+                taskLink,
+                setTaskLink,
+                taskChanged,
+                () => {},
+              )}
+            />
             <Popover
               iconType="clock"
               iconText={

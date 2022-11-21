@@ -49,7 +49,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const [inFocus, setInFocus] = useState(false);
 
   // Task Link
-  const [taskLink, setTaskLink] = useState(task.externalURL);
+  const [taskLink, setTaskLink] = useState(task.externalURL ?? "");
   const taskChanged = taskLink !== task.externalURL && taskLink !== "";
 
   // Resize textArea based on description length
@@ -183,6 +183,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
               setTaskLink,
               taskChanged,
               onLinkChange,
+              task.externalURL,
             )}
           />
           <Popover

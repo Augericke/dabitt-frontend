@@ -5,10 +5,11 @@ import { PopoverMenuItem } from "../../../popover";
 const styles = require("./taskLinkMenuOptions.module.scss");
 
 export const getLinkMenuItems = (
-  link: string | undefined,
-  setLink: Dispatch<SetStateAction<string | undefined>>,
+  link: string,
+  setLink: React.Dispatch<React.SetStateAction<string>>,
   taskLinkChanged: boolean,
   handleLinkChange: (newLink: string) => void,
+  currentLink?: string,
 ) => {
   const handleLinkValueChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -49,7 +50,7 @@ export const getLinkMenuItems = (
         <div className={styles.itemContainer}>
           <a
             className={styles.itemInfoContainer}
-            href={link}
+            href={currentLink ?? link}
             target="_blank"
             rel="noreferrer"
           >
@@ -71,7 +72,7 @@ export const getLinkMenuItems = (
     },
   ];
 
-  const activeMenuItems = !link
+  const activeMenuItems = !currentLink
     ? menuItems.filter(
         (item) =>
           item.content !== menuItems[1].content &&
