@@ -1,7 +1,9 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { api } from "./environmentManager";
+import React, { useContext, useEffect, useState } from "react";
+import { useAuth0, OAuthError } from "@auth0/auth0-react";
+import { ThemeProvider } from "next-themes";
 import { AxiosInstance, AxiosRequestConfig } from "axios";
-import React, { useContext, useEffect } from "react";
+import { api } from "./environmentManager";
+import Layout from "../components/layout";
 
 type AxiosContext = AxiosInstance | null;
 
@@ -11,24 +13,24 @@ export function useAxios() {
   return useContext(AxiosContext);
 }
 
-//@ts-ignore
-export function AxiosProvider({ children }) {
-  const { getAccessTokenSilently, isLoading } = useAuth0();
+export function AxiosProvider({ children }: { children: React.ReactElement }) {
+  const { getAccessTokenSilently, isAuthenticated, isLoading } = useAuth0();
+  const [isInterceptorAdded, setInterceptorAdded] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       try {
-        if (!isLoading) {
+        if (!isLoading && isAuthenticated) {
           const token = await getAccessTokenSilently();
 
           api.interceptors.request.use(
             (config: AxiosRequestConfig) => {
               if (!config?.headers) {
                 throw new Error(
-                  `Expected 'config' and 'config.headers' not to be undefined`,
+                  "'config' and 'config.headers' should be defined",
                 );
               }
-              config.headers["Authorization"] = `Bearer ${token}`;
+              config.headers.Authorization = `Bearer ${token}`;
               config.headers["Content-Type"] = "application/json";
               return config;
             },
@@ -36,12 +38,31 @@ export function AxiosProvider({ children }) {
               Promise.reject(error);
             },
           );
+          setInterceptorAdded(true);
         }
       } catch (e) {
-        console.error(e);
+        if (e instanceof OAuthError) {
+          const error = e as OAuthError;
+          if (error.message !== "Login required") {
+            console.error(error);
+          }
+        }
       }
     })();
-  }, [getAccessTokenSilently, isLoading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, isLoading]);
 
-  return <AxiosContext.Provider value={api}>{children}</AxiosContext.Provider>;
+  if (isInterceptorAdded) {
+    return (
+      <AxiosContext.Provider value={api}>{children}</AxiosContext.Provider>
+    );
+  } else {
+    return (
+      <ThemeProvider themes={["light", "dark", "coffee", "sea", "cappuccino"]}>
+        <Layout>
+          <></>
+        </Layout>
+      </ThemeProvider>
+    );
+  }
 }
