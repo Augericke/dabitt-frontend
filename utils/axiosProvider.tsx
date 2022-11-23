@@ -52,7 +52,7 @@ export function AxiosProvider({ children }: { children: React.ReactElement }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, isLoading]);
 
-  if (isInterceptorAdded) {
+  if (isInterceptorAdded || (!isLoading && !isAuthenticated)) {
     return (
       <AxiosContext.Provider value={api}>{children}</AxiosContext.Provider>
     );
