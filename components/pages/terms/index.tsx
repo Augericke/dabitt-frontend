@@ -15,7 +15,7 @@ const TermsView = (props: TermsViewProps) => {
         </div>
         <div className={styles.row}>
           <div className={styles.col}>
-            <p>Last revised: Oct 26th, 2022</p>
+            <p>Last revised: Dec 12th, 2022</p>
             <p>
               PLEASE READ THESE TERMS CAREFULLY. THEY CONTAIN IMPORTANT
               INFORMATION REGARDING YOUR LEGAL RIGHTS INCLUDING MANDATORY
@@ -516,9 +516,8 @@ const TermsView = (props: TermsViewProps) => {
                 <p>
                   Under California Civil Code Section 1789.3, Users of the
                   Services from California are entitled to the following
-                  specific consumer rights notice: You may contact us at dabitts
-                  LLC, 251 LITTLE FALLS DRIVE, WILMINGTON, DE 19808 or via
-                  inquiries@dabitts.com.
+                  specific consumer rights notice: You may contact us via
+                  austingericke.inquiries@gmail.com.
                 </p>
                 <p>
                   The Complaint Assistance Unit of the Division of Consumer
