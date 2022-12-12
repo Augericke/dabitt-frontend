@@ -4,8 +4,6 @@
   align-items: center;
   margin-bottom: 25px;
   width: 100%;
-  z-index: 12;
-
   transition: all 400ms;
 
   @media only screen and (max-width: 992px) {
@@ -81,11 +79,9 @@
         .socialIcon {
           display: flex;
           align-items: center;
-
           cursor: pointer;
           color: var(--subtle-color);
           font-size: 26px;
-
           transition: all 400ms;
 
           @media only screen and (max-width: 992px) {
